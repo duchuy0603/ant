@@ -1,8 +1,8 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-
 import './../../../assets/scss/style.scss';
 import Aux from "../../../hoc/_Aux";
+import 'antd/dist/antd.css';
 import Breadcrumb from "../../../App/layout/AdminLayout/Breadcrumb";
 import { Input, Button, Form, InputNumber, Switch, Upload, message, Select } from 'antd';
 import { UploadOutlined, InboxOutlined, PlusOutlined, LoadingOutlined } from '@ant-design/icons';
@@ -13,7 +13,7 @@ import '../../Category/User/user.scss'
 import { storegetAll } from './../../../store/Category/stores';
 import { useHistory } from 'react-router-dom';
 import { userAdd } from '../../../store/Category/user';
-import DEMO from "../../../store/constant";
+
 
 const SignUp1 = () => {
 

@@ -1,11 +1,11 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Input, Form, Button } from 'antd';
-import './../../../assets/scss/style.scss';
+import { Input, Form, Button, message } from 'antd';
+import 'antd/dist/antd.css';
 import Aux from "../../../hoc/_Aux";
-import Breadcrumb from "../../../App/layout/AdminLayout/Breadcrumb";
-import '../../Category/User/user.scss'
-
+// import Breadcrumb from "../../../App/layout/AdminLayout/Breadcrumb";
+import'./signin.scss'
+import './../../../assets/scss/style.scss';
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import UserApi from '../../../api/user';
@@ -37,10 +37,14 @@ const SignUp1 = () => {
     };
     const signin=async(user)=>{
       const respone=await UserApi.login(user)
-      console.log(respone.AccessToken)
+      console.log(respone)
       if(respone.success){
 dispatch(savetoken(respone))
-history.push('/ecommerce')
+history.push('/dashboard')
+message.success('Đăng Nhập Thành công')
+
+      }else if(respone.error){
+          message.error(respone.error.message)
       }
     
     }

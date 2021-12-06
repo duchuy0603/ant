@@ -407,7 +407,7 @@ class Dashboard extends React.Component {
                     <Col xl={12}>
                         <Card>
                             <Card.Header>
-                                <Card.Title as="h5">Trụ sở Dance Sport</Card.Title>
+                                <Card.Title as="h5">Trụ sở SmileTech</Card.Title>
                             </Card.Header>
                             <Card.Body>
                                 <div style={{height: '400px', }}>

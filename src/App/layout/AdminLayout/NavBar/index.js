@@ -6,7 +6,7 @@ import NavRight from "./NavRight";
 import Aux from "../../../../hoc/_Aux";
 import DEMO from "../../../../store/constant";
 import * as actionTypes from "../../../../store/actions";
-import Logo from '../../../../assets/images/logo.png';
+import Anh1 from '../../../../assets/images/logo.png'
 
 class NavBar extends Component {
     render() {
@@ -28,9 +28,9 @@ class NavBar extends Component {
                         <a href={DEMO.BLANK_LINK} className="b-brand">
                             <div className="b-bg">
                                 {/* <i className="feather icon-trending-up"/> */}
-                                <img src={Logo} alt="dance"/>
+                                <img src={Anh1} alt=""/>
                             </div>
-                            <span className="b-title">Dance Sport</span>
+                            <span className="b-title">SmileTech</span>
                         </a>
                     </div>
                     <a className="mobile-menu" id="mobile-header" href={DEMO.BLANK_LINK}><i className="feather icon-more-horizontal"/></a>

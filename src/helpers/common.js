@@ -10,3 +10,9 @@ const isEmptyObject = (obj) => {
 export const helpers = {
   isEmptyObject,
 }
+export const dataUser=(data)=>{
+  localStorage.setItem("data_User",JSON.stringify(data))
+}
+export const Remove=(data)=>{
+  localStorage.removeItem(data);
+}

@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom';
 window.jQuery = $;
 window.$ = $;
 global.jQuery = $;
-
+const token=localStorage.getItem('token')
 const DashboardDefault = React.lazy(() => import('./Demo/Dashboard/Default'));
 
 const Nvd3Chart = React.lazy(() => import('./Demo/Charts/Nvd3Chart/index'));

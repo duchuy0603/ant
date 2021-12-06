@@ -7,12 +7,18 @@ import Avatar1 from '../../../../../assets/images/user/avatar-1.jpg';
 import Avatar2 from '../../../../../assets/images/user/avatar-2.jpg';
 import Avatar3 from '../../../../../assets/images/user/avatar-3.jpg';
 import { useHistory } from 'react-router-dom';
+import { message } from 'antd';
+import { Remove } from '../../../../../helpers/common';
 const NavRight =({rtlLayout})=> {
 
  const [listOpen,setlistOpen]=useState(false)
  const history=useHistory()
+ const name=localStorage.getItem('name')
  const logout=()=>{
     localStorage.removeItem('token')
+    localStorage.removeItem('role')
+    localStorage.removeItem('name')
+    message.success("Đăng Xuất Thành Công")
    history.push('/auth/signin')
     
 }
@@ -91,7 +97,7 @@ const NavRight =({rtlLayout})=> {
                             <Dropdown.Menu alignRight className="profile-notification">
                                 <div className="pro-head">
                                     <img src={Avatar2} className="img-radius" alt="User Profile"/>
-                                    <span>Smile Tech</span>
+                                    <span>{name}</span>
                                     <a href={DEMO.BLANK_LINK} onClick={()=>logout()} className="dud-logout" title="Logout">
                                         
                                         <i className="feather icon-log-out"/>
