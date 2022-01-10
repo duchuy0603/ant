@@ -1,8 +1,13 @@
 import axiosClient from "./axiosClient";
 
 const ecommerceApi={
+ 
     getAll(){
         const url=`/ecommerce`;
+        return axiosClient.get(url)
+    },
+    getEcommerceLogin(){
+        const url=`ecommerce/get-all-prepared-ecommerce`;
         return axiosClient.get(url)
     },
     get(id){

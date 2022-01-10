@@ -35,3 +35,22 @@
 .upload{
     display: flex;
 }
+.card{
+    position: relative;
+}
+.huy{
+    position: absolute;
+    top:50%;
+    left: 50%;
+    transform: translateZ(-50%,-50%);
+    z-index: 100;
+}
+@media (max-width:812px){
+    .huy{
+        position: absolute;
+        top:55%;
+        left: 45%;
+        transform: translateZ(-50%,-50%);
+        z-index: 100;
+    }
+}

@@ -178,7 +178,7 @@ const UserForm = ({ onFinish, form, idEdit }) => {
                     </Select>
                 </Form.Item>
       <Form.Item name="new_img" label="Ảnh Đại Diện" valuePropName="file" getValueFromEvent={normFile}
-                    rules={[{ required: true }]} style={{ width: '50%'}} >
+                  style={{ width: '50%'}} >
                         <Upload
                             {...propsUpload}
                             listType="picture-card"

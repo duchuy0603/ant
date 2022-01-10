@@ -151,7 +151,7 @@ const CategoriesForm = ({ onFinish, form, idEdit}) => {
                       
 
                         {ecommercelist.map((x,index)=>(
-                            <Option value={x.Id} >{x.Name}</Option>
+                            <Option value={x.Id} >{x.name}</Option>
                         ))}
                         
                        

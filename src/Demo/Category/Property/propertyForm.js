@@ -76,7 +76,7 @@ const PropertyForm = ({ onFinish, form, idEdit}) => {
                          optionA.children.toLowerCase().localeCompare(optionB.children.toLowerCase())
                      }>
                      {ecommercelist.map((x,index)=>(
-                             <Option  key={index} value={x.Id}>{x.Name}</Option>
+                             <Option  key={index} value={x.Id}>{x.name}</Option>
                              
                          ))}
                  </Select>

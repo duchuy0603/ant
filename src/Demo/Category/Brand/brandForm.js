@@ -105,7 +105,7 @@ const BrandForm = ({ onFinish, form, idEdit }) => {
     };
     return (
         <div>
-            <Form className="ecommerce-form" validateMessages={validateMessages} onFinish={onFinish} form={form} method='POST' encType='multipart/form-data' >
+            <Form className="ecommerce-form" validateMessages={validateMessages} onFinish={onFinish} form={form}  >
                 {
                     idEdit &&
                     <Form.Item name="id" hidden={true}>
@@ -140,7 +140,7 @@ const BrandForm = ({ onFinish, form, idEdit }) => {
                       
 
                         {ecommercelist.map((x,index)=>(
-                            <Option value={x.Id} >{x.Name}</Option>
+                            <Option value={x.Id} >{x.name}</Option>
                         ))}
                         
                        

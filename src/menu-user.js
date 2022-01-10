@@ -1,10 +1,6 @@
-import { getUserFromLocalStorage } from "./helpers/common";
 
 export default {
-
-  
     items: [
-        
         {
             id: 'navigation',
             title: 'System slile tech',
@@ -30,20 +26,14 @@ export default {
             type: 'group',
             icon: 'icon-group',
             children: [
-                {
-                    id: 'ecommerce',
-                    title: 'Hệ Thống Sàn',
-                    type: 'item',
-                    url: '/ecommerce',
-                    icon: 'feather icon-calendar'
-                },
-                {
-                    id: 'category-product',
-                    title: 'Quản Lý Loại Sản Phẩm',
-                    type: 'item',
-                    icon: 'feather icon-file-text',
-                    url: '/categories'
-                },
+        
+                // {
+                //     id: 'category-product',
+                //     title: 'Quản Lý Loại Sản Phẩm',
+                //     type: 'item',
+                //     icon: 'feather icon-file-text',
+                //     url: '/categories'
+                // },
                 {
                     id: 'properties-product',
                   

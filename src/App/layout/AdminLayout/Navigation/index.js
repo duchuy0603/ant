@@ -9,7 +9,8 @@ import OutsideClick from './OutsideClick';
 import Aux from './../../../../hoc/_Aux'
 import * as actionTypes from './../../../../store/actions';
 import navigation from '../../../../menu-items';
-
+import navigation2 from '../../../../menu-user'
+import { getUserFromLocalStorage } from '../../../../helpers/common';
 class Navigation extends Component {
 
     resize = () => {
@@ -33,6 +34,9 @@ class Navigation extends Component {
         let navClass = [
             'pcoded-navbar',
         ];
+        const data=getUserFromLocalStorage();
+        const role=data.type;
+        console.log('dmm',role)
 
         if (this.props.preLayout !== null && this.props.preLayout !== '' && this.props.preLayout !== 'layout-6' && this.props.preLayout !== 'layout-8') {
             navClass = [...navClass, this.props.preLayout];
@@ -108,7 +112,7 @@ class Navigation extends Component {
         let navContent = (
             <div className="navbar-wrapper">
                 <NavLogo collapseMenu={this.props.collapseMenu} windowWidth={this.props.windowWidth} onToggleNavigation={this.props.onToggleNavigation} />
-                <NavContent navigation={navigation.items} />
+                {role==1?<NavContent navigation={navigation.items} />:<NavContent navigation={navigation2.items} />}
             </div>
         );
         if (this.props.windowWidth < 992) {

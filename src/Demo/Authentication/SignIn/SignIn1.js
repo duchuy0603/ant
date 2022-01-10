@@ -10,14 +10,16 @@ import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import UserApi from '../../../api/user';
 import { useDispatch } from 'react-redux';
-import { savetoken } from '../../../store/Category/auth';
+import { savetoken, saveuser } from '../../../store/Category/auth';
+import { Spin } from 'antd';
 const SignUp1 = () => {
     const [form] = Form.useForm();
     const [error, seterror] = useState("");
     const [loading, setloading] = useState(false);
     const token=localStorage.getItem('token')
     const dispatch=useDispatch();
-    const history=useHistory()
+    const history=useHistory();
+ 
     const validateMessages = {
         required: 'Không được để trống !',
         types: {
@@ -35,22 +37,64 @@ const SignUp1 = () => {
             mismatch: '${label} không hợp lệ !',
         },
     };
-    const signin=async(user)=>{
+
+    const onSubmit=async(user)=>{
+        setloading(true)
       const respone=await UserApi.login(user)
       console.log(respone)
-      if(respone.success){
-dispatch(savetoken(respone))
-history.push('/dashboard')
-message.success('Đăng Nhập Thành công')
-
-      }else if(respone.error){
-          message.error(respone.error.message)
-      }
-    
+      dispatch(savetoken(respone))
+      dispatch(saveuser(respone))
+     if(respone.error){
+         setloading(false)
+        message.error(respone.error.message)
     }
+    else if(respone.type==1||respone.type==2){
+            setTimeout(() => {
+            history.push('/dashboard')
+        }, 1000);
+       
+     
+    }
+    }
+    // const signin = (user) => {
+    //     return fetch(`${process.env.REACT_APP_API_URL}/users/login`, {
+    //         method: "POST",
+    //         body: JSON.stringify(user),
+    //         headers: {
+    //             "Content-Type": "application/json"
+    //         },
+    //     })
+    //         .then(respone => respone.json())
+    //         .catch(error => console.log(error))
+    // }
+    // const onSubmit = (data, e) => {   
+    //     signin(data)
+    //         .then(dataUser => {
+    //             console.log(dataUser);
+    //             if (dataUser.error) {
+    //                 message.error(dataUser.error.message)
+    //                 setloading(false)
+    //             } else {
+    //                   dispatch(savetoken(dataUser))                
+    //                     if (dataUser.Type===1) {
+                       
+    //                             setTimeout(() => {
+    //                                 history.push("/dashboard")
+    //                             },500);
+                           
+    //                     }
+    //                     // else if (dataUser.user.role===0) {
+    //                     //     history.push('/')
+    //                     // }            
+    //             }
+    //         })
+    // }
         return (
+      
         <Aux>
+          
             {/* <Breadcrumb/> */}
+           
             <div className="auth-wrapper">
                 <div className="auth-content">
                     <div className="auth-bg">
@@ -64,9 +108,10 @@ message.success('Đăng Nhập Thành công')
                             <div className="mb-4">
                                 <i className="feather icon-unlock auth-icon" />
                             </div>
+                            {/* {loading ? <Spin className='huy'/>:''} */}
                             <h3 className="mb-3">SmileTech</h3>
                             <h4 className="mb-4">Đăng Nhập</h4>
-                            <Form validateMessages={validateMessages} onFinish={signin} >
+                            <Form validateMessages={validateMessages} onFinish={onSubmit} >
                                 <Form.Item name="UserName" label="UserName" required rules={[{ required: true }, { type: 'string', max: 255 }]}
                                     style={{ width: '100%', paddingRight: "10px" }}>
                                     <Input placeholder="" />
@@ -92,7 +137,9 @@ message.success('Đăng Nhập Thành công')
                     </div>
                 </div>
             </div>
+        
         </Aux>
+        
     );
       
    

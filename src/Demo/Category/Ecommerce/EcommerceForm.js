@@ -54,14 +54,17 @@ const EcommerceForm = ({ onFinish, form, idEdit}) => {
     const propsUpload = {
         name: 'file',
         maxCount: 1,
-        action: `${process.env.REACT_APP_API_URL}/ecommerce/create-url`,
+        action: `${process.env.REACT_APP_API_URL}/upload/upload-single `,
+       
     
         onSuccess: (result, file) => {
-            console.log('okk', result);
+           
             if(result.success) {
                 form.setFieldsValue({
                     image: result.url,
+                  
                 })
+                console.log('huy',result.url)
                 setImageUrl(result.url);
                 message.success('Tải ảnh lên thành công !');
             } else {
@@ -99,12 +102,8 @@ const EcommerceForm = ({ onFinish, form, idEdit}) => {
     //  method='POST' encType='multipart/form-data'
     return (
         <div>
-       
-
-             <Form className="ecommerce-form"
-            
-                onFinish={onFinish }
-               
+             <Form className="ecommerce-form"           
+                onFinish={onFinish }             
                 validateMessages={validateMessages}
                 form={form} >
                 {
@@ -133,7 +132,6 @@ const EcommerceForm = ({ onFinish, form, idEdit}) => {
                     style={{ width: '50%', paddingRight: "10px" }}>
                     <TextArea></TextArea>
                 </Form.Item>
-
                 <Form.Item name="new_img" label="Ảnh tin tức" valuePropName="file" getValueFromEvent={normFile}
                   style={{ width: '50%'}} >
                         <Upload
@@ -150,13 +148,11 @@ const EcommerceForm = ({ onFinish, form, idEdit}) => {
                                     </div>}
                         </Upload>
                     </Form.Item>
-                    <Form.Item  style={{width:'90%'}}>
-                        
+                    <Form.Item  style={{width:'90%'}}>                      
                     </Form.Item>
                     <Form.Item name="image" hidden={true}>
                         <Input />
-                    </Form.Item>
-              
+                    </Form.Item>              
                 <Form.Item className='button'>
                     <Button htmlType="submit"
                         type="primary">Lưu lại</Button>
@@ -165,5 +161,4 @@ const EcommerceForm = ({ onFinish, form, idEdit}) => {
         </div>
     )
 }
-
 export default EcommerceForm

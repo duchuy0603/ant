@@ -6,9 +6,7 @@ window.$ = $;
 global.jQuery = $;
 const token=localStorage.getItem('token')
 const DashboardDefault = React.lazy(() => import('./Demo/Dashboard/Default'));
-
 const Nvd3Chart = React.lazy(() => import('./Demo/Charts/Nvd3Chart/index'));
-
 const OtherSamplePage = React.lazy(() => import('./Demo/Other/SamplePage'));
 const OtherDocs = React.lazy(() => import('./Demo/Other/Docs'));
 const Ecommerce = React.lazy(() => import('./Demo/Category/Ecommerce/Ecommerce'));

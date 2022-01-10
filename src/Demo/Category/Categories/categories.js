@@ -14,12 +14,14 @@ const Categories = () => {
   // const { register,reset ,handleSubmit, setValue,formState:{errors}, } = useForm();
   
   const { categorieslist, loadingcategories } = useSelector(state => state.categoriesReducer)
-  console.log(categorieslist)
+  console.log('huychimto',categorieslist)
+  // const cate=categorieslist.Categories.count;
+  // console.log('success',cate)
   const dispatch = useDispatch();
   
   useEffect(() => {
     dispatch(categoriesgetAll())
-  }, [dispatch])
+  }, [])
   
   const [searchText, setsearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
@@ -96,10 +98,10 @@ const Categories = () => {
   const columns = [
     {
       title: 'Name',
-      dataIndex: 'Name',
-      key: 'Name',
+      dataIndex: 'name',
+      key: 'name',
       width: '20%',
-      ...getColumnSearchProps('Name'),
+      ...getColumnSearchProps('name'),
     },
     {
       title: 'Image',
@@ -227,13 +229,13 @@ const Categories = () => {
         </Button>
       </div>
       <br />
-      <Modal className='modal-add' title="Thêm Sàn" visible={isModalAdd} footer="" centered onCancel={() => setIsModalAdd(false)}>
+      <Modal className='modal-add' title="Thêm Danh Mục" visible={isModalAdd} footer="" centered onCancel={() => setIsModalAdd(false)}>
         <CategoriesForm
           onFinish={onFinishAdd}
           form={formAdd} />
       </Modal>
 
-      <Modal className='modal-edit' title="Sửa Sàn" visible={isModalEdit} onCancel={() => setIsModalEdit(false)} centered footer="">
+      <Modal className='modal-edit' title="Sửa Danh Mục" visible={isModalEdit} onCancel={() => setIsModalEdit(false)} centered footer="">
         <CategoriesForm
           onFinish={onFinishEdit}
           form={formEdit}
@@ -246,7 +248,7 @@ const Categories = () => {
 
       <Table scroll={{ x: 900 }}
        pagination= {{defaultCurrent:30,defaultPageSize:10,hideOnSinglePage:true,pageSizeOptions:[10,30,50,100]}}
-      loading={loadingcategories} columns={columns} dataSource={categorieslist} rowKey={record => record.id} bordered />
+      loading={loadingcategories} columns={columns} dataSource={categorieslist.rows} rowKey={record => record.id} bordered />
 
     </div>
   )

@@ -1,7 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
-
-
+import { saveToken } from "../../helpers/common";
+import { saveUser } from "../../helpers/common";
+import { getUserFromLocalStorage } from "../../helpers/common";
 const authslide = createSlice({
     name: "authSlide",
     initialState: {
@@ -10,22 +11,26 @@ const authslide = createSlice({
         error: ''
     },
     reducers: {
-savetoken:(state,action)=>{
- localStorage.setItem('token',action.payload.AccessToken)
- localStorage.setItem('name',action.payload.FullName)
- localStorage.setItem('role',action.payload.Type)
- 
- 
- state.authlist=action.payload
-}
-    
-    
+        savetoken: (state, action) => {
+            saveToken(action.payload.AccessToken)
+        
+
+
+   
+  
+        },
+        saveuser:(state,action)=>{
+            saveUser(action.payload)
+           
+            state.authlist = action.payload
+            localStorage.setItem('role', action.payload.Type)
+        }
     },
     extraReducers: {
-  
+
     }
 })
 
-const {reducer:authReducer}=authslide;
-export const {savetoken}=authslide.actions
+const { reducer: authReducer } = authslide;
+export const { savetoken ,saveuser} = authslide.actions
 export default authReducer;

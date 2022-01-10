@@ -1,27 +1,36 @@
 import React, { useCallback } from 'react'
 import { ecommercegetAll, ecommerceAdd, ecommerceEdit, ecommerceDelete } from '../../../store/Category/ecommerce';
-
 import ecommerceApi from '../../../api/ecommerce';
 import { useEffect } from 'react'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import reactRouterDom, { useHistory } from 'react-router-dom';
-import { Button, Form, Modal, Space, Table, Popconfirm, Tag, Input } from 'antd';
+import { Button, Form, Modal, Space, Table, Popconfirm, Tag, Input,Radio,Divider } from 'antd';
 import Highlighter from 'react-highlight-words';
 import { Pagination } from 'antd';
 import { SearchOutlined, SyncOutlined, EditOutlined, DeleteOutlined, PlusOutlined,LoadingOutlined } from '@ant-design/icons';
 import EcommerceForm from './EcommerceForm';
 import './ecommerce.scss'
 
+
+
 const Ecommerce = () => {
   
   const { ecommercelist, loadingecom } = useSelector(state => state.ecommerceReducer)
+const role=localStorage.getItem('role');
   const dispatch = useDispatch();
-  
+//   function checkButton(){
+// const button=document.getElementById("hidden-ecommerce")
+//     if(role==2){
+// button.style.visibility="hidden"
+//     }
+   
+//   }
+//   checkButton()
   useEffect(() => {
     dispatch(ecommercegetAll())
   }, [dispatch])
-  
+
   const [searchText, setsearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
   const [idEdit,setIdEdit]=useState(0)
@@ -92,52 +101,52 @@ const Ecommerce = () => {
   const columns = [
     {
       title: 'Name',
-      dataIndex: 'Name',
-      key: 'Name',
+      dataIndex: 'name',
+      key: 'name',
       width: '20%',
-      ...getColumnSearchProps('Name'),
+      ...getColumnSearchProps('name'),
     },
     {
       title: 'Image',
       
- dataIndex: 'ImageUrl',
-      key: 'Image',
+ dataIndex: 'image_url',
+      key: 'image_url',
       width: '12%',
     
-      render: text => <img src={`${process.env.REACT_APP_API_URL}/${text}` }  style={{width:"100%",height:"40%"}} alt=""/>
+      render: text => <img src={text}   style={{width:"100%",height:"40%"}} alt=""/>
     },
 
     {
       title: 'Phone',
-      dataIndex: 'Phone',
+      dataIndex: 'phone',
       key: 'Phone',
       width: '20%',
       sorter: (a, b) => a.Phone - b.Phone,
       sortDirections: ['descend', 'ascend'],
-      ...getColumnSearchProps('Phone'),
+      ...getColumnSearchProps('phone'),
     },
     {
       title: 'Email',
-      dataIndex: 'Email',
-      key: 'Email',
+      dataIndex: 'email',
+      key: 'email',
       width: '20%',
-      ...getColumnSearchProps('Email'),
+      ...getColumnSearchProps('email'),
     },
     {
       title: 'Address',
-      dataIndex: 'Address',
-      key: 'Address',
+      dataIndex: 'address',
+      key: 'address',
       width: '20%',
-      ...getColumnSearchProps('Address'),
-      sorter: (a, b) => a.Address.length - b.Address.length,
+      ...getColumnSearchProps('address'),
+      sorter: (a, b) => a.address.length - b.address.length,
       sortDirections: ['descend', 'ascend'],
     },
     {
       title: 'Description',
-      dataIndex: 'Description',
-      key: 'Description',
+      dataIndex: 'des',
+      key: 'des',
       width: '20%',
-      ...getColumnSearchProps('Description'),
+      ...getColumnSearchProps('des'),
     },
     {
       key: 'Action',
@@ -149,8 +158,8 @@ const Ecommerce = () => {
           <EditOutlined style={{ color: "blue" }} onClick={() => handleEditForm(record)} />
           <Popconfirm
             placement="bottomRight"
-            title={`Bạn muốn xóa ${record.Name} ?`}
-            onConfirm={() => handleDelete(record.Id)}
+            title={`Bạn muốn xóa ${record.name} ?`}
+            onConfirm={() => handleDelete(record.id)}
             okText="Xóa"
         
             cancelText="Hủy"
@@ -165,12 +174,12 @@ const Ecommerce = () => {
   // actionform
   const onFinishAdd = (data) => {
    const dataNews = {
-    Name: data.name,
-    Email: data.email,
-    Phone: data.phone,
-    Address: data.address,
-    Description: data.description,
-    image: data.image,
+    name: data.name,
+    email: data.email,
+    phone: data.phone,
+    address: data.address,
+    des: data.description,
+    image_url: data.image,
    }
     dispatch(ecommerceAdd(dataNews,token))
    
@@ -180,16 +189,16 @@ const Ecommerce = () => {
 
    const handleEditForm = (record) => {
     const editform = {    
-      id: record.Id,
-      name: record.Name,
-      email: record.Email,
-      phone: record.Phone,
-      address: record.Address,
-      description: record.Description,
-      image:`${process.env.REACT_APP_API_URL}/${record.ImageUrl} `  
+      id: record.id,
+      name: record.name,
+      email: record.email,
+      phone: record.phone,
+      address: record.address,
+      description: record.des,
+      image:record.image_url 
     }
     console.log(editform)
-    setIdEdit(record.Id);
+    setIdEdit(record.id);
     formEdit.setFieldsValue(editform)
     setIsModalEdit(true)
   }
@@ -197,26 +206,26 @@ const Ecommerce = () => {
   const onFinishEdit = (data) => {
     const edit = {
       Id:data.id,
-      Name: data.name,
-      Email: data.email,
-      Phone: data.phone,
-      Address: data.address,
-      Description: data.description,
-      image: data.image,
+      name: data.name,
+      email: data.email,
+      phone: data.phone,
+      address: data.address,
+      des: data.description,
+      image_url: data.image,
      }
-    dispatch(ecommerceEdit(edit,token))
+    dispatch(ecommerceEdit(edit))
     setIsModalEdit(false)
     
     console.log(edit)
  
   }
   const handleDelete = (id) => {
-    dispatch(ecommerceDelete(id,token))
+    dispatch(ecommerceDelete(id))
   }
   return (
     <div>
       <div className='addecommerce' >
-        <Button type="primary" onClick={() => 
+        <Button id='hidden-ecommerce'  type="primary" onClick={() => 
          
           setIsModalAdd(true)}>
           Thêm Sàn

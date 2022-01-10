@@ -149,7 +149,7 @@ const ProductForm = ({ onFinish, form, idEdit }) => {
                             optionA.children.toLowerCase().localeCompare(optionB.children.toLowerCase())
                         }>
                         {categorieslist.map((x,index)=>(
-                                <Option  key={index} value={x.Id}>{x.Name}</Option>
+                                <Option  key={index} value={x.Id}>{x.name}</Option>
                                 
                             ))}
                     </Select>
@@ -169,7 +169,7 @@ const ProductForm = ({ onFinish, form, idEdit }) => {
                             optionA.children.toLowerCase().localeCompare(optionB.children.toLowerCase())
                         }>
                             {storelist.map((x,index)=>(
-                                <Option  key={index} value={x.Id}>{x.Name}</Option>
+                                <Option  key={index} value={x.Id}>{x.name}</Option>
                             ))}
                     </Select>
                 </Form.Item>

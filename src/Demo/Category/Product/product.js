@@ -181,7 +181,7 @@ const Product = () => {
           <Popconfirm
             placement="bottomRight"
             title={`Bạn muốn xóa ${record.Name} ?`}
-            onConfirm={() => handleDelete(record.Id)}
+            onConfirm={() => handleDelete(record.id)}
             okText="Xóa"
             cancelText="Hủy"
           >

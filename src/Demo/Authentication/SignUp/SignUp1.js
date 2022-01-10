@@ -10,10 +10,11 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import '../../Category/User/user.scss'
-import { storegetAll } from './../../../store/Category/stores';
 import { useHistory } from 'react-router-dom';
 import { userAdd } from '../../../store/Category/user';
-
+import { ecommercegetAll } from './../../../store/Category/ecommerce';
+import UserApi from '../../../api/user';
+import ecommerceApi from '../../../api/ecommerce';
 
 const SignUp1 = () => {
 
@@ -23,7 +24,8 @@ const SignUp1 = () => {
     const history = useHistory()
     const dispatch = useDispatch();
     const { categorieslist } = useSelector(state => state.categoriesReducer)
-    const { storelist } = useSelector(state => state.storeReducer)
+    const { ecommercelist } = useSelector(state => state.ecommerceReducer)
+    console.log(ecommercelist)
     const [showAgeTotal, setShowAgeTotal] = useState(false);
     const [showAgeMore, setShowAgeMore] = useState(false);
 
@@ -48,6 +50,7 @@ const SignUp1 = () => {
     const [loading, setLoading] = useState(false);
     const [fileList, setFileList] = useState([]);
     const [imageUrl, setImageUrl] = useState('');
+    const [ecommerce, setecommerce] = useState([]);
 
 
     useEffect(() => {
@@ -55,8 +58,13 @@ const SignUp1 = () => {
         const imageUrl = form.getFieldValue('image');
         setImageUrl(imageUrl)
         console.log(imageUrl);
-        dispatch(storegetAll())
-    }, [form])
+        dispatch(ecommercegetAll())
+        const ecommerceLogin= async()=>{
+const data=await ecommerceApi.getEcommerceLogin();
+setecommerce(data)
+        }
+        ecommerceLogin();
+    }, [])
 
     const handleChange = info => {
         console.log(info.file);
@@ -65,22 +73,22 @@ const SignUp1 = () => {
         }
     };
 
-    const onFinishAdd = (data) => {
-        const add = {
-            UserName: data.userName,
-            FullName: data.fullName,
-            Password: data.password,
-            Email: data.email,
-            Phone: data.phone,
-            StoreId: data.storeId,
-            Type: data.type,
-            image: data.image
-        }
-        dispatch(userAdd(add))
-
-        form.resetFields();
+    const onFinishAdd = async(data) => {
+     const respone=await UserApi.create(data);
+     if(respone.error?.message=="USER_MAIL_EXIST"){
+         message.error("Email đã tồn tại")
+         console.log(message.error.message);
+     }else if(respone.error?.message=="USER_EXIST_NAME"){
+         
+        message.error("User đã tồn tại")
+   
+     }else{
         message.success('Đăng  Ký Thành Công')
         history.push('/auth/signin')
+     }
+      
+    
+       
     }
     const propsUpload = {
         name: 'file',
@@ -147,32 +155,32 @@ const SignUp1 = () => {
                             <h4 className="mb-4">Đăng Ký</h4>
                             <Form className="ecommerce-form" validateMessages={validateMessages} onFinish={onFinishAdd} form={form} method='POST' encType='multipart/form-data' >
 
-                                <Form.Item name="userName" label="UserName" required rules={[{ required: true, whitespace: true }, { type: 'string', max: 255 }]}
+                                <Form.Item name="UserName" label="UserName" required rules={[{ required: true, whitespace: true }, { type: 'string', max: 255 }]}
                                     style={{ width: '100%', paddingRight: "10px" }}>
                                     <Input placeholder="Ví dụ: Eplaza" />
                                 </Form.Item>
-                                <Form.Item name="fullName" label="FullName" required rules={[{ required: true, whitespace: true }, { type: 'string', max: 255 }]}
+                                <Form.Item name="FullName" label="FullName" required rules={[{ required: true, whitespace: true }, { type: 'string', max: 255 }]}
                                     style={{ width: '100%', paddingRight: "10px" }}>
                                     <Input placeholder="nguyen duc huy" />
                                 </Form.Item>
-                                <Form.Item name="password" label="Password" required rules={[{ required: true, whitespace: true }, { type: 'string', max: 255 }]}
+                                <Form.Item name="Password" label="Password" required rules={[{ required: true, whitespace: true }, { type: 'string', max: 255 }]}
                                     style={{ width: '100%', paddingRight: "10px" }}>
                                     <Input.Password placeholder="nguyen duc huy" />
                                 </Form.Item>
-                                <Form.Item name="email" label="Email" required rules={[{ required: true }, { type: 'email', message: "không phải là Email", max: 255 }]}
+                                <Form.Item name="Email" label="Email" required rules={[{ required: true }, { type: 'email', message: "không phải là Email", max: 255 }]}
                                     style={{ width: '100%', paddingRight: "10px" }}>
                                     <Input placeholder="" />
                                 </Form.Item>
-                                <Form.Item name="phone" label="Phone" required rules={[{ required: true }, { type: 'string' }, { pattern: /((09|03|07|08|05)+([0-9]{8})\b)/g }]}
+                                <Form.Item name="Phone" label="Phone" required rules={[{ required: true }, { type: 'string' }, { pattern: /((09|03|07|08|05)+([0-9]{8})\b)/g }]}
                                     style={{ width: '100%', paddingRight: "10px" }}>
                                     <Input placeholder="" />
                                 </Form.Item>
-                                <Form.Item name="storeId" label="storeId" required rules={[{ required: true }]}
+                                <Form.Item name="EcommerceId" label="ecommerceId" required rules={[{ required: true }]}
                                     style={{ width: '100%', paddingRight: "10px" }}>
                                     <Select
                                         showSearch
                                         style={{ width: "100% " }}
-                                        placeholder="storeId"
+                                        placeholder="ecommerceId"
                                         optionFilterProp="children"
 
                                         filterOption={(input, option) =>
@@ -181,12 +189,12 @@ const SignUp1 = () => {
                                         filterSort={(optionA, optionB) =>
                                             optionA.children.toLowerCase().localeCompare(optionB.children.toLowerCase())
                                         }>
-                                        {storelist.map((x, index) => (
+                                        {ecommerce.map((x, index) => (
                                             <Option key={index} value={x.Id}>{x.Name}</Option>
                                         ))}
                                     </Select>
                                 </Form.Item>
-                                <Form.Item name="type" label="Type" required rules={[{ required: true }]}
+                                {/* <Form.Item name="type" label="Type" required rules={[{ required: true }]}
                                     style={{ width: '100%', paddingRight: "10px" }}>
                                     <Select
 
@@ -203,8 +211,9 @@ const SignUp1 = () => {
                                         <Option value={1}>Hoạt Động</Option>
                                         <Option value={0}>Tạm Dừng</Option>
                                     </Select>
-                                </Form.Item>
-                                <Form.Item name="new_img" label="Ảnh Đại Diện" valuePropName="file" getValueFromEvent={normFile}
+                                </Form.Item> */}
+
+                                {/* <Form.Item name="new_img" label="Ảnh Đại Diện" valuePropName="file" getValueFromEvent={normFile}
                                     rules={[{ required: true }]} style={{ width: '100%' }} >
                                     <Upload
                                         {...propsUpload}
@@ -219,7 +228,7 @@ const SignUp1 = () => {
                                                 <div style={{ marginTop: 8 }}>Upload</div>
                                             </div>}
                                     </Upload>
-                                </Form.Item>
+                                </Form.Item> */}
 
                                 <Form.Item name="image" hidden={true}>
                                     <Input />

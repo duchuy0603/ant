@@ -18,6 +18,7 @@ const Store = () => {
   // const { register,reset ,handleSubmit, setValue,formState:{errors}, } = useForm();
   
   const { storelist, loadingstore } = useSelector(state => state.storeReducer)
+ 
   const dispatch = useDispatch();
   
   useEffect(() => {
@@ -101,72 +102,72 @@ const Store = () => {
   const columns = [
     {
       title: 'Name',
-      dataIndex: 'Name',
-      key: 'Name',
+      dataIndex: 'name',
+      key: 'name',
       width: '20%',
-      ...getColumnSearchProps('Name'),
+      ...getColumnSearchProps('name'),
     },
     {
         title: 'Email',
-        dataIndex: 'Email',
-        key: 'Email',
+        dataIndex: 'email',
+        key: 'email',
         width: '20%',
-        ...getColumnSearchProps('Email'),
+        ...getColumnSearchProps('email'),
       },
 
     {
       title: 'Phone',
-      dataIndex: 'Phone',
-      key: 'Phone',
+      dataIndex: 'phone',
+      key: 'phone',
       width: '20%',
-      sorter: (a, b) => a.Phone - b.Phone,
+      sorter: (a, b) => a.phone - b.phone,
       sortDirections: ['descend', 'ascend'],
-      ...getColumnSearchProps('Phone'),
+      ...getColumnSearchProps('phone'),
     },
     {
       title: 'Content',
-      dataIndex: 'Content',
-      key: 'Content',
+      dataIndex: 'content',
+      key: 'content',
       width: '20%',
-      ...getColumnSearchProps('Content'),
+      ...getColumnSearchProps('content'),
     },
     {
       title: 'GMap',
-      dataIndex: 'GMap',
-      key: 'GMap',
-      width:'1%',
-      ...getColumnSearchProps('GMap'),
-      sorter: (a, b) => a.GMap.length - b.GMap.length,
+      dataIndex: 'gmap',
+      key: 'gmap',
+      width:'20%',
+      ...getColumnSearchProps('gmap'),
+      sorter: (a, b) => a.gmap.length - b.gmap.length,
       sortDirections: ['descend', 'ascend'],
     },
     
     {
       title: 'Description',
-      dataIndex: 'Description',
-      key: 'Description',
+      dataIndex: 'des',
+      key: 'des',
       width: '20%',
-      ...getColumnSearchProps('Description'),
+      ...getColumnSearchProps('des'),
     },
     {
     title: 'Facebook',
-    dataIndex: 'Facebook',
-    key: 'Facebook',
+    dataIndex: 'facebook',
+    key: 'facebook',
     width: '20%',
-    ...getColumnSearchProps('Facebook'),
+    ...getColumnSearchProps('facebook'),
   },
   {
     title: 'Shopee',
-    dataIndex: 'Shopee',
-    key: 'Shopee',
+    dataIndex: 'shopee',
+    key: 'shopee',
     width: '20%',
-    ...getColumnSearchProps('Shopee'),
+    ...getColumnSearchProps('shopee'),
   },
   {
     title: 'Youtube',
-    dataIndex: 'Youtube',
-    key: 'Youtube',
+    dataIndex: 'youtube',
+    key: 'youtube',
     width: '20%',
-    ...getColumnSearchProps('Youtube'),
+    ...getColumnSearchProps('youtube'),
   },
   {
     title: 'Ecommerce',
