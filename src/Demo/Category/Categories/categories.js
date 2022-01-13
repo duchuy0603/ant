@@ -74,7 +74,7 @@ const Categories = () => {
       />
       }else{
         if(dataIndex==='ecommerce'){
-          return text?.Name
+          return text?.name
         }
         return text;
       }
@@ -106,7 +106,7 @@ const Categories = () => {
     {
       title: 'Image',
       
- dataIndex: 'ImageUrl',
+ dataIndex: 'image_url',
       key: 'Image',
       width: '12%',
     
@@ -115,19 +115,19 @@ const Categories = () => {
 
     {
       title: 'Content',
-      dataIndex: 'Content',
-      key: 'Content',
+      dataIndex: 'content',
+      key: 'content',
       width: '20%',
-      sorter: (a, b) => a.Content - b.Content,
+      sorter: (a, b) => a.content - b.content,
       sortDirections: ['descend', 'ascend'],
-      ...getColumnSearchProps('Content'),
+      ...getColumnSearchProps('content'),
     },
     {
       title: 'ParentId',
-      dataIndex: 'ParentId',
-      key: 'ParentId',
+      dataIndex: 'parent_id',
+      key: 'parent_id',
       width: '20%',
-      ...getColumnSearchProps('ParentId'),
+      ...getColumnSearchProps('parent_id'),
     },
     {
       title: 'EcomerceId',
@@ -140,10 +140,10 @@ const Categories = () => {
     },
     {
       title: 'Description',
-      dataIndex: 'Description',
-      key: 'Description',
+      dataIndex: 'des',
+      key: 'des',
       width: '20%',
-      ...getColumnSearchProps('Description'),
+      ...getColumnSearchProps('des'),
     },
     {
       key: 'Action',
@@ -155,8 +155,8 @@ const Categories = () => {
           <EditOutlined style={{ color: "blue" }} onClick={() => handleEditForm(record)} />
           <Popconfirm
             placement="bottomRight"
-            title={`Bạn muốn xóa ${record.Name} ?`}
-            onConfirm={() => handleDelete(record.Id)}
+            title={`Bạn muốn xóa ${record.name} ?`}
+            onConfirm={() => handleDelete(record.id)}
             okText="Xóa"
         
             cancelText="Hủy"
@@ -171,12 +171,12 @@ const Categories = () => {
   // actionform
   const onFinishAdd = (data) => {
    const dataNews = {
-    Name: data.name,
-    Content: data.content,
-    ParentId: data.parentId,
-    EcommerceId: data.ecommerceId,
-    Description: data.description,
-    image: data.image,
+    name: data.name,
+    content: data.content,
+    parent_id: data.parent_id,
+    ecommerce: data.ecommerce,
+    des: data.des,
+    image_url: data.image,
    }
     dispatch(categoriesAdd(dataNews))
    
@@ -186,13 +186,14 @@ const Categories = () => {
 
    const handleEditForm = (record) => {
     const editform = {    
-      id: record.Id,
-      name: record.Name,
-      content: record.Content,
-      ecommerceId: record.EcommerceId,
-     parentId:record.ParentId,
-      description: record.Description,
-      image:`${process.env.REACT_APP_API_URL}/${record.ImageUrl} `  
+      id: record.id,
+     
+      name: record.name,
+      content: record.content,
+      // ecommerce: record.ecommerce,
+      ` parent_id:record.parent_id,
+        des: record.des,
+        image:`${process.env.REACT_APP_API_URL}/${record.image_url} `  `
     }
     console.log(editform)
     setIdEdit(record.Id);
@@ -202,13 +203,13 @@ const Categories = () => {
 
   const onFinishEdit = (data) => {
     const edit = {
-      Id:data.id,
-      Name: data.name,
-      Content: data.content,
-      ParentId: data.parentId,
-      EcommerceId: data.ecommerceId,
-      Description: data.description,
-      image: data.image,
+      id:data.id,
+      name: data.name,
+      content: data.content,
+      parent_id: data.parent_id,
+      ecommerce: data.ecommerce,
+      des: data.des,
+      image_url: data.image,
      }
     dispatch(categoriesEdit(edit))
     setIsModalEdit(false)
@@ -248,7 +249,7 @@ const Categories = () => {
 
       <Table scroll={{ x: 900 }}
        pagination= {{defaultCurrent:30,defaultPageSize:10,hideOnSinglePage:true,pageSizeOptions:[10,30,50,100]}}
-      loading={loadingcategories} columns={columns} dataSource={categorieslist.rows} rowKey={record => record.id} bordered />
+      loading={loadingcategories} columns={columns} dataSource={categorieslist} rowKey={record => record.id} bordered />
 
     </div>
   )

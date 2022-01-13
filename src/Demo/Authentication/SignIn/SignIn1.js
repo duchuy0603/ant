@@ -112,11 +112,11 @@ const SignUp1 = () => {
                             <h3 className="mb-3">SmileTech</h3>
                             <h4 className="mb-4">Đăng Nhập</h4>
                             <Form validateMessages={validateMessages} onFinish={onSubmit} >
-                                <Form.Item name="UserName" label="UserName" required rules={[{ required: true }, { type: 'string', max: 255 }]}
+                                <Form.Item name="user_name" label="UserName" required rules={[{ required: true }, { type: 'string', max: 255 }]}
                                     style={{ width: '100%', paddingRight: "10px" }}>
                                     <Input placeholder="" />
                                 </Form.Item>
-                                <Form.Item name="Password" label="Password" required rules={[{ required: true, whitespace: true }, { type: 'string', max: 255 }]}
+                                <Form.Item name="password" label="Password" required rules={[{ required: true, whitespace: true }, { type: 'string', max: 255 }]}
                                     style={{ width: '100%', paddingRight: "10px" }}>
                                     <Input.Password placeholder="" />
                                 </Form.Item>

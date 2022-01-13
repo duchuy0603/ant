@@ -18,7 +18,7 @@ const Store = () => {
   // const { register,reset ,handleSubmit, setValue,formState:{errors}, } = useForm();
   
   const { storelist, loadingstore } = useSelector(state => state.storeReducer)
- 
+ console.log(storelist)
   const dispatch = useDispatch();
   
   useEffect(() => {
@@ -76,7 +76,7 @@ const Store = () => {
       />
       }else{
         if(dataIndex==="ecommerce"){
-          return text?.Name;
+          return text?.name;
         }
         return text;
       }
@@ -204,16 +204,16 @@ const Store = () => {
   // actionform
   const onFinishAdd = (data) => {
    const dataNews = {
-    Name: data.name,
-    Email: data.email,
-    Phone: data.phone,
-    Content: data.content,
-    Description: data.description,
-    GMap: data.gmap,
-    EcommerceId:data.ecommerceId,
-    Facebook: data.facebook,
-    Shopee: data.shopee,
-    Youtube: data.youtube,
+    name: data.name,
+    email: data.email,
+    phone: data.phone,
+    content: data.content,
+    des: data.description,
+    gmap: data.gmap,
+    ecommerce:data.ecommerceId,
+    facebook: data.facebook,
+    shopee: data.shopee,
+    youtube: data.youtube,
    }
     dispatch(storeAdd(dataNews))
    
@@ -223,37 +223,37 @@ const Store = () => {
 
    const handleEditForm = (record) => {
     const editform = {    
-      id: record.Id,
-      name: record.Name,
-      email: record.Email,
-      phone: record.Phone,
-      content: record.Content,
-      description: record.Description,
-      gmap: record.GMap,
-      ecommerceId:record.EcommerceId,
-      facebook: record.Facebook,
-      youtube: record.Description,
-      shopee: record.Description,
+      id: record.id,
+      name: record.name,
+      email: record.email,
+      phone: record.phone,
+      content: record.content,
+      description: record.des,
+      gmap: record.gmap,
+      ecommerceId:record.ecommerceId,
+      facebook: record.facebook,
+      youtube: record.youtube,
+      shopee: record.shopee,
     }
     console.log(editform)
-    setIdEdit(record.Id);
+    setIdEdit(record.id);
     formEdit.setFieldsValue(editform)
     setIsModalEdit(true)
   }
 
   const onFinishEdit = (data) => {
     const edit = {
-      Id:data.id,
-      Name: data.name,
-      Email: data.email,
-    Phone: data.phone,
-    Content: data.content,
-    Description: data.description,
-    GMap: data.gmap,
-    EcommerceId:data.ecommerceId,
-    Facebook: data.facebook,
-    Shopee: data.shopee,
-    Youtube: data.youtube,
+      id:data.id,
+      name: data.name,
+      email: data.email,
+      phone: data.phone,
+      content: data.content,
+      des: data.description,
+      gmap: data.gmap,
+      ecommerce:data.ecommerceId,
+      facebook: data.facebook,
+      shopee: data.shopee,
+      youtube: data.youtube,
      }
     dispatch(storeEdit(edit))
     setIsModalEdit(false)

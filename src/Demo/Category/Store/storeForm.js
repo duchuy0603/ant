@@ -15,6 +15,7 @@ const StoreForm = ({ onFinish, form, idEdit}) => {
  dispatch(ecommercegetAll())
  }, [])
  const {ecommercelist}=useSelector(state=>state.ecommerceReducer)
+ console.log(ecommercelist)
     const { TextArea } = Input;
     const validateMessages = {
         required: 'Không được để trống !',

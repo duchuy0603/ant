@@ -36,7 +36,7 @@ class Navigation extends Component {
         ];
         const data=getUserFromLocalStorage();
         const role=data.type;
-        console.log('dmm',role)
+       
 
         if (this.props.preLayout !== null && this.props.preLayout !== '' && this.props.preLayout !== 'layout-6' && this.props.preLayout !== 'layout-8') {
             navClass = [...navClass, this.props.preLayout];

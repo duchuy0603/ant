@@ -5,40 +5,37 @@ import { useEffect } from 'react'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import reactRouterDom, { useHistory } from 'react-router-dom';
-import { Button, Form, Modal, Space, Table, Popconfirm, Tag, Input,Radio,Divider } from 'antd';
+import { Button, Form, Modal, Space, Table, Popconfirm, Tag, Input, Radio, Divider } from 'antd';
 import Highlighter from 'react-highlight-words';
 import { Pagination } from 'antd';
-import { SearchOutlined, SyncOutlined, EditOutlined, DeleteOutlined, PlusOutlined,LoadingOutlined } from '@ant-design/icons';
+import { SearchOutlined, SyncOutlined, EditOutlined, DeleteOutlined, PlusOutlined, LoadingOutlined } from '@ant-design/icons';
 import EcommerceForm from './EcommerceForm';
 import './ecommerce.scss'
-
-
-
 const Ecommerce = () => {
-  
   const { ecommercelist, loadingecom } = useSelector(state => state.ecommerceReducer)
-const role=localStorage.getItem('role');
+
+  const role = localStorage.getItem('role');
   const dispatch = useDispatch();
-//   function checkButton(){
-// const button=document.getElementById("hidden-ecommerce")
-//     if(role==2){
-// button.style.visibility="hidden"
-//     }
-   
-//   }
-//   checkButton()
+  //   function checkButton(){
+  // const button=document.getElementById("hidden-ecommerce")
+  //     if(role==2){
+  // button.style.visibility="hidden"
+  //     }
+  //   }
+  //   checkButton()
   useEffect(() => {
     dispatch(ecommercegetAll())
   }, [dispatch])
-
   const [searchText, setsearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
-  const [idEdit,setIdEdit]=useState(0)
-  const token=localStorage.getItem('token')
+  const [idEdit, setIdEdit] = useState(0)
+  const [idProduct, setidProduct] = useState([]);
+ 
+  const token = localStorage.getItem('token')
   //modal
   const [isModalAdd, setIsModalAdd] = useState(false);
   const [isModalEdit, setIsModalEdit] = useState(false);
-  const [formAdd] = Form.useForm();    
+  const [formAdd] = Form.useForm();
   const [formEdit] = Form.useForm();
   const getColumnSearchProps = dataIndex => ({
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
@@ -71,8 +68,6 @@ const role=localStorage.getItem('role');
       record[dataIndex]
         ? record[dataIndex].toString().toLowerCase().includes(value.toLowerCase())
         : '',
-
-
     render: text =>
       searchedColumn === dataIndex ? (
         <Highlighter
@@ -97,7 +92,14 @@ const role=localStorage.getItem('role');
     clearFilters();
     setsearchText('')
   };
-
+  const rowSelection = {
+    onChange: (selectedRowKeys, selectedRows) => {
+      console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows); 
+      setidProduct(selectedRowKeys)
+     
+    }, 
+  
+  };
   const columns = [
     {
       title: 'Name',
@@ -108,12 +110,12 @@ const role=localStorage.getItem('role');
     },
     {
       title: 'Image',
-      
- dataIndex: 'image_url',
+
+      dataIndex: 'image_url',
       key: 'image_url',
       width: '12%',
-    
-      render: text => <img src={text}   style={{width:"100%",height:"40%"}} alt=""/>
+
+      render: text => <img src={text} style={{ width: "100%", height: "40%" }} alt="" />
     },
 
     {
@@ -161,63 +163,58 @@ const role=localStorage.getItem('role');
             title={`Bạn muốn xóa ${record.name} ?`}
             onConfirm={() => handleDelete(record.id)}
             okText="Xóa"
-        
             cancelText="Hủy"
           >
             <DeleteOutlined style={{ color: "red" }} />
           </Popconfirm>
         </Space>
       ),
-
     },
   ];
   // actionform
   const onFinishAdd = (data) => {
-   const dataNews = {
-    name: data.name,
-    email: data.email,
-    phone: data.phone,
-    address: data.address,
-    des: data.description,
-    image_url: data.image,
-   }
-    dispatch(ecommerceAdd(dataNews,token))
-   
-    setIsModalAdd(false)
-    formAdd.resetFields()
-   }
-
-   const handleEditForm = (record) => {
-    const editform = {    
-      id: record.id,
-      name: record.name,
-      email: record.email,
-      phone: record.phone,
-      address: record.address,
-      description: record.des,
-      image:record.image_url 
-    }
-    console.log(editform)
-    setIdEdit(record.id);
-    formEdit.setFieldsValue(editform)
-    setIsModalEdit(true)
-  }
-
-  const onFinishEdit = (data) => {
-    const edit = {
-      Id:data.id,
+    const dataNews = {
       name: data.name,
       email: data.email,
       phone: data.phone,
       address: data.address,
       des: data.description,
       image_url: data.image,
-     }
+    }
+  
+    dispatch(ecommerceAdd(dataNews, token))
+
+    setIsModalAdd(false)
+    formAdd.resetFields()
+  }
+  const handleEditForm = (record) => {
+    const editform = {
+      id: record.id,
+      name: record.name,
+      email: record.email,
+      phone: record.phone,
+      address: record.address,
+      description: record.des,
+      image: record.image_url
+    }
+    console.log(editform)
+    setIdEdit(record.id);
+    formEdit.setFieldsValue(editform)
+    setIsModalEdit(true)
+  }
+  const onFinishEdit = (data) => {
+    const edit = {
+      Id: data.id,
+      name: data.name,
+      email: data.email,
+      phone: data.phone,
+      address: data.address,
+      des: data.description,
+      image_url: data.image,
+    }
     dispatch(ecommerceEdit(edit))
     setIsModalEdit(false)
-    
     console.log(edit)
- 
   }
   const handleDelete = (id) => {
     dispatch(ecommerceDelete(id))
@@ -225,11 +222,23 @@ const role=localStorage.getItem('role');
   return (
     <div>
       <div className='addecommerce' >
-        <Button id='hidden-ecommerce'  type="primary" onClick={() => 
-         
+        <Button className='hidden-ecommerce' type="primary" onClick={() =>
+
           setIsModalAdd(true)}>
           Thêm Sàn
         </Button>
+        <Popconfirm
+            placement="bottomRight"
+            title={`Bạn muốn xóa ${idProduct.length} sàn ?`}
+            onConfirm={() => dispatch(ecommerceDelete(idProduct))}
+            okText="Xóa"
+            cancelText="Hủy"
+          >
+            <Button type="danger"  disabled={!idProduct.length} >
+            xóa sàn
+          </Button>
+          </Popconfirm>
+        
       </div>
       <br />
       <Modal className='modal-add' title="Thêm Sàn" visible={isModalAdd} footer="" centered onCancel={() => setIsModalAdd(false)}>
@@ -242,19 +251,19 @@ const role=localStorage.getItem('role');
         <EcommerceForm
           onFinish={onFinishEdit}
           form={formEdit}
-        
           idEdit={idEdit}
-         
-       
         />
       </Modal>
-
-      <Table scroll={{ x: 900 }}
-       pagination= {{defaultCurrent:30,defaultPageSize:10,hideOnSinglePage:true,pageSizeOptions:[10,30,50,100]}}
-      loading={loadingecom} columns={columns} dataSource={ecommercelist} rowKey={record => record.id} bordered />
-
+  
+      <Divider />
+      <Table
+        scroll={{ x: 900 }}
+        rowSelection={{
+          ...rowSelection,
+        }}
+        pagination={{ defaultCurrent: 30, defaultPageSize: 10, hideOnSinglePage: true, pageSizeOptions: [10, 30, 50, 100] }}
+        loading={loadingecom} columns={columns} dataSource={ecommercelist} rowKey={record => record.id} bordered />
     </div>
   )
 }
-
 export default Ecommerce;

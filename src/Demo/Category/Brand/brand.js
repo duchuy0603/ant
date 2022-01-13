@@ -72,8 +72,8 @@ const Brand = () => {
             textToHighlight={text ? text.toString() : ''}
           />
           }else{
-            if(dataIndex==='ecommerce'){
-              return text?.Name
+            if(dataIndex==='EcommerceId'){
+              return text?.name
             }
             return text;
           }
@@ -121,7 +121,7 @@ const Brand = () => {
     },
     {
       title: 'EcommerceId',
-      dataIndex: 'ecommerce',
+      dataIndex: 'EcommerceId',
       key: 'ecommerce',
       width: '20%',
       sorter: (a, b) => a.ecommerce - b.ecommerce,
@@ -138,7 +138,7 @@ const Brand = () => {
           <EditOutlined style={{ color: "blue" }} onClick={() => handleEditForm(record)} />
           <Popconfirm
             placement="bottomRight"
-            title={`Bạn muốn xóa ${record.Name} ?`}
+            title={`Bạn muốn xóa ${record.name} ?`}
             onConfirm={() => handleDelete(record.Id)}
             okText="Xóa"
             cancelText="Hủy"
@@ -184,7 +184,7 @@ const add={
       id: record.Id,
       name: record.Name,
       description: record.Description,
-      ecommerceId: record.EcommerceId,
+      ecommerceId: record.ecommerce,
       image:`${process.env.REACT_APP_API_URL}/${record.ImageUrl} `   
     }
     formEdit.setFieldsValue(editform)

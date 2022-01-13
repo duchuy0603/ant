@@ -14,6 +14,7 @@ const CategoriesForm = ({ onFinish, form, idEdit}) => {
     const { Option } = Select;
     const dispatch = useDispatch();
  const {ecommercelist}=useSelector(state=>state.ecommerceReducer)
+ console.log('huy',ecommercelist)
     const { TextArea } = Input;
     const validateMessages = {
         required: 'Không được để trống !',
@@ -124,17 +125,17 @@ const CategoriesForm = ({ onFinish, form, idEdit}) => {
                     style={{ width: '50%', paddingRight: "10px" }}>
                     <Input style={{ width: '100%' }} placeholder="Ví dụ: 0902174492" />
                 </Form.Item>
-                <Form.Item name="parentId" label="ParentId" required rules={[{ required: true }, { type: 'string', min: 0 }]}
+                <Form.Item name="parent_id" label="ParentId" required rules={[{ required: true }, { type: 'string', min: 0 }]}
                     style={{ width: '50%', paddingRight: "10px"  }}>
                     <Input placeholder="Ví dụ: 172A Yên Lãng" />
                 </Form.Item>
                 
-                <Form.Item name="description" label="Description" required rules={[{ required: true }, { type: 'string', max: 255 }]}
+                <Form.Item name="des" label="Description" required rules={[{ required: true }, { type: 'string', max: 255 }]}
                     style={{ width: '50%', paddingRight: "10px" }}>
                     <TextArea></TextArea>
                 </Form.Item>
 
-                <Form.Item name="ecommerceId" label="EcommerceId" required rules={[{ required: true }]}
+                <Form.Item name="ecommerce" label="EcommerceId" required rules={[{ required: true }]}
                     style={{ width: '50%', paddingRight: "10px"  }}>
                     <Select
                        
@@ -151,7 +152,7 @@ const CategoriesForm = ({ onFinish, form, idEdit}) => {
                       
 
                         {ecommercelist.map((x,index)=>(
-                            <Option value={x.Id} >{x.name}</Option>
+                            <Option value={x.id} >{x.name}</Option>
                         ))}
                         
                        

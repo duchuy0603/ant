@@ -140,7 +140,7 @@ const BrandForm = ({ onFinish, form, idEdit }) => {
                       
 
                         {ecommercelist.map((x,index)=>(
-                            <Option value={x.Id} >{x.name}</Option>
+                            <Option value={x.id} >{x.name}</Option>
                         ))}
                         
                        
