@@ -128,7 +128,7 @@ const EcommerceForm = ({ onFinish, form, idEdit}) => {
                     style={{ width: '50%' }}>
                     <Input placeholder="Ví dụ: 172A Yên Lãng" />
                 </Form.Item>
-                <Form.Item name="description" label="Description" required rules={[{ required: true }, { type: 'string', max: 255 }]}
+                <Form.Item name="des" label="Description" required rules={[{ required: true }, { type: 'string', max: 255 }]}
                     style={{ width: '50%', paddingRight: "10px" }}>
                     <TextArea></TextArea>
                 </Form.Item>

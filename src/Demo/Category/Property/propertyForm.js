@@ -54,13 +54,13 @@ const PropertyForm = ({ onFinish, form, idEdit}) => {
                     style={{ width: '50%', paddingRight: "10px" }}>
                     <Input placeholder="Ví dụ: Eplaza" />
                 </Form.Item>
-                <Form.Item name="description" label="Description" required rules={[{ required: true }, { type: 'string', max: 255 }]}
+                <Form.Item name="des" label="Description" required rules={[{ required: true }, { type: 'string', max: 255 }]}
                     style={{ width: '50%', paddingRight: "10px" }}>
                     <TextArea></TextArea>
                 </Form.Item>
                
                  
-                 <Form.Item name="ecommerceId" label="EcommerceId" required rules={[{ required: true }]}
+                 <Form.Item name="ecommerce_id" label="EcommerceId" required rules={[{ required: true }]}
                  style={{ width: '50%' }}>
                  <Select
                     

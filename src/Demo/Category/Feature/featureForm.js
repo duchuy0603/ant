@@ -58,12 +58,12 @@ dispatch(ecommercegetAll())
                 </Form.Item>
 
 
-                <Form.Item name="description" label="Description" required rules={[{ required: true }, { type: 'string', max: 255 }]}
+                <Form.Item name="des" label="Description" required rules={[{ required: true }, { type: 'string', max: 255 }]}
                     style={{ width: '50%', paddingRight: "10px" }}>
                     <TextArea></TextArea>
                 </Form.Item>
                  
-                    <Form.Item name="ecommerceId" label="EcommerceId" required rules={[{ required: true }]}
+                    <Form.Item name="ecommerce_id" label="EcommerceId" required rules={[{ required: true }]}
                     style={{ width: '50%' }}>
                     <Select
                        
@@ -79,7 +79,7 @@ dispatch(ecommercegetAll())
                             optionA.children.toLowerCase().localeCompare(optionB.children.toLowerCase())
                         }>
                         {ecommercelist.map((x,index)=>(
-                                <Option  key={index} value={x.Id}>{x.name}</Option>
+                                <Option  key={index} value={x.id}>{x.name}</Option>
                                 
                             ))}
                     </Select>

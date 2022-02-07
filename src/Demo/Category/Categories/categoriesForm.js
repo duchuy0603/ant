@@ -14,7 +14,7 @@ const CategoriesForm = ({ onFinish, form, idEdit}) => {
     const { Option } = Select;
     const dispatch = useDispatch();
  const {ecommercelist}=useSelector(state=>state.ecommerceReducer)
- console.log('huy',ecommercelist)
+ 
     const { TextArea } = Input;
     const validateMessages = {
         required: 'Không được để trống !',
@@ -57,7 +57,7 @@ const CategoriesForm = ({ onFinish, form, idEdit}) => {
     const propsUpload = {
         name: 'file',
         maxCount: 1,
-        action: `${process.env.REACT_APP_API_URL}/categories/create-url`,
+        action: `${process.env.REACT_APP_API_URL}/upload/upload-single`,
     
         onSuccess: (result, file) => {
             console.log('okk', result);
@@ -135,7 +135,7 @@ const CategoriesForm = ({ onFinish, form, idEdit}) => {
                     <TextArea></TextArea>
                 </Form.Item>
 
-                <Form.Item name="ecommerce" label="EcommerceId" required rules={[{ required: true }]}
+                <Form.Item name="ecommerce_id" label="EcommerceId" required rules={[{ required: true }]}
                     style={{ width: '50%', paddingRight: "10px"  }}>
                     <Select
                        

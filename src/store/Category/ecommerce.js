@@ -3,9 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import ecommerceApi from "../../api/ecommerce";
 export const ecommercegetAll = createAsyncThunk('ecommerce/ecommercegetAllAction', async () => {
     const listecommerce = await ecommerceApi.getAll();  
-  console.log('ecoomerce1',listecommerce)
-    return listecommerce;
-    
+    return listecommerce;   
 })
 export const ecommerceAdd = createAsyncThunk('ecommerce/ecommerceAdd', async (newdata,thunkAPI) => {
     await ecommerceApi.create(newdata);

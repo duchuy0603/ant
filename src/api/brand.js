@@ -13,7 +13,7 @@ const BrandApi={
         return axiosClient.post(url,data)
     },
     Edit(edit){
-        const url=`/brands/${edit.Id}`;
+        const url=`/brands/${edit.id}`;
         return axiosClient.put(url,edit)
     },
      Delete(id){

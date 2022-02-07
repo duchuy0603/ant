@@ -208,9 +208,9 @@ const Store = () => {
     email: data.email,
     phone: data.phone,
     content: data.content,
-    des: data.description,
+    des: data.des,
     gmap: data.gmap,
-    ecommerce:data.ecommerceId,
+    ecommerce_id:data.ecommerce_id,
     facebook: data.facebook,
     shopee: data.shopee,
     youtube: data.youtube,
@@ -228,9 +228,9 @@ const Store = () => {
       email: record.email,
       phone: record.phone,
       content: record.content,
-      description: record.des,
+      des: record.des,
       gmap: record.gmap,
-      ecommerceId:record.ecommerceId,
+      ecommerce_id:record.ecommerce_id,
       facebook: record.facebook,
       youtube: record.youtube,
       shopee: record.shopee,
@@ -248,9 +248,9 @@ const Store = () => {
       email: data.email,
       phone: data.phone,
       content: data.content,
-      des: data.description,
+      des: data.des,
       gmap: data.gmap,
-      ecommerce:data.ecommerceId,
+      ecommerce_id:data.ecommerce_id,
       facebook: data.facebook,
       shopee: data.shopee,
       youtube: data.youtube,
@@ -274,13 +274,13 @@ const Store = () => {
         </Button>
       </div>
       <br />
-      <Modal className='modal-add' title="Thêm Sàn" visible={isModalAdd} footer="" centered onCancel={() => setIsModalAdd(false)}>
+      <Modal className='modal-add' title="Thêm Store" visible={isModalAdd} footer="" centered onCancel={() => setIsModalAdd(false)}>
         <StoreForm
           onFinish={onFinishAdd}
           form={formAdd} />
       </Modal>
 
-      <Modal className='modal-edit' title="Sửa Sàn" visible={isModalEdit} onCancel={() => setIsModalEdit(false)} centered footer="">
+      <Modal className='modal-edit' title="Sửa Store" visible={isModalEdit} onCancel={() => setIsModalEdit(false)} centered footer="">
         <StoreForm
           onFinish={onFinishEdit}
           form={formEdit}

@@ -13,7 +13,7 @@ const TeamApi={
         return axiosClient.post(url,data)
     },
     Edit(edit){
-        const url=`/teams/${edit.Id}`;
+        const url=`/teams/${edit.id}`;
         return axiosClient.put(url,edit)
     },
      Delete(id){

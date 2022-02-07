@@ -14,7 +14,7 @@ const ProductApi={
         return axiosClient.post(url, dataAdd)
     },
     Edit(edit){
-        const url=`/products/${edit.Id}`;
+        const url=`/products/${edit.id}`;
         return axiosClient.put(url,edit)
     },
      Delete(id){

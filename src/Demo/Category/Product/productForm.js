@@ -129,11 +129,11 @@ const ProductForm = ({ onFinish, form, idEdit }) => {
                 </Form.Item>
 
 
-                <Form.Item name="description" label="Description" required rules={[{ required: true }, { type: 'string', max: 255 }]}
+                <Form.Item name="des" label="Description" required rules={[{ required: true }, { type: 'string', max: 255 }]}
                     style={{ width: '50%', paddingRight: "10px" }}>
                     <TextArea></TextArea>
                 </Form.Item>
-                <Form.Item name="categoryId" label="categoryId" required rules={[{ required: true }]}
+                <Form.Item name="category_id" label="categoryId" required rules={[{ required: true }]}
                     style={{ width: '50%' }}>
                     <Select
                        
@@ -154,7 +154,7 @@ const ProductForm = ({ onFinish, form, idEdit }) => {
                             ))}
                     </Select>
                 </Form.Item>
-                <Form.Item name="storeId" label="storeId" required rules={[{ required: true }]}
+                <Form.Item name="store_id" label="storeId" required rules={[{ required: true }]}
                     style={{ width: '50%' }}>
                     <Select
                         showSearch
@@ -173,7 +173,7 @@ const ProductForm = ({ onFinish, form, idEdit }) => {
                             ))}
                     </Select>
                 </Form.Item>
-                <Form.Item name="parentId" label="parentId" required rules={[{ required: true }]}
+                <Form.Item name="parent_id" label="parentId" required rules={[{ required: true }]}
                     style={{ width: '50%' }}>
                     <Select
                        
@@ -192,7 +192,7 @@ const ProductForm = ({ onFinish, form, idEdit }) => {
                     </Select>
                 </Form.Item>
       <Form.Item name="new_img" label="Ảnh tin tức" valuePropName="file" getValueFromEvent={normFile}
-                    rules={[{ required: true }]} style={{ width: '50%'}} >
+                     style={{ width: '50%'}} >
                         <Upload
                             {...propsUpload}
                             listType="picture-card"

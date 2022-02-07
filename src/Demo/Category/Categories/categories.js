@@ -14,9 +14,7 @@ const Categories = () => {
   // const { register,reset ,handleSubmit, setValue,formState:{errors}, } = useForm();
   
   const { categorieslist, loadingcategories } = useSelector(state => state.categoriesReducer)
-  console.log('huychimto',categorieslist)
-  // const cate=categorieslist.Categories.count;
-  // console.log('success',cate)
+ console.log('list danh muc',categorieslist)
   const dispatch = useDispatch();
   
   useEffect(() => {
@@ -174,12 +172,12 @@ const Categories = () => {
     name: data.name,
     content: data.content,
     parent_id: data.parent_id,
-    ecommerce: data.ecommerce,
+    ecommerce_id: data.ecommerce_id,
     des: data.des,
     image_url: data.image,
    }
     dispatch(categoriesAdd(dataNews))
-   
+  
     setIsModalAdd(false)
     formAdd.resetFields()
    }
@@ -187,30 +185,34 @@ const Categories = () => {
    const handleEditForm = (record) => {
     const editform = {    
       id: record.id,
-     
+  
       name: record.name,
       content: record.content,
-      // ecommerce: record.ecommerce,
-      ` parent_id:record.parent_id,
+      ecommerce_id: record.ecommerce_id,
+       parent_id:record.parent_id,
         des: record.des,
-        image:`${process.env.REACT_APP_API_URL}/${record.image_url} `  `
+        image:`${process.env.REACT_APP_API_URL}/${record.image_url} `  
     }
     console.log(editform)
-    setIdEdit(record.Id);
+    setIdEdit(record.id);
     formEdit.setFieldsValue(editform)
     setIsModalEdit(true)
   }
 
-  const onFinishEdit = (data) => {
+  const onFinishEdit = (record) => {
     const edit = {
-      id:data.id,
-      name: data.name,
-      content: data.content,
-      parent_id: data.parent_id,
-      ecommerce: data.ecommerce,
-      des: data.des,
-      image_url: data.image,
+      id:record.id,
+      name: record.name,
+      content: record.content,
+      parent_id: record.parent_id,
+      ecommerce_id: record.ecommerce_id,
+      des: record.des,
+      image_url: record.image,
+
+
+     
      }
+     setIdEdit(record.id);
     dispatch(categoriesEdit(edit))
     setIsModalEdit(false)
     

@@ -76,10 +76,10 @@ const Product = () => {
       />
       }  else{
         if(dataIndex==="store"){
-          return text?.Name
+          return text?.name
         }
      if(dataIndex==="category"){
-          return text?.Name
+          return text?.name
         }
         return text
       }  
@@ -113,8 +113,8 @@ const Product = () => {
     {
       title: 'Image',
       // dataIndex: <img src="ImageUrl" alt=""/>,
-      dataIndex: 'ImageUrl',
-      key: 'ImageUrl',
+      dataIndex: 'image_url',
+      key: 'image_url',
       width:'20%',
       render: text =>  <img src={`${process.env.REACT_APP_API_URL}/${text}` }  style={{width:"100%",height:"100%"}} alt=""/>
         
@@ -122,53 +122,53 @@ const Product = () => {
    
     {
       title: 'Price',
-      dataIndex: 'Price',
-      key: 'Price',
+      dataIndex: 'price',
+      key: 'price',
       width: '20%',
-      sorter: (a, b) => a.Price - b.Price,
+      sorter: (a, b) => a.price - b.price,
       sortDirections: ['descend', 'ascend'],
-      ...getColumnSearchProps('Price'),
+      ...getColumnSearchProps('price'),
     },
     {
       title: 'Content',
-      dataIndex: 'Content',
-      key: 'Content',
+      dataIndex: 'content',
+      key: 'content',
       width: '20%',
-      ...getColumnSearchProps('Content'),
+      ...getColumnSearchProps('content'),
     },
     {
       title: 'Description',
-      dataIndex: 'Description',
-      key: 'Description',
+      dataIndex: 'des',
+      key: 'des',
       width: '20%',
-      ...getColumnSearchProps('Description'),
+      ...getColumnSearchProps('des'),
     },
       {
-      title: 'category',
-      dataIndex:'category',
-      key: 'category',
+      title: 'Category',
+      dataIndex:'category_id',
+      key: 'category_id',
       width: '20%',
-      sorter: (a, b) => a.category - b.category,
+      sorter: (a, b) => a.category_id - b.category_id,
       sortDirections: ['descend', 'ascend'],
-      ...getColumnSearchProps('category'),
+      ...getColumnSearchProps('category_id'),
     },
     {
       title: 'Store',
-      dataIndex: 'store',
-      key: 'store',
+      dataIndex: 'store_id',
+      key: 'store_id',
       width: '20%',
-      sorter: (a, b) => a.store - b.store,
+      sorter: (a, b) => a.store_id - b.store_id,
       sortDirections: ['descend', 'ascend'],
-      ...getColumnSearchProps('store'),
+      ...getColumnSearchProps('store_id'),
     },
     {
       title: 'ParentId',
-      dataIndex: 'ParentId',
-      key: 'ParentId',
+      dataIndex: 'parent_id',
+      key: 'parent_id',
       width: '20%',
-      sorter: (a, b) => a.ParentId - b.ParentId,
+      sorter: (a, b) => a.parent_id - b.parent_id,
       sortDirections: ['descend', 'ascend'],
-      ...getColumnSearchProps('ParentId'),
+      ...getColumnSearchProps('parent_id'),
     },
     {
       key: 'Action',
@@ -180,7 +180,7 @@ const Product = () => {
           <EditOutlined style={{ color: "blue" }} onClick={() => handleEditForm(record)} />
           <Popconfirm
             placement="bottomRight"
-            title={`Bạn muốn xóa ${record.Name} ?`}
+            title={`Bạn muốn xóa ${record.name} ?`}
             onConfirm={() => handleDelete(record.id)}
             okText="Xóa"
             cancelText="Hủy"
@@ -195,14 +195,14 @@ const Product = () => {
   // actionform
   const onFinishAdd = (data) => {
 const add={
-  Name:data.name,
-  Price:data.price,
-  Description:data.description,
-  Content:data.content,
-  StoreId:data.storeId,
-  categoryId:data.categoryId,
-  ParentId:data.parentId,
-  image:data.image
+  name:data.name,
+  price:data.price,
+  des:data.des,
+  content:data.content,
+  store_id:data.store_id,
+  category_id:data.category_id,
+  parent_id:data.parent_id,
+  image_url:data.image
 }
     dispatch(productAdd(add))
     setIsModalAdd(false)
@@ -227,15 +227,15 @@ const add={
 
   const handleEditForm = useCallback((record) => {
     const editform = {
-      id:record.Id,
-      name:record.Name,
-      price:record.Price,
-      description:record.Description,
-      content:record.Content,
-      storeId:record.StoreId,
-      categoryId:record.categoryId,
-      parentId:record.ParentId,
-      image:`${process.env.REACT_APP_API_URL}/${record.ImageUrl} `  
+      id:record.id,
+      name:record.name,
+      price:record.price,
+      des:record.des,
+      content:record.content,
+      store_id:record.store_id,
+      category_id:record.category_id,
+      parent_id:record.parent_id,
+      image:`${process.env.REACT_APP_API_URL}/${record.image_url} `  
       
     
     }
@@ -245,15 +245,14 @@ const add={
   }, [formEdit])
   const onFinishEdit = (data) => {
     const edit={
-      Id:data.id,
-      Name:data.name,
-      Price:data.price,
-      Description:data.description,
-      Content:data.content,
-      StoreId:data.storeId,
-      categoryId:data.categoryId,
-      ParentId:data.parentId,
-      image:data.image
+      id:data.id,
+      name:data.name,
+      price:data.price,
+      des:data.des,
+      store_id:data.store_id,
+      category_id:data.category_id,
+      parent_id:data.parent_id,
+      image_url:data.image
     }
     dispatch(productEdit(edit))
     setIsModalEdit(false)

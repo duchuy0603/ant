@@ -20,7 +20,7 @@ const ecommerceApi={
         return axiosClient.post(url, data)
     },
     Edit(edit){
-        const url=`/ecommerce/${edit.Id}`;
+        const url=`/ecommerce/${edit.id}`;
         return axiosClient.put(url,edit)
     },
      Delete(id){

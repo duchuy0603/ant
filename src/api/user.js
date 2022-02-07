@@ -17,7 +17,7 @@ const UserApi={
         return axiosClient.post(url,data)
     },
     Edit(edit){
-        const url=`/users/${edit.Id}`;
+        const url=`/users/${edit.id}`;
         return axiosClient.put(url,edit)
     },
      Delete(id){

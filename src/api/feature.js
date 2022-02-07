@@ -13,7 +13,7 @@ const FeatureAPI={
         return axiosClient.post(url,data)
     },
     Edit(edit){
-        const url=`/product-feature/${edit.Id}`;
+        const url=`/product-feature/${edit.id}`;
         return axiosClient.put(url,edit)
     },
      Delete(id){

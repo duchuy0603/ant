@@ -74,10 +74,10 @@ const User = () => {
       />
       }  else{
         if(dataIndex==="store_id"){
-          return text?.Name
+          return text?.name
         }
      if(dataIndex==="category"){
-          return text?.Name
+          return text?.name
         }
         return text
       }  
@@ -187,12 +187,12 @@ const User = () => {
   // actionform
   const onFinishAdd = (data) => {
 const add={
-  user_name:data.userName,
-  full_name:data.fullName,
+  user_name:data.user_name,
+  full_name:data.full_name,
   password:data.password,
   email:data.email,
   phone:data.phone,
-  store_id:data.storeId,
+  store_id:data.store_id,
   type:data.type,
   // image:data.image
 }
@@ -219,13 +219,13 @@ const add={
 
   const handleEditForm = useCallback((record) => {
     const editform = {
-      id:record.Id,
-      userName:record.user_name,
-      fullName:record.full_name,
+      id:record.id,
+      user_name:record.user_name,
+      full_name:record.full_name,
       password:record.password,
       email:record.email,
       phone:record.phone,
-      storeId:record.store_id,
+      store_id:record.store_id,
       type:record.type,
     
       image:`${process.env.REACT_APP_API_URL}/${record.avatar} `  
@@ -264,13 +264,13 @@ const add={
         </Button>
       </div>
       <br />
-      <Modal className='modal-add' title="Thêm Brand" visible={isModalAdd} footer="" centered onCancel={() => setIsModalAdd(false)}>
+      <Modal className='modal-add' title="Thêm user" visible={isModalAdd} footer="" centered onCancel={() => setIsModalAdd(false)}>
         <UserForm
           onFinish={onFinishAdd}
           form={formAdd} />
       </Modal>
 
-      <Modal className='modal-edit' title="Sửa Brand" visible={isModalEdit} onCancel={() => setIsModalEdit(false)} centered footer="">
+      <Modal className='modal-edit' title="Sửa user" visible={isModalEdit} onCancel={() => setIsModalEdit(false)} centered footer="">
         <UserForm
           onFinish={onFinishEdit}
           form={formEdit}

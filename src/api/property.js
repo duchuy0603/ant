@@ -14,7 +14,7 @@ const PropertyApi={
         return axiosClient.post(url, dataAdd)
     },
     Edit(edit){
-        const url=`/product-property/${edit.Id}`;
+        const url=`/product-property/${edit.id}`;
         return axiosClient.put(url,edit)
     },
      Delete(id){

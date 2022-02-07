@@ -121,9 +121,9 @@ const Ecommerce = () => {
     {
       title: 'Phone',
       dataIndex: 'phone',
-      key: 'Phone',
+      key: 'phone',
       width: '20%',
-      sorter: (a, b) => a.Phone - b.Phone,
+      sorter: (a, b) => a.phone - b.phone,
       sortDirections: ['descend', 'ascend'],
       ...getColumnSearchProps('phone'),
     },
@@ -178,7 +178,7 @@ const Ecommerce = () => {
       email: data.email,
       phone: data.phone,
       address: data.address,
-      des: data.description,
+      des: data.des,
       image_url: data.image,
     }
   
@@ -194,7 +194,7 @@ const Ecommerce = () => {
       email: record.email,
       phone: record.phone,
       address: record.address,
-      description: record.des,
+      des: record.des,
       image: record.image_url
     }
     console.log(editform)
@@ -204,12 +204,12 @@ const Ecommerce = () => {
   }
   const onFinishEdit = (data) => {
     const edit = {
-      Id: data.id,
+      id: data.id,
       name: data.name,
       email: data.email,
       phone: data.phone,
       address: data.address,
-      des: data.description,
+      des: data.des,
       image_url: data.image,
     }
     dispatch(ecommerceEdit(edit))
