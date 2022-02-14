@@ -4,18 +4,17 @@ import { brandAdd, brandgetAll, brandEdit, brandDelete } from '../../../store/Ca
 import { useEffect } from 'react'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
 import { Button, Form, Modal, Space, Table, Popconfirm, Tag, Input } from 'antd';
 import Highlighter from 'react-highlight-words';
-import { Pagination } from 'antd';
+
 import { SearchOutlined, SyncOutlined, EditOutlined, DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import './brand.scss'
 import BrandForm from './brandForm';
 
 const Brand = () => {
   const { brandlist, loadingbrand } = useSelector(state => state.brandReducer)
-  
-  
+console.log(brandlist)
+
   const dispatch = useDispatch();
   
   useEffect(() => {
@@ -75,6 +74,10 @@ const Brand = () => {
             if(dataIndex==='ecommerce_id'){
               return text?.name
             }
+            if(dataIndex==='ecommerce_id'){
+              return text?.name
+            }
+         
             return text;
           }
         }
@@ -100,7 +103,7 @@ const Brand = () => {
     },
     {
       title: 'Image',
-      // dataIndex: <img src="ImageUrl" alt=""/>,
+  
       dataIndex: 'image_url',
       key: 'image_url',
       width:'5%',

@@ -59,9 +59,9 @@ const BrandForm = ({ onFinish, form, idEdit }) => {
           }
     };
     const propsUpload = {
-        name: 'file',
+        name: 'files',
         maxCount: 1,
-        action: `${process.env.REACT_APP_API_URL}/upload/upload-single`,
+        action: `${process.env.REACT_APP_API_URL}/upload/upload-array`,
     
         onSuccess: (result, file) => {
             console.log('ok', result);
@@ -146,7 +146,7 @@ const BrandForm = ({ onFinish, form, idEdit }) => {
                        
                     </Select>
                 </Form.Item>
-      <Form.Item name="new_img" label="Ảnh tin tức" valuePropName="file" getValueFromEvent={normFile}
+      <Form.Item name="image_url" label="Ảnh tin tức" valuePropName="file" getValueFromEvent={normFile}
                     rules={[{ required: true }]} style={{ width: '50%'}} >
                         <Upload
                             {...propsUpload}

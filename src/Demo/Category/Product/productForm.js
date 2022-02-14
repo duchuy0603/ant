@@ -62,9 +62,9 @@ const ProductForm = ({ onFinish, form, idEdit }) => {
     
 
     const propsUpload = {
-        name: 'file',
+        name: 'files',
         maxCount: 1,
-        action: `${process.env.REACT_APP_API_URL}/upload/upload-single `,
+        action: `${process.env.REACT_APP_API_URL}/upload/upload-array `,
     
         onSuccess: (result, file) => {
             console.log('ok', result);

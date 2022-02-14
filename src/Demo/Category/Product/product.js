@@ -1,17 +1,14 @@
 import React, { useCallback } from 'react'
 import { productAdd,productEdit,productDelete,productgetAll } from '../../../store/Category/product';
-
 import { useEffect } from 'react'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-
 import { Button, Form, Modal, Space, Table, Popconfirm, Tag, Input,Select } from 'antd';
 import Highlighter from 'react-highlight-words';
-import { Pagination } from 'antd';
 import { SearchOutlined, SyncOutlined, EditOutlined, DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import './product.scss'
 import ProductForm from './productForm';
-import PropertyForm from '../Property/propertyForm';
+
 
 const Product = () => {
   const { productlist, loadingproduct } = useSelector(state => state.productReducer)
@@ -33,6 +30,12 @@ const Product = () => {
   const [idEdit, setIdEdit] = useState(0)
   const [formAdd] = Form.useForm();    //form
   const [formEdit] = Form.useForm();
+  const checkImage=(img)=>{
+    if(img===null){
+      return 
+    }else
+    return process.env.REACT_APP_API_URL+img[0].url
+  }
   const getColumnSearchProps = dataIndex => ({
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
       <div style={{ padding: 12 }}>
@@ -74,12 +77,12 @@ const Product = () => {
         textToHighlight={text ? text.toString() : ''}
       />
       }  else{
-    //     if(dataIndex==="store_id"){
-    //       return text?.name
-    //     }
-    //  if(dataIndex==="category_id"){
-    //       return text?.name
-    //     }
+        if(dataIndex==="store"){
+          return text?.name
+        }
+        if(dataIndex==="category"){
+          return text?.name
+        }
         return text;
       }  
     }
@@ -100,7 +103,7 @@ const Product = () => {
     clearFilters();
     setsearchText('')
   };
-
+  
   const columns = [
     {
       title: 'Name',
@@ -111,12 +114,14 @@ const Product = () => {
     },
     {
       title: 'Image',
-      // dataIndex: <img src="ImageUrl" alt=""/>,
       dataIndex: 'image_url',
       key: 'image_url',
       width:'20%',
-      render: text =>  <img src={text}  style={{width:"100%",height:"100%"}} alt=""/>
-        
+      render: text =>{
+ 
+      return(  <img src={checkImage(text)}  style={{width:"100%",height:"100%"}} alt=""/>
+      )
+      }
     },
    
     {
@@ -144,21 +149,21 @@ const Product = () => {
     },
       {
       title: 'Category',
-      dataIndex:'category_id',
-      key: 'category_id',
+      dataIndex:'category',
+      key: 'category',
       width: '20%',
       sorter: (a, b) => a.category_id - b.category_id,
       sortDirections: ['descend', 'ascend'],
-      ...getColumnSearchProps('category_id'),
+      ...getColumnSearchProps('category'),
     },
     {
       title: 'Store',
-      dataIndex: 'store_id',
-      key: 'store_id',
+      dataIndex: 'store',
+      key: 'store',
       width: '20%',
-      sorter: (a, b) => a.store_id - b.store_id,
+      sorter: (a, b) => a.store - b.store,
       sortDirections: ['descend', 'ascend'],
-      ...getColumnSearchProps('store_id'),
+      ...getColumnSearchProps('store'),
     },
     {
       title: 'ParentId',
@@ -270,13 +275,13 @@ const add={
         </Button>
       </div>
       <br />
-      <Modal className='modal-add' title="Thêm Brand" visible={isModalAdd} footer="" centered onCancel={() => setIsModalAdd(false)}>
+      <Modal className='modal-add' title="Thêm Product" visible={isModalAdd} footer="" centered onCancel={() => setIsModalAdd(false)}>
         <ProductForm
           onFinish={onFinishAdd}
           form={formAdd} />
       </Modal>
 
-      <Modal className='modal-edit' title="Sửa Brand" visible={isModalEdit} onCancel={() => setIsModalEdit(false)} centered footer="">
+      <Modal className='modal-edit' title="Sửa Product" visible={isModalEdit} onCancel={() => setIsModalEdit(false)} centered footer="">
         <ProductForm
           onFinish={onFinishEdit}
           form={formEdit}
