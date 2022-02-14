@@ -7,14 +7,18 @@ import App from './App/index';
 import * as serviceWorker from './serviceWorker';
 import store from './store/store';
 import config from './config';
-
+import translations from './translate/translation'
+import { IntlReducer as Intl, IntlProvider } from 'react-redux-multilingual'
 
 
 const app = (
     <Provider store={store}>
+        <IntlProvider translations={translations} locale='vi'>
         <BrowserRouter basename={config.basename}>
             <App />
         </BrowserRouter>
+        </IntlProvider>
+      
     </Provider>
 );
 

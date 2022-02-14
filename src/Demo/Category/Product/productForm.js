@@ -18,6 +18,7 @@ const ProductForm = ({ onFinish, form, idEdit }) => {
     const {storelist}=useSelector(state=>state.storeReducer)
     const [showAgeTotal, setShowAgeTotal] = useState(false);
     const [showAgeMore, setShowAgeMore] = useState(false);
+   
 
     const validateMessages = {
         required: 'Không được để trống !',
@@ -63,7 +64,7 @@ const ProductForm = ({ onFinish, form, idEdit }) => {
     const propsUpload = {
         name: 'file',
         maxCount: 1,
-        action: `${process.env.REACT_APP_API_URL}/products/create-url`,
+        action: `${process.env.REACT_APP_API_URL}/upload/upload-single `,
     
         onSuccess: (result, file) => {
             console.log('ok', result);
@@ -119,7 +120,7 @@ const ProductForm = ({ onFinish, form, idEdit }) => {
                     style={{ width: '50%', paddingRight: "10px" }}>
                     <Input placeholder="Ví dụ: Eplaza" />
                 </Form.Item>
-                <Form.Item name="price" label="Price" required rules={[{ required: true, whitespace: true }, { type: 'string', max: 255 }]}
+                <Form.Item name="price" label="Price" required rules={[{ required: true }, { type: 'string' }]}
                     style={{ width: '50%', paddingRight: "10px" }}>
                     <Input placeholder="100.000$" />
                 </Form.Item>
@@ -149,7 +150,7 @@ const ProductForm = ({ onFinish, form, idEdit }) => {
                             optionA.children.toLowerCase().localeCompare(optionB.children.toLowerCase())
                         }>
                         {categorieslist.map((x,index)=>(
-                                <Option  key={index} value={x.Id}>{x.name}</Option>
+                                <Option  key={index} value={x.id}>{x.name}</Option>
                                 
                             ))}
                     </Select>
@@ -169,7 +170,7 @@ const ProductForm = ({ onFinish, form, idEdit }) => {
                             optionA.children.toLowerCase().localeCompare(optionB.children.toLowerCase())
                         }>
                             {storelist.map((x,index)=>(
-                                <Option  key={index} value={x.Id}>{x.name}</Option>
+                                <Option  key={index} value={x.id}>{x.name}</Option>
                             ))}
                     </Select>
                 </Form.Item>
@@ -200,7 +201,7 @@ const ProductForm = ({ onFinish, form, idEdit }) => {
                             showUploadList={false}
                             onChange={handleChange}
                         >
-                            {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> 
+                            {imageUrl ? <img src={`${process.env.REACT_APP_API_URL}/${imageUrl}`} alt="avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> 
                                     : <div>
                                         {loading ? <LoadingOutlined /> : <PlusOutlined />}
                                         <div style={{ marginTop: 8 }}>Upload</div>

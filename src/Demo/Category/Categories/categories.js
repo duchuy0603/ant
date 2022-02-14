@@ -11,19 +11,20 @@ import CategoriesForm from './categoriesForm';
 import './categories.scss'
 
 const Categories = () => {
-  // const { register,reset ,handleSubmit, setValue,formState:{errors}, } = useForm();
+
   
   const { categorieslist, loadingcategories } = useSelector(state => state.categoriesReducer)
- console.log('list danh muc',categorieslist)
+
+
   const dispatch = useDispatch();
   
   useEffect(() => {
     dispatch(categoriesgetAll())
-  }, [])
+  }, [dispatch])
   
   const [searchText, setsearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
-  const [idEdit,setIdEdit]=useState(0)
+  const [idEdit,setIdEdit]=useState(0);
   //modal
   const [isModalAdd, setIsModalAdd] = useState(false);
   const [isModalEdit, setIsModalEdit] = useState(false);
@@ -71,7 +72,7 @@ const Categories = () => {
         textToHighlight={text ? text.toString() : ''}
       />
       }else{
-        if(dataIndex==='ecommerce'){
+        if(dataIndex==='ecommerce_id'){
           return text?.name
         }
         return text;
@@ -108,7 +109,7 @@ const Categories = () => {
       key: 'Image',
       width: '12%',
     
-      render: text => <img src={`${process.env.REACT_APP_API_URL}/${text}` }  style={{width:"100%",height:"40%"}} alt=""/>
+      render: text => <img src={`${process.env.REACT_APP_API_URL}/${text}`}  style={{width:"100%",height:"40%"}} alt=""/>
     },
 
     {
@@ -129,11 +130,11 @@ const Categories = () => {
     },
     {
       title: 'EcomerceId',
-      dataIndex: 'ecommerce',
-      key: 'ecommerce',
+      dataIndex: 'ecommerce_id',
+      key: 'ecommerce_id',
       width: '20%',
-      ...getColumnSearchProps('ecommerce'),
-      sorter: (a, b) => a.ecommerce.length - b.ecommerce.length,
+      ...getColumnSearchProps('ecommerce_id'),
+      sorter: (a, b) => a.ecommerce_id.length - b.ecommerce_id.length,
       sortDirections: ['descend', 'ascend'],
     },
     {
@@ -177,9 +178,9 @@ const Categories = () => {
     image_url: data.image,
    }
     dispatch(categoriesAdd(dataNews))
-  
-    setIsModalAdd(false)
     formAdd.resetFields()
+    setIsModalAdd(false)
+
    }
 
    const handleEditForm = (record) => {
@@ -188,12 +189,12 @@ const Categories = () => {
   
       name: record.name,
       content: record.content,
-      ecommerce_id: record.ecommerce_id,
+      ecommerce_id: record.ecommerce_id.id,
        parent_id:record.parent_id,
         des: record.des,
-        image:`${process.env.REACT_APP_API_URL}/${record.image_url} `  
+        image:record.image_url 
     }
-    console.log(editform)
+  
     setIdEdit(record.id);
     formEdit.setFieldsValue(editform)
     setIsModalEdit(true)
@@ -208,16 +209,11 @@ const Categories = () => {
       ecommerce_id: record.ecommerce_id,
       des: record.des,
       image_url: record.image,
-
-
-     
      }
-     setIdEdit(record.id);
-    dispatch(categoriesEdit(edit))
-    setIsModalEdit(false)
     
-    console.log(edit)
- 
+    dispatch(categoriesEdit(edit))
+    setIsModalEdit(false)   ;
+    console.log(edit);
   }
   const handleDelete = (id) => {
     dispatch(categoriesDelete(id))
@@ -241,16 +237,13 @@ const Categories = () => {
       <Modal className='modal-edit' title="Sửa Danh Mục" visible={isModalEdit} onCancel={() => setIsModalEdit(false)} centered footer="">
         <CategoriesForm
           onFinish={onFinishEdit}
-          form={formEdit}
-        
-          idEdit={idEdit}
-         
-       
+          form={formEdit}      
+          idEdit={idEdit}     
         />
       </Modal>
 
       <Table scroll={{ x: 900 }}
-       pagination= {{defaultCurrent:30,defaultPageSize:10,hideOnSinglePage:true,pageSizeOptions:[10,30,50,100]}}
+       pagination= {{defaultCurrent:1,defaultPageSize:10,hideOnSinglePage:true,pageSizeOptions:[10,30,50,100]}}
       loading={loadingcategories} columns={columns} dataSource={categorieslist} rowKey={record => record.id} bordered />
 
     </div>

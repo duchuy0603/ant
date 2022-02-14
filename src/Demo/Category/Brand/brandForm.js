@@ -61,7 +61,7 @@ const BrandForm = ({ onFinish, form, idEdit }) => {
     const propsUpload = {
         name: 'file',
         maxCount: 1,
-        action: `${process.env.REACT_APP_API_URL}/brands/create-url`,
+        action: `${process.env.REACT_APP_API_URL}/upload/upload-single`,
     
         onSuccess: (result, file) => {
             console.log('ok', result);
@@ -119,11 +119,11 @@ const BrandForm = ({ onFinish, form, idEdit }) => {
                 </Form.Item>
 
 
-                <Form.Item name="description" label="Description" required rules={[{ required: true }, { type: 'string', max: 255 }]}
+                <Form.Item name="des" label="Description" required rules={[{ required: true }, { type: 'string', max: 255 }]}
                     style={{ width: '50%', paddingRight: "10px" }}>
                     <TextArea></TextArea>
                 </Form.Item>
-                <Form.Item name="ecommerceId" label="EcommerceId" required rules={[{ required: true }]}
+                <Form.Item name="ecommerce_id" label="EcommerceId" required rules={[{ required: true }]}
                     style={{ width: '50%', paddingRight: "10px"  }}>
                     <Select
                        
@@ -140,7 +140,7 @@ const BrandForm = ({ onFinish, form, idEdit }) => {
                       
 
                         {ecommercelist.map((x,index)=>(
-                            <Option value={x.id} >{x.name}</Option>
+                            <Option key={index} value={x.id} >{x.name}</Option>
                         ))}
                         
                        
@@ -155,7 +155,7 @@ const BrandForm = ({ onFinish, form, idEdit }) => {
                             showUploadList={false}
                             onChange={handleChange}
                         >
-                            {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> 
+                            {imageUrl ? <img src={`${process.env.REACT_APP_API_URL}/${imageUrl}`} alt="avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> 
                                     : <div>
                                         {loading ? <LoadingOutlined /> : <PlusOutlined />}
                                         <div style={{ marginTop: 8 }}>Upload</div>

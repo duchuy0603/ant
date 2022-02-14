@@ -70,7 +70,7 @@ const Property = () => {
         textToHighlight={text ? text.toString() : ''}
       />
       }else{
-      if(dataIndex==="ecommerce"){
+      if(dataIndex==="ecommerce_id"){
         return text?.name
       }
       return text
@@ -111,10 +111,10 @@ const Property = () => {
     },
     {
       title: 'EcommerceId',
-      dataIndex: 'ecommerce',
-      key: 'ecommerce',
+      dataIndex: 'ecommerce_id',
+      key: 'ecommerce_id',
       width: '20%',
-      ...getColumnSearchProps('ecommerce'),
+      ...getColumnSearchProps('ecommerce_id'),
     },
     {
       key: 'Action',
@@ -158,7 +158,7 @@ const Property = () => {
       id:record.id,
        name:record.name,
       des:record.des,
-      ecommerce_id:record.ecommerce_id
+      ecommerce_id:record.ecommerce_id.id
       
     }
     

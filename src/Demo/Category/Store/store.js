@@ -75,7 +75,7 @@ const Store = () => {
         textToHighlight={text ? text.toString() : ''}
       />
       }else{
-        if(dataIndex==="ecommerce"){
+        if(dataIndex==="ecommerce_id"){
           return text?.name;
         }
         return text;
@@ -171,10 +171,10 @@ const Store = () => {
   },
   {
     title: 'Ecommerce',
-    dataIndex: 'ecommerce',
+    dataIndex: 'ecommerce_id',
     key: 'ecommerce',
     width: '20%',
-    ...getColumnSearchProps('ecommerce'),
+    ...getColumnSearchProps('ecommerce_id'),
   },
 
   
@@ -188,8 +188,8 @@ const Store = () => {
           <EditOutlined style={{ color: "blue" }} onClick={() => handleEditForm(record)} />
           <Popconfirm
             placement="bottomRight"
-            title={`Bạn muốn xóa ${record.Name} ?`}
-            onConfirm={() => handleDelete(record.Id)}
+            title={`Bạn muốn xóa ${record.name} ?`}
+            onConfirm={() => handleDelete(record.id)}
             okText="Xóa"
         
             cancelText="Hủy"

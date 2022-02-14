@@ -11,9 +11,9 @@ export const helpers = {
   isEmptyObject,
 }
 //Token LocalStorage
-export const saveToken = (token) => {
-  if(token !== null && token !== ''){
-    localStorage.setItem('token', token);
+export const saveToken = (access_token) => {
+  if(access_token !== null && access_token !== ''){
+    localStorage.setItem('access_token', access_token);
   }
 }
 

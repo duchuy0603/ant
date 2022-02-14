@@ -1,31 +1,20 @@
 import React, { useCallback } from 'react'
 import { ecommercegetAll, ecommerceAdd, ecommerceEdit, ecommerceDelete } from '../../../store/Category/ecommerce';
-import ecommerceApi from '../../../api/ecommerce';
 import { useEffect } from 'react'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import reactRouterDom, { useHistory } from 'react-router-dom';
 import { Button, Form, Modal, Space, Table, Popconfirm, Tag, Input, Radio, Divider } from 'antd';
 import Highlighter from 'react-highlight-words';
-import { Pagination } from 'antd';
 import { SearchOutlined, SyncOutlined, EditOutlined, DeleteOutlined, PlusOutlined, LoadingOutlined } from '@ant-design/icons';
 import EcommerceForm from './EcommerceForm';
 import './ecommerce.scss'
 const Ecommerce = () => {
   const { ecommercelist, loadingecom } = useSelector(state => state.ecommerceReducer)
-
-  const role = localStorage.getItem('role');
   const dispatch = useDispatch();
-  //   function checkButton(){
-  // const button=document.getElementById("hidden-ecommerce")
-  //     if(role==2){
-  // button.style.visibility="hidden"
-  //     }
-  //   }
-  //   checkButton()
+ 
   useEffect(() => {
     dispatch(ecommercegetAll())
-  }, [dispatch])
+  }, [])
   const [searchText, setsearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
   const [idEdit, setIdEdit] = useState(0)
@@ -115,7 +104,7 @@ const Ecommerce = () => {
       key: 'image_url',
       width: '12%',
 
-      render: text => <img src={text} style={{ width: "100%", height: "40%" }} alt="" />
+      render: text => <img src={`${process.env.REACT_APP_API_URL}/${text}`} style={{ width: "100%", height: "40%" }} alt="" />
     },
 
     {
@@ -181,11 +170,11 @@ const Ecommerce = () => {
       des: data.des,
       image_url: data.image,
     }
-  
+    formAdd.resetFields();
     dispatch(ecommerceAdd(dataNews, token))
-
+    
     setIsModalAdd(false)
-    formAdd.resetFields()
+    
   }
   const handleEditForm = (record) => {
     const editform = {
@@ -195,7 +184,7 @@ const Ecommerce = () => {
       phone: record.phone,
       address: record.address,
       des: record.des,
-      image: record.image_url
+      image: record.image_url 
     }
     console.log(editform)
     setIdEdit(record.id);

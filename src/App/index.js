@@ -17,10 +17,8 @@ const AdminLayout = Loadable({
 
 
 function PrivateRoute({ children }) {  
-    const data=getUserFromLocalStorage();
-    const role=data.type;
-   
-    
+    const user=getUserFromLocalStorage();
+    const role=user.type;
       return role==1||role==2? children :  <Redirect to="/auth/signin" />;
     }
 class App extends Component {

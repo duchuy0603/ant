@@ -11,6 +11,8 @@ import productReducer from './Category/product';
 import newReducer from './Category/new';
 import userReducer from './Category/user';
 import authReducer from './Category/auth';
+import { IntlReducer as Intl } from 'react-redux-multilingual';
+
 const store = configureStore({
     reducer: {
         mainReducer: mainReducer,
@@ -24,10 +26,11 @@ const store = configureStore({
         productReducer:productReducer,
         newReducer:newReducer,
         userReducer:userReducer,
-        authReducer:authReducer
+        authReducer:authReducer,
 
-       
-    }
+        Intl
+    },
+    preloadedState: { Intl: { locale: 'vi'}}
 });
 
 export default store;

@@ -6,9 +6,8 @@ import { useSelector } from 'react-redux';
 import { useState } from 'react';
 import './categories.scss'
 import { useEffect } from 'react';
-import axios from 'axios';
-
 import { useDispatch } from 'react-redux';
+import { min } from 'moment';
 
 const CategoriesForm = ({ onFinish, form, idEdit}) => {
     const { Option } = Select;
@@ -46,7 +45,7 @@ const CategoriesForm = ({ onFinish, form, idEdit}) => {
             console.log(imageUrl);
         }
         dispatch(ecommercegetAll())
-    }, [form, idEdit])
+    }, [form,idEdit])
 
     const handleChange = info => {
         console.log(info.file);
@@ -125,7 +124,7 @@ const CategoriesForm = ({ onFinish, form, idEdit}) => {
                     style={{ width: '50%', paddingRight: "10px" }}>
                     <Input style={{ width: '100%' }} placeholder="Ví dụ: 0902174492" />
                 </Form.Item>
-                <Form.Item name="parent_id" label="ParentId" required rules={[{ required: true }, { type: 'string', min: 0 }]}
+                <Form.Item name="parent_id" label="ParentId" required rules={[{ required: true}]}
                     style={{ width: '50%', paddingRight: "10px"  }}>
                     <Input placeholder="Ví dụ: 172A Yên Lãng" />
                 </Form.Item>
@@ -151,8 +150,8 @@ const CategoriesForm = ({ onFinish, form, idEdit}) => {
                         }>
                       
 
-                        {ecommercelist.map((x,index)=>(
-                            <Option value={x.id} >{x.name}</Option>
+                        {ecommercelist.map((x)=>(
+                            <Option key={x} value={x.id} >{x.name}</Option>
                         ))}
                         
                        
@@ -167,7 +166,7 @@ const CategoriesForm = ({ onFinish, form, idEdit}) => {
                             showUploadList={false}
                             onChange={handleChange}
                         >
-                            {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> 
+                            {imageUrl ? <img src={`${process.env.REACT_APP_API_URL}/${imageUrl}`} alt="avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> 
                                     : <div>
                                         {loading ? <LoadingOutlined /> : <PlusOutlined />}
                                         <div style={{ marginTop: 8 }}>Upload</div>

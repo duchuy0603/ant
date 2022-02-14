@@ -12,12 +12,14 @@ const authslide = createSlice({
     },
     reducers: {
         savetoken: (state, action) => {
-            saveToken(action.payload.AccessToken)
+            saveToken(action.payload.access_token)
+           
         },
         saveuser:(state,action)=>{
             saveUser(action.payload)         
             state.authlist = action.payload
-            localStorage.setItem('role', action.payload.Type)
+            // localStorage.setItem('role', action.payload.user_infor.type)
+           
         }
     },
     extraReducers: {
