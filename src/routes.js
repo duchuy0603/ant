@@ -19,6 +19,7 @@ const  Store=React.lazy(()=>import('./Demo/Category/Store/store'))
 const  Product=React.lazy(()=>import('./Demo/Category/Product/product'))
 const  New=React.lazy(()=>import('./Demo/Category/New/new'))
 const  User=React.lazy(()=>import('./Demo/Category/User/user'))
+const  Event=React.lazy(()=>import('./Demo/Category/Event/events') )
 // const SignUp1 = React.lazy(() => import('./Demo/Authentication/SignUp/SignUp1'));
 // const Signin1 = React.lazy(() => import('./Demo/Authentication/SignIn/SignIn1'));
 
@@ -56,6 +57,7 @@ const routes = [
     {path: '/product', exact: true, name: 'product', component: Product },
     {path: '/new', exact: true, name: 'new', component: New },
     {path: '/user', exact: true, name: 'user', component: User },
+    {path: '/event', exact: true, name: 'event', component: Event },
 
     // { path: '/auth/signup', exact: true, name: 'Signup 1', component: SignUp1 },
     // { path: '/auth/signin', exact: true, name: 'Signin 1', component: Signin1 }

@@ -29,6 +29,13 @@ console.log(brandlist)
   const [idEdit,setIdEdit]=useState(0)
   const [formAdd] = Form.useForm();    //form
   const [formEdit] = Form.useForm();
+  const checkImage=(img)=>{
+    if(img===null){
+      return
+    }else{
+      return process.env.REACT_APP_API_URL + img[0].url
+    }
+  }
   const getColumnSearchProps = dataIndex => ({
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
       <div style={{ padding: 12 }}>
@@ -71,12 +78,10 @@ console.log(brandlist)
             textToHighlight={text ? text.toString() : ''}
           />
           }else{
-            if(dataIndex==='ecommerce_id'){
+            if(dataIndex==='ecommerce'){
               return text?.name
             }
-            if(dataIndex==='ecommerce_id'){
-              return text?.name
-            }
+         
          
             return text;
           }
@@ -107,7 +112,7 @@ console.log(brandlist)
       dataIndex: 'image_url',
       key: 'image_url',
       width:'5%',
-      render: text =>  <img src={`${process.env.REACT_APP_API_URL}/${text}` }  style={{width:"100%",height:"100%"}} alt=""/>
+      render: text =>  <img src={checkImage(text) }  style={{width:"100%",height:"100%"}} alt=""/>
         
     },
     {
@@ -119,12 +124,12 @@ console.log(brandlist)
     },
     {
       title: 'EcommerceId',
-      dataIndex: 'ecommerce_id',
-      key: 'ecommerce_id',
+      dataIndex: 'ecommerce',
+      key: 'ecommerce',
       width: '20%',
-      sorter: (a, b) => a.ecommerce_id - b.ecommerce_id,
+      sorter: (a, b) => a.ecommerce - b.ecommerce,
         sortDirections: ['descend', 'ascend'],
-      ...getColumnSearchProps('ecommerce_id'),
+      ...getColumnSearchProps('ecommerce'),
     },
     {
       key: 'Action',
@@ -182,11 +187,11 @@ const add={
       id: record.id,
       name: record.name,
       des: record.des,
-      ecommerce_id: record.ecommerce_id.id,
-      image:record.ImageUrl   
+      ecommerce_id: record.ecommerce.id,
+      image:record.image_url   
     }
     formEdit.setFieldsValue(editform)
-    setIdEdit(record.Id);
+    setIdEdit(record.id);
     setIsModalEdit(true)
 
   }, [formEdit])

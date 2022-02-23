@@ -19,14 +19,16 @@ const axiosClient = axios.create({
 
 axiosClient.interceptors.request.use(async (config) => {  
     const data=getUserFromLocalStorage();
+  
     // const token=data.access_token;
-    const ecommerce=data.ecommerce_id
+   
+ 
 const token=getTokenFromLocalStorage();
     
     if(token) {
         config.headers['Authorization'] = 'Bearer ' + token ;
         if(data.type!==1){
-            config.headers['Ecommerce_id'] = ecommerce;
+            config.headers['Ecommerce_id'] = data.ecommerce_id;
         }
     }
     return config; 

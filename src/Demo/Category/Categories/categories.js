@@ -72,7 +72,7 @@ const Categories = () => {
         textToHighlight={text ? text.toString() : ''}
       />
       }else{
-        if(dataIndex==='ecommerce_id'){
+        if(dataIndex==='ecommerce'){
           return text?.name
         }
         return text;
@@ -130,11 +130,11 @@ const Categories = () => {
     },
     {
       title: 'EcomerceId',
-      dataIndex: 'ecommerce_id',
-      key: 'ecommerce_id',
+      dataIndex: 'ecommerce',
+      key: 'ecommerce',
       width: '20%',
-      ...getColumnSearchProps('ecommerce_id'),
-      sorter: (a, b) => a.ecommerce_id.length - b.ecommerce_id.length,
+      ...getColumnSearchProps('ecommerce'),
+      sorter: (a, b) => a.ecommerce.length - b.ecommerce.length,
       sortDirections: ['descend', 'ascend'],
     },
     {
@@ -189,7 +189,7 @@ const Categories = () => {
   
       name: record.name,
       content: record.content,
-      ecommerce_id: record.ecommerce_id.id,
+      ecommerce_id: record.ecommerce.id,
        parent_id:record.parent_id,
         des: record.des,
         image:record.image_url 

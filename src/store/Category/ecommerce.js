@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
 import ecommerceApi from "../../api/ecommerce";
-export const ecommercegetAll = createAsyncThunk('ecommerce/ecommercegetAllAction', async () => {
+export const ecommercegetAll = createAsyncThunk('ecommerce/ecommercegetAll', async () => {
     const listecommerce = await ecommerceApi.getAll();  
     return listecommerce;   
 })

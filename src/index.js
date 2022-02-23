@@ -13,12 +13,11 @@ import { IntlReducer as Intl, IntlProvider } from 'react-redux-multilingual'
 
 const app = (
     <Provider store={store}>
-        <IntlProvider translations={translations} locale='vi'>
+       
         <BrowserRouter basename={config.basename}>
             <App />
         </BrowserRouter>
-        </IntlProvider>
-      
+    
     </Provider>
 );
 

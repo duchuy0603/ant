@@ -8,7 +8,9 @@ import { useEffect } from 'react';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { useTranslate } from 'react-redux-multilingual';
+import { ecommercegetAll } from '../../../store/Category/ecommerce';
 const EcommerceForm = ({ onFinish, form, idEdit}) => {
+
    const trans=useTranslate();
     const dispatch = useDispatch(); 
     const { TextArea } = Input;
@@ -37,6 +39,8 @@ const EcommerceForm = ({ onFinish, form, idEdit}) => {
             setImageUrl(imageUrl)
             console.log(imageUrl);
         }
+       
+        
     }, [form, idEdit])
 
     const handleChange = info => {
@@ -96,6 +100,7 @@ const EcommerceForm = ({ onFinish, form, idEdit}) => {
              <Form className="ecommerce-form"           
                 onFinish={onFinish }             
                 validateMessages={validateMessages}
+                
                 form={form} >
                 {
                     idEdit &&

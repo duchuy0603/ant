@@ -72,7 +72,7 @@ const Feature = () => {
             textToHighlight={text ? text.toString() : ''}
           />
           }else{
-            if(dataIndex==='ecommerce_id'){
+            if(dataIndex==='ecommerce'){
               return text?.name
             }
             return text;
@@ -104,12 +104,12 @@ const Feature = () => {
 
     {
       title: 'EcomerceId',
-      dataIndex: 'ecommerce_id',
-      key: 'ecommerce_id',
+      dataIndex: 'ecommerce',
+      key: 'ecommerce',
       width: '20%',
-      sorter: (a, b) => a.ecommerce_id - b.ecommerce_id,
+      sorter: (a, b) => a.ecommerce - b.ecommerce,
       sortDirections: ['descend', 'ascend'],
-      ...getColumnSearchProps('ecommerce_id'),
+      ...getColumnSearchProps('ecommerce'),
     },
    
 
@@ -159,7 +159,7 @@ const add={
     const editform = {
       id: record.id,
       name: record.name,
-      ecommerce_id: record.ecommerce_id.id,
+      ecommerce_id: record.ecommerce.id,
       des: record.des,
     }
     formEdit.setFieldsValue(editform)

@@ -237,8 +237,8 @@ const add={
       price:record.price,
       des:record.des,
       content:record.content,
-      store_id:record.store_id.id,
-      category_id:record.category_id.id,
+      store_id:record.store.id,
+      category_id:record.category.id,
       parent_id:record.parent_id,
       image:record.image_url  
       
@@ -262,6 +262,7 @@ const add={
     dispatch(productEdit(edit))
     setIsModalEdit(false)
     formAdd.resetFields()
+    console.log('edit',data)
   
   }
   const handleDelete = (id) => {

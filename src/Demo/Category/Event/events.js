@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { propertyAdd, propertyEdit, propertyDelete, propertygetAll } from '../../../store/Category/property';
+import { eventsAdd, eventsEdit, eventsDelete, eventsgetAll } from '../../../store/Category/event';
 import { useEffect } from 'react'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,27 +7,38 @@ import { Button, Form, Modal, Space, Table, Popconfirm, Tag, Input } from 'antd'
 import Highlighter from 'react-highlight-words';
 import { Pagination } from 'antd';
 import { SearchOutlined, SyncOutlined, EditOutlined, DeleteOutlined, PlusOutlined,LoadingOutlined } from '@ant-design/icons';
-import PropertyForm from './propertyForm';
-import './property.scss'
+import EventsForm from './eventForm';
+import './events.scss'
 
-const Property = () => {
-  // const { register,reset ,handleSubmit, setValue,formState:{errors}, } = useForm();
+const Events = () => {
+
   
-  const { propertylist, loadingproperty } = useSelector(state => state.propertyReducer)
+  const { eventslist, loadingevents } = useSelector(state => state.eventsReducer)
+ 
+
+
   const dispatch = useDispatch();
   
   useEffect(() => {
-    dispatch(propertygetAll())
+    dispatch(eventsgetAll())
   }, [dispatch])
-  console.log(propertylist);
   
   const [searchText, setsearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
+  const [idEdit,setIdEdit]=useState(0);
   //modal
   const [isModalAdd, setIsModalAdd] = useState(false);
   const [isModalEdit, setIsModalEdit] = useState(false);
   const [formAdd] = Form.useForm();    
   const [formEdit] = Form.useForm();
+  const checkimage=(img)=>{
+if(img===null){
+  return
+}else{
+  return process.env.REACT_APP_API_URL + img[0].url
+}
+
+  }
   const getColumnSearchProps = dataIndex => ({
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
       <div style={{ padding: 12 }}>
@@ -62,22 +73,22 @@ const Property = () => {
 
 
     render: text =>{
-      if(searchedColumn === dataIndex ){
-        return    <Highlighter
+      if( searchedColumn === dataIndex ){
+        return     <Highlighter
         highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
         searchWords={[searchText]}
         autoEscape
         textToHighlight={text ? text.toString() : ''}
       />
       }else{
-      if(dataIndex==="ecommerce"){
-        return text?.name
-      }
-      return text
+        if(dataIndex==='ecommerce'){
+          return text?.name
+        }
+        return text;
       }
     }
-      
-   
+
+     
   });
 
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
@@ -100,8 +111,52 @@ const Property = () => {
       width: '20%',
       ...getColumnSearchProps('name'),
     },
+    {
+      title: 'Image',
+      
+ dataIndex: 'image_url',
+      key: 'Image',
+      width: '12%',
+    
+      render: text => <img src={checkimage(text)}  style={{width:"100%",height:"40%"}} alt=""/>
+    },
 
- 
+    {
+      title: 'Cost',
+      dataIndex: 'cost',
+      key: 'cost',
+      width: '20%',
+      sorter: (a, b) => a.cost - b.cost,
+      sortDirections: ['descend', 'ascend'],
+      ...getColumnSearchProps('cost'),
+    },
+    {
+      title: 'End-Time',
+      dataIndex: 'start_time',
+      key: 'start_time',
+      width: '20%',
+      sorter: (a, b) => a.start_time - b.start_time,
+      sortDirections: ['descend', 'ascend'],
+      ...getColumnSearchProps('start_time'),
+    },
+    {
+      title: 'Start-Time',
+      dataIndex: 'end_time',
+      key: 'end_time',
+      width: '20%',
+      sorter: (a, b) => a.end_time - b.end_time,
+      sortDirections: ['descend', 'ascend'],
+      ...getColumnSearchProps('end_time'),
+    },
+    {
+      title: 'EcomerceId',
+      dataIndex: 'ecommerce',
+      key: 'ecommerce',
+      width: '20%',
+      ...getColumnSearchProps('ecommerce'),
+      sorter: (a, b) => a.ecommerce.length - b.ecommerce.length,
+      sortDirections: ['descend', 'ascend'],
+    },
     {
       title: 'Description',
       dataIndex: 'des',
@@ -110,15 +165,8 @@ const Property = () => {
       ...getColumnSearchProps('des'),
     },
     {
-      title: 'EcommerceId',
-      dataIndex: 'ecommerce',
-      key: 'ecommerce',
-      width: '20%',
-      ...getColumnSearchProps('ecommerce'),
-    },
-    {
       key: 'Action',
-      title: <SyncOutlined onClick={() => dispatch(propertygetAll())} />,
+      title: <SyncOutlined onClick={() => dispatch(eventsgetAll())} />,
       align: 'center',
       width: '10%',
       render: (text, record, index) => (
@@ -140,48 +188,57 @@ const Property = () => {
     },
   ];
   // actionform
-  const onFinishAdd = (value) => {
-  
-    const dataAdd ={
-      name: value.name,
-      des: value.des,
-      ecommerce_id:value.ecommerce_id
-    }
-    dispatch(propertyAdd(dataAdd))
-   
-    setIsModalAdd(false)
+  const onFinishAdd = (data) => {
+   const dataNews = {
+    name: data.name,
+    cost: data.cost,
+    parent_id: data.parent_id,
+    start_time:data.start_time,
+    end_time:data.end_time,
+    ecommerce_id: data.ecommerce_id,
+    des: data.des,
+    image_url: data.image,
+   }
+    dispatch(eventsAdd(dataNews))
     formAdd.resetFields()
+    setIsModalAdd(false)
+
    }
 
    const handleEditForm = (record) => {
     const editform = {    
-      id:record.id,
-       name:record.name,
-      des:record.des,
-      ecommerce_id:record.ecommerce.id
-      
+      id: record.id,
+  
+      name: record.name,
+      content: record.content,
+      ecommerce_id: record.ecommerce.id,
+       parent_id:record.parent_id,
+        des: record.des,
+        image:record.image_url 
     }
-    
+  
+    setIdEdit(record.id);
     formEdit.setFieldsValue(editform)
     setIsModalEdit(true)
   }
 
-  const onFinishEdit = (value) => {
-    const dataEdit ={
-    id:value.id,
-      name: value.name,
-      des: value.des,
-      ecommerce_id:value.ecommerce_id
-    }
-   
-    dispatch(propertyEdit(dataEdit))
-    setIsModalEdit(false)
+  const onFinishEdit = (record) => {
+    const edit = {
+      id:record.id,
+      name: record.name,
+      content: record.content,
+      parent_id: record.parent_id,
+      ecommerce_id: record.ecommerce_id,
+      des: record.des,
+      image_url: record.image,
+     }
     
-    console.log(dataEdit)
- 
+    dispatch(eventsEdit(edit))
+    setIsModalEdit(false)   ;
+    console.log(edit);
   }
   const handleDelete = (id) => {
-    dispatch(propertyDelete(id))
+    dispatch(eventsDelete(id))
   }
   return (
     <div>
@@ -189,36 +246,30 @@ const Property = () => {
         <Button type="primary" onClick={() => 
          
           setIsModalAdd(true)}>
-          Thêm Thuộc Tính
+          Thêm Event
         </Button>
       </div>
       <br />
-      <Modal className='modal-add' title="Thêm Sàn" visible={isModalAdd} footer="" centered onCancel={() => setIsModalAdd(false)}>
-        <PropertyForm
+      <Modal className='modal-add' title="Thêm Event" visible={isModalAdd} footer="" centered onCancel={() => setIsModalAdd(false)}>
+        <EventsForm
           onFinish={onFinishAdd}
           form={formAdd} />
       </Modal>
 
-      <Modal className='modal-edit' title="Sửa Sàn" visible={isModalEdit} onCancel={() => setIsModalEdit(false)} centered footer="">
-        <PropertyForm
+      <Modal className='modal-edit' title="Sửa Event" visible={isModalEdit} onCancel={() => setIsModalEdit(false)} centered footer="">
+        <EventsForm
           onFinish={onFinishEdit}
-          form={formEdit}
-          idEdit={true}
-          id={handleEditForm}
-       
+          form={formEdit}      
+          idEdit={idEdit}     
         />
       </Modal>
 
-      <Table scroll={{ x: 900 }} 
-      loading={loadingproperty}
-       columns={columns} 
-       dataSource={propertylist}
-        rowKey={record => record.id} 
-        pagination= {{defaultCurrent:30,defaultPageSize:10,hideOnSinglePage:true,pageSizeOptions:[10,30,50,100]}}
-        bordered />
+      <Table scroll={{ x: 900 }}
+       pagination= {{defaultCurrent:1,defaultPageSize:10,hideOnSinglePage:true,pageSizeOptions:[10,30,50,100]}}
+      loading={loadingevents} columns={columns} dataSource={eventslist} rowKey={record => record.id} bordered />
 
     </div>
   )
 }
 
-export default Property;
+export default Events;

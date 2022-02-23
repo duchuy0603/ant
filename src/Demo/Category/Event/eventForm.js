@@ -1,25 +1,40 @@
 import React from 'react'
 import { Input, Button, Form, InputNumber, Switch, Upload, message,Select } from 'antd';
 import { UploadOutlined, InboxOutlined, PlusOutlined, LoadingOutlined } from '@ant-design/icons';
+import { ecommercegetAll } from '../../../store/Category/ecommerce';
 import { useEffect } from 'react';
 import { useState } from 'react';
+import './events.scss'
 import { useDispatch, useSelector } from 'react-redux';
-import "./product"
-import axios from 'axios';
-import { storegetAll } from './../../../store/Category/stores';
-import { categoriesgetAll } from './../../../store/Category/categories';
-
-const ProductForm = ({ onFinish, form, idEdit }) => {
+import { getUserFromLocalStorage } from '../../../helpers/common';
+import { DatePicker, Space } from 'antd';
+const { RangePicker } = DatePicker;
+const EventsForm = ({ onFinish, form, idEdit }) => {
+    const datauser=getUserFromLocalStorage();
     const { TextArea } = Input;
     const { Dragger } = Upload;
-    const { Option } = Select;
+    const {Option}=Select;
     const dispatch=useDispatch();
-    const {categorieslist}=useSelector(state=>state.categoriesReducer)
-    const {storelist}=useSelector(state=>state.storeReducer)
-    const [showAgeTotal, setShowAgeTotal] = useState(false);
-    const [showAgeMore, setShowAgeMore] = useState(false);
-   
+    const {ecommercelist}=useSelector(state=>state.ecommerceReducer)
 
+
+    function onChange(value, dateString) {
+        console.log('Selected Time: ', value);
+        console.log('Formatted Selected Time: ', dateString);
+    if(dateString[0]){
+        const date=dateString[0];
+        const date1=dateString[1]
+        form.setFieldsValue('')
+    }
+      }
+      
+      function onOk(value) {
+        console.log('onOk: ', value);
+      }
+    useEffect(() => {
+    
+        dispatch(ecommercegetAll())
+    }, [])
     const validateMessages = {
         required: 'Không được để trống !',
         types: {
@@ -46,11 +61,9 @@ const ProductForm = ({ onFinish, form, idEdit }) => {
     useEffect(() => {
         if(idEdit) {
             const imageUrl = form.getFieldValue('image');
-            setImageUrl(imageUrl[0])
+            setImageUrl(imageUrl)
             console.log(imageUrl);
         }
-        dispatch(categoriesgetAll())
-        dispatch(storegetAll())
     }, [form, idEdit])
 
     const handleChange = info => {
@@ -59,12 +72,10 @@ const ProductForm = ({ onFinish, form, idEdit }) => {
             setLoading(true);
           }
     };
-    
-
     // const propsUpload = {
     //     name: 'files',
     //     maxCount: 1,
-    //     action: `${process.env.REACT_APP_API_URL}/upload/upload-array `,
+    //     action: `${process.env.REACT_APP_API_URL}/upload/upload-array`,
     
     //     onSuccess: (result, file) => {
     //         console.log('ok', result);
@@ -98,7 +109,6 @@ const ProductForm = ({ onFinish, form, idEdit }) => {
     //         setLoading(false);
     //     }
     // };
-
     const props = {
         name: 'files',
         multiple: true,
@@ -129,6 +139,7 @@ const ProductForm = ({ onFinish, form, idEdit }) => {
           console.log('Dropped files', e.dataTransfer.files);
         },
       };
+
     const normContent = (value) => {
         return value.text;
     };
@@ -149,78 +160,51 @@ const ProductForm = ({ onFinish, form, idEdit }) => {
                     style={{ width: '50%', paddingRight: "10px" }}>
                     <Input placeholder="Ví dụ: Eplaza" />
                 </Form.Item>
-                <Form.Item name="price" label="Price" required rules={[{ required: true }, { type: 'string' }]}
+                <Form.Item name="cost" label="Giá" required rules={[{ required: true}]}
                     style={{ width: '50%', paddingRight: "10px" }}>
-                    <Input placeholder="100.000$" />
+                    <Input placeholder="Ví dụ:10.000$" />
                 </Form.Item>
-                <Form.Item name="content" label="Content" required rules={[{ required: true }, { type: 'string', max: 255 }]}
+                <Form.Item name="date" label="content" 
                     style={{ width: '50%', paddingRight: "10px" }}>
-                    <Input placeholder="" />
+                    <Space direction="vertical" size={12}>
+   
+                    <RangePicker
+                        showTime={{ format: 'HH:mm' }}
+                        format="YYYY-MM-DD HH:mm"
+                        onChange={onChange}
+                        onOk={onOk}
+                    />
+                    </Space>,
                 </Form.Item>
 
-
-                <Form.Item name="des" label="Description" required rules={[{ required: true }, { type: 'string', max: 255 }]}
+                <Form.Item name="description" label="Description" required rules={[{ required: true }, { type: 'string', max: 255 }]}
                     style={{ width: '50%', paddingRight: "10px" }}>
                     <TextArea></TextArea>
                 </Form.Item>
-                <Form.Item name="category_id" label="categoryId" required rules={[{ required: true }]}
-                    style={{ width: '50%' }}>
+             <Form.Item name="ecommerce_id" label="EcommerceId" required rules={[{ required: true }]}
+                    style={{ width: '50%', paddingRight: "10px"  }}>
                     <Select
                        
                         showSearch
                         style={{ width: 200 }}
-                        placeholder="categoryId"
+                        placeholder="EcommerceId"
                         optionFilterProp="children"
-                       
                         filterOption={(input, option) =>
                             option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                         }
                         filterSort={(optionA, optionB) =>
                             optionA.children.toLowerCase().localeCompare(optionB.children.toLowerCase())
                         }>
-                        {categorieslist.map((x,index)=>(
-                                <Option  key={index} value={x.id}>{x.name}</Option>
-                                
-                            ))}
-                    </Select>
-                </Form.Item>
-                <Form.Item name="store_id" label="storeId" required rules={[{ required: true }]}
-                    style={{ width: '50%' }}>
-                    <Select
-                        showSearch
-                        style={{ width: 200 }}
-                        placeholder="storeId"
-                        optionFilterProp="children"
+                      
+
+                        {ecommercelist.map((x,index)=>(
+                            <Option key={index} value={x.id} >{x.name}</Option>
+                        ))}
                         
-                        filterOption={(input, option) =>
-                            option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                        }
-                        filterSort={(optionA, optionB) =>
-                            optionA.children.toLowerCase().localeCompare(optionB.children.toLowerCase())
-                        }>
-                            {storelist.map((x,index)=>(
-                                <Option  key={index} value={x.id}>{x.name}</Option>
-                            ))}
-                    </Select>
-                </Form.Item>
-                <Form.Item name="parent_id" label="parentId" required rules={[{ required: true }]}
-                    style={{ width: '50%' }}>
-                    <Select
                        
-                        showSearch
-                        style={{ width: 200 }}
-                        placeholder="parentId"
-                        optionFilterProp="children"
-                        filterOption={(input, option) =>
-                            option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                        }
-                        filterSort={(optionA, optionB) =>
-                            optionA.children.toLowerCase().localeCompare(optionB.children.toLowerCase())
-                        }>
-                        <Option value={1}>Hoạt Động</Option>
-                        <Option value={0}>Tạm Dừng</Option>
                     </Select>
                 </Form.Item>
+           
       <Form.Item name="new_img" label="Ảnh tin tức" valuePropName="file" getValueFromEvent={normFile}
                      style={{ width: '50%'}} >
                         {/* <Upload
@@ -236,7 +220,7 @@ const ProductForm = ({ onFinish, form, idEdit }) => {
                                         <div style={{ marginTop: 8 }}>Upload</div>
                                     </div>}
                         </Upload> */}
-                                                  <Dragger {...props}>
+                          <Dragger {...props}>
     <p className="ant-upload-drag-icon">
       <InboxOutlined />
     </p>
@@ -251,6 +235,12 @@ const ProductForm = ({ onFinish, form, idEdit }) => {
                 <Form.Item name="image" hidden={true}>
                     <Input />
                 </Form.Item>
+                <Form.Item name="start_time" hidden={true}>
+                    <Input />
+                </Form.Item>
+                <Form.Item name="end_time" hidden={true}>
+                    <Input />
+                </Form.Item>
                 <Form.Item
                     style={{ width: '90%' }}>
 
@@ -263,4 +253,4 @@ const ProductForm = ({ onFinish, form, idEdit }) => {
     )
 }
 
-export default ProductForm;
+export default EventsForm;

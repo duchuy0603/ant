@@ -19,6 +19,7 @@ const Ecommerce = () => {
   const [searchedColumn, setSearchedColumn] = useState('');
   const [idEdit, setIdEdit] = useState(0)
   const [idProduct, setidProduct] = useState([]);
+  
  
   const token = localStorage.getItem('token')
   //modal
@@ -170,6 +171,7 @@ const Ecommerce = () => {
       des: data.des,
       image_url: data.image,
     }
+    
     formAdd.resetFields();
     dispatch(ecommerceAdd(dataNews, token))
     
@@ -214,6 +216,8 @@ const Ecommerce = () => {
         <Button className='hidden-ecommerce' type="primary" onClick={() =>
 
           setIsModalAdd(true)}>
+
+            
           Thêm Sàn
         </Button>
         <Popconfirm
@@ -233,7 +237,9 @@ const Ecommerce = () => {
       <Modal className='modal-add' title="Thêm Sàn" visible={isModalAdd} footer="" centered onCancel={() => setIsModalAdd(false)}>
         <EcommerceForm
           onFinish={onFinishAdd}
-          form={formAdd} />
+          form={formAdd} 
+        />
+        
       </Modal>
 
       <Modal className='modal-edit' title="Sửa Sàn" visible={isModalEdit} onCancel={() => setIsModalEdit(false)} centered footer="">

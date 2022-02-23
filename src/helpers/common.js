@@ -62,3 +62,4 @@ export const getUserFromLocalStorage  = () => {
   }
   return data;
 }
+export const API=process.env.REACT_APP_API_URL

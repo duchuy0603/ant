@@ -4,10 +4,7 @@ import { UploadOutlined, InboxOutlined, PlusOutlined, LoadingOutlined } from '@a
 import { ecommercegetAll } from '../../../store/Category/ecommerce';
 import { useEffect } from 'react';
 import { useState } from 'react';
-import './brand.scss'
-import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-
 
 const BrandForm = ({ onFinish, form, idEdit }) => {
     const { TextArea } = Input;
@@ -18,7 +15,6 @@ const BrandForm = ({ onFinish, form, idEdit }) => {
     const [showAgeMore, setShowAgeMore] = useState(false);
 
     useEffect(() => {
-    
         dispatch(ecommercegetAll())
     }, [])
     const validateMessages = {
@@ -40,7 +36,7 @@ const BrandForm = ({ onFinish, form, idEdit }) => {
     };
 
     const [loading, setLoading] = useState(false);
-    const [fileList, setFileList] = useState([]);
+    // const [fileList, setFileList] = useState([]);
     const [imageUrl, setImageUrl] = useState('');
 
  
@@ -60,7 +56,7 @@ const BrandForm = ({ onFinish, form, idEdit }) => {
     };
     const propsUpload = {
         name: 'files',
-        maxCount: 1,
+        maxCount: 5,
         action: `${process.env.REACT_APP_API_URL}/upload/upload-array`,
     
         onSuccess: (result, file) => {
@@ -96,13 +92,41 @@ const BrandForm = ({ onFinish, form, idEdit }) => {
         }
     };
 
-
     const normContent = (value) => {
         return value.text;
     };
     const normFile = (e) => {
         return e && e.file;
     };
+    const [fileList, setFileList] = useState([
+ 
+      ]);
+      
+    
+      const onChange = ({ fileList:newFileList }) => {
+        setFileList(newFileList);
+
+      const dataimg=fileList.map((x)=>{return encodeURI(x.name)})
+      console.log('first',dataimg)
+      form.setFieldsValue({
+          image:dataimg
+      })
+      };
+    
+      const onPreview = async file => {
+        let src = file.url;
+        if (!src) {
+          src = await new Promise(resolve => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file.originFileObj);
+            reader.onload = () => resolve(reader.result);
+          });
+        }
+        const image = new Image();
+        image.src = src;
+        const imgWindow = window.open(src);
+        imgWindow.document.write(image.outerHTML);
+      };
     return (
         <div>
             <Form className="ecommerce-form" validateMessages={validateMessages} onFinish={onFinish} form={form}  >
@@ -147,8 +171,8 @@ const BrandForm = ({ onFinish, form, idEdit }) => {
                     </Select>
                 </Form.Item>
       <Form.Item name="image_url" label="Ảnh tin tức" valuePropName="file" getValueFromEvent={normFile}
-                    rules={[{ required: true }]} style={{ width: '50%'}} >
-                        <Upload
+                    style={{ width: '50%'}} >
+                        {/* <Upload
                             {...propsUpload}
                             listType="picture-card"
                             className="avatar-uploader"
@@ -160,7 +184,19 @@ const BrandForm = ({ onFinish, form, idEdit }) => {
                                         {loading ? <LoadingOutlined /> : <PlusOutlined />}
                                         <div style={{ marginTop: 8 }}>Upload</div>
                                     </div>}
-                        </Upload>
+                        </Upload> */}
+ 
+      <Upload
+        action={`${process.env.REACT_APP_API_URL}/upload/upload-array`}
+        listType="picture-card"
+        name='files'
+        fileList={fileList}
+        onChange={onChange}
+        onPreview={onPreview}
+      >
+        {fileList.length < 6 && '+ Upload'}
+      </Upload>
+  
                     </Form.Item>
                 
                 <Form.Item name="image" hidden={true}>

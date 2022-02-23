@@ -73,7 +73,7 @@ const Team = () => {
           />
           }else{
             if(dataIndex==='ecommerce'){
-              return text?.Name
+              return text?.name
             }
             return text;
           }
@@ -95,15 +95,15 @@ const Team = () => {
   const columns = [
     {
       title: 'Name',
-      dataIndex: 'Name',
-      key: 'Name',
+      dataIndex: 'name',
+      key: 'name',
       width: '20%',
-      ...getColumnSearchProps('Name'),
+      ...getColumnSearchProps('name'),
     },
     {
       title: 'Image',
 
-      dataIndex: 'ImageUrl',
+      dataIndex: 'image_url',
       key: 'Image',
       width: '10%',
 
@@ -112,29 +112,22 @@ const Team = () => {
 
     {
       title: 'Phone',
-      dataIndex: 'Phone',
+      dataIndex: 'phone',
       key: 'Phone',
       width: '20%',
-      sorter: (a, b) => a.Phone - b.Phone,
+      sorter: (a, b) => a.phone - b.phone,
       sortDirections: ['descend', 'ascend'],
-      ...getColumnSearchProps('Phone'),
+      ...getColumnSearchProps('phone'),
     },
     {
       title: 'Email',
-      dataIndex: 'Email',
-      key: 'Email',
+      dataIndex: 'email',
+      key: 'email',
       width: '20%',
-      ...getColumnSearchProps('Email'),
+      ...getColumnSearchProps('email'),
     },
-    {
-      title: 'Owner',
-      dataIndex: 'Owner',
-      key: 'Owner',
-      width: '20%',
-      ...getColumnSearchProps('Owner'),
-      sorter: (a, b) => a.Owner.length - b.Owner.length,
-      sortDirections: ['descend', 'ascend'],
-    },
+    
+   
     {
       title: 'EcommerceId',
       dataIndex: 'ecommerce',
@@ -144,25 +137,12 @@ const Team = () => {
     },
     {
       title: 'Description',
-      dataIndex: 'Description',
-      key: 'Description',
+      dataIndex: 'des',
+      key: 'des',
       width: '20%',
-      ...getColumnSearchProps('Description'),
+      ...getColumnSearchProps('des'),
     },
-    // {
-    //   title: 'EcomerceId',
-    //   dataIndex: 'EcomerceId',
-    //   key: 'EcomerceId',
-    //   width: '20%',
-    //   ...getColumnSearchProps('EcomerceId'),
-    // },
-    {
-      title: 'Status',
-      dataIndex: 'Status',
-      key: 'Status',
-      width: '20%',
-      ...getColumnSearchProps('Status'),
-    },
+  
 
     {
       key: 'Action',
@@ -190,14 +170,14 @@ const Team = () => {
   // actionform
   const onFinishAdd = (data) => {
     const add = {
-      Name: data.name,
-      Email: data.email,
-      Phone: data.phone,
-      Status: data.status,
-      Description: data.description,
-      image: data.image,
-      Status:data.status,
-      EcommerceId:data.ecommerceId
+      name: data.name,
+      email: data.email,
+      phone: data.phone,
+    
+      des: data.description,
+      image_url: data.image,
+  
+      ecommerce_id:data.ecommerce_id
     }
     console.log(data.files);
     console.log(data)
@@ -220,13 +200,15 @@ const Team = () => {
   }
   const onFinishEdit = (data) => {
     const edit = {
-      Id:data.id,
-      Name: data.name,
-      Email: data.email,
-      Phone: data.phone,
-      Status: data.status,
-      Description: data.description,
-      image: data.image,
+      id:data.id,
+      name: data.name,
+      email: data.email,
+      phone: data.phone,
+    
+      des: data.description,
+      image_url: data.image,
+  
+      ecommerce_id:data.ecommerce_id
     }
     dispatch(teamEdit(edit))
     setIsModalEdit(false)
@@ -244,13 +226,13 @@ const Team = () => {
         </Button>
       </div>
       <br />
-      <Modal className='modal-add' title="Thêm Sàn" visible={isModalAdd} footer="" centered onCancel={() => setIsModalAdd(false)}>
+      <Modal className='modal-add' title="Thêm Team" visible={isModalAdd} footer="" centered onCancel={() => setIsModalAdd(false)}>
         <TeamForm
           onFinish={onFinishAdd}
           form={formAdd} />
       </Modal>
 
-      <Modal className='modal-edit' title="Sửa Sàn" visible={isModalEdit} onCancel={() => setIsModalEdit(false)} centered footer="">
+      <Modal className='modal-edit' title="Sửa Team" visible={isModalEdit} onCancel={() => setIsModalEdit(false)} centered footer="">
         <TeamForm
           onFinish={onFinishEdit}
           form={formEdit}

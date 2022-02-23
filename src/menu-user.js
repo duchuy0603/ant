@@ -119,7 +119,7 @@ export default {
                     id: 'ecommerce-Marketing',
                     title: 'Quản Lý Event,Marketing',
                     type: 'item',
-                    url: '',
+                    url: '/event',
                     icon: 'feather icon-users'
                 },
                 {

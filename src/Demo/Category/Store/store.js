@@ -75,7 +75,7 @@ const Store = () => {
         textToHighlight={text ? text.toString() : ''}
       />
       }else{
-        if(dataIndex==="ecommerce_id"){
+        if(dataIndex==="ecommerce"){
           return text?.name;
         }
         return text;
@@ -171,10 +171,10 @@ const Store = () => {
   },
   {
     title: 'Ecommerce',
-    dataIndex: 'ecommerce_id',
+    dataIndex: 'ecommerce',
     key: 'ecommerce',
     width: '20%',
-    ...getColumnSearchProps('ecommerce_id'),
+    ...getColumnSearchProps('ecommerce'),
   },
 
   
@@ -230,7 +230,7 @@ const Store = () => {
       content: record.content,
       des: record.des,
       gmap: record.gmap,
-      ecommerce_id:record.ecommerce_id,
+      ecommerce_id:record.ecommerce.id,
       facebook: record.facebook,
       youtube: record.youtube,
       shopee: record.shopee,
