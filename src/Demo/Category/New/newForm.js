@@ -7,10 +7,12 @@ import { useState } from 'react';
 import './new.scss'
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-
-
+import { getUserFromLocalStorage } from '../../../helpers/common';
+import { RMIUploader } from "react-multiple-image-uploader";
 const NewForm = ({ onFinish, form, idEdit }) => {
+    const datauser=getUserFromLocalStorage();
     const { TextArea } = Input;
+    const { Dragger } = Upload;
     const {Option}=Select;
     const dispatch=useDispatch();
     const {ecommercelist}=useSelector(state=>state.ecommerceReducer)
@@ -41,7 +43,7 @@ const NewForm = ({ onFinish, form, idEdit }) => {
 
     const [loading, setLoading] = useState(false);
     const [fileList, setFileList] = useState([]);
-    const [imageUrl, setImageUrl] = useState('');
+    const [imageUrl, setImageUrl] = useState([]);
 
  
     useEffect(() => {
@@ -58,44 +60,73 @@ const NewForm = ({ onFinish, form, idEdit }) => {
             setLoading(true);
           }
     };
-    const propsUpload = {
-        name: 'file',
-        maxCount: 1,
-        action: `${process.env.REACT_APP_API_URL}/News/create-url`,
+    // const propsUpload = {
+    //     name: 'files',
+    //     maxCount: 1,
+    //     action: `${process.env.REACT_APP_API_URL}/upload/upload-array`,
     
-        onSuccess: (result, file) => {
-            console.log('ok', result);
-            if(result.success) {
-                form.setFieldsValue({
-                    image: result.url,
-                })
-                setImageUrl(result.url);
-                message.success('Tải ảnh lên thành công !');
-            } else {
-                form.setFieldsValue({
-                    image: '',
-                })
-                setImageUrl('');
-                if(result.error.message === "File too large") {
-                    message.error('Dung lượng ảnh không quá 5mb !');
-                } if(result.error.message === "Images Only!") {
-                    message.error('Chỉ tải lên định dạng ảnh .jpg, .png, .jpeg !');
-                } else {
-                    message.error('Tải ảnh lên thất bại ! Hãy thử lại !');
-                }
-            }
-            setLoading(false);
-        },
-        onError: (err, response) => {
+    //     onSuccess: (result, file) => {
+    //         console.log('ok', result);
+    //         if(result.success) {
+    //             form.setFieldsValue({
+    //                 image: result.url,
+    //             })
+    //             setImageUrl(result.url);
+    //             message.success('Tải ảnh lên thành công !');
+    //         } else {
+    //             form.setFieldsValue({
+    //                 image: '',
+    //             })
+    //             setImageUrl('');
+    //             if(result.error.message === "File too large") {
+    //                 message.error('Dung lượng ảnh không quá 5mb !');
+    //             } if(result.error.message === "Images Only!") {
+    //                 message.error('Chỉ tải lên định dạng ảnh .jpg, .png, .jpeg !');
+    //             } else {
+    //                 message.error('Tải ảnh lên thất bại ! Hãy thử lại !');
+    //             }
+    //         }
+    //         setLoading(false);
+    //     },
+    //     onError: (err, response) => {
+    //         form.setFieldsValue({
+    //             image: '',
+    //         })
+    //         setImageUrl('');
+    //         message.error('Tải ảnh lên thất bại ! Hãy thử lại');
+    //         setLoading(false);
+    //     }
+    // };
+    const props = {
+        name: 'files',
+        multiple: true,
+        action: `${process.env.REACT_APP_API_URL}/upload/upload-array`,
+        onChange(info) {
+          const { status } = info.file;
+          if (status !== 'uploading') {
+            console.log(info.file, info.fileList);
+          }
+          if (status === 'done') {
+            const list=info.fileList.map(item=>{return encodeURI(item.name)});
+            console.log(list)
             form.setFieldsValue({
-                image: '',
-            })
-            setImageUrl('');
-            message.error('Tải ảnh lên thất bại ! Hãy thử lại');
-            setLoading(false);
-        }
-    };
-
+                                 image: list,
+                      });
+                  
+                      setImageUrl(info.list);
+            message.success(`${info.file.name} file uploaded successfully.`);
+          } else if (status === 'error') {
+            form.setFieldsValue({
+                            image: '',
+                        })
+                        setImageUrl('')
+            message.error(`${info.file.name} file upload failed.`);
+          }
+        },
+        onDrop(e) {
+          console.log('Dropped files', e.dataTransfer.files);
+        },
+      };
 
     const normContent = (value) => {
         return value.text;
@@ -126,7 +157,7 @@ const NewForm = ({ onFinish, form, idEdit }) => {
                     style={{ width: '50%', paddingRight: "10px" }}>
                     <TextArea></TextArea>
                 </Form.Item>
-                <Form.Item name="ecommerceId" label="EcommerceId" required rules={[{ required: true }]}
+                {datauser.ecommerce_id==2?null:     <Form.Item name="ecommerceId" label="EcommerceId" required rules={[{ required: true }]}
                     style={{ width: '50%', paddingRight: "10px"  }}>
                     <Select
                        
@@ -143,27 +174,38 @@ const NewForm = ({ onFinish, form, idEdit }) => {
                       
 
                         {ecommercelist.map((x,index)=>(
-                            <Option value={x.Id} >{x.Name}</Option>
+                            <Option key={index} value={x.id} >{x.name}</Option>
                         ))}
                         
                        
                     </Select>
-                </Form.Item>
+                </Form.Item>}
+           
       <Form.Item name="new_img" label="Ảnh tin tức" valuePropName="file" getValueFromEvent={normFile}
-                    rules={[{ required: true }]} style={{ width: '50%'}} >
-                        <Upload
+                     style={{ width: '50%'}} >
+                        {/* <Upload
                             {...propsUpload}
                             listType="picture-card"
                             className="avatar-uploader"
                             showUploadList={false}
                             onChange={handleChange}
                         >
-                            {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> 
+                            {imageUrl ? <img src={`${process.env.REACT_APP_API_URL}/${imageUrl}`} alt="avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> 
                                     : <div>
                                         {loading ? <LoadingOutlined /> : <PlusOutlined />}
                                         <div style={{ marginTop: 8 }}>Upload</div>
                                     </div>}
-                        </Upload>
+                        </Upload> */}
+                          <Dragger {...props}>
+    <p className="ant-upload-drag-icon">
+      <InboxOutlined />
+    </p>
+    <p className="ant-upload-text">Click or drag file to this area to upload</p>
+    <p className="ant-upload-hint">
+      Support for a single or bulk upload. Strictly prohibit from uploading company data or other
+      band files
+    </p>
+  </Dragger>,
                     </Form.Item>
                 
                 <Form.Item name="image" hidden={true}>

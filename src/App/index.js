@@ -8,13 +8,19 @@ import Loader from './layout/Loader'
 import Aux from "../hoc/_Aux";
 import ScrollToTop from './layout/ScrollToTop';
 import routes from "../route";
-
+import { useSelector } from 'react-redux';
+import { getUserFromLocalStorage } from '../helpers/common';
 const AdminLayout = Loadable({
     loader: () => import('./layout/AdminLayout'),
     loading: Loader
 });
-const role=localStorage.getItem('role')
-// console.log(role)
+
+
+function PrivateRoute({ children }) {  
+    const user=getUserFromLocalStorage();
+    const role=user.type;
+      return role==1||role==2? children :  <Redirect to="/auth/signin" />;
+    }
 class App extends Component {
     render() {
         const menu = routes.map((route, index) => {
@@ -37,8 +43,8 @@ class App extends Component {
                     <Suspense fallback={<Loader/>}>
                         <Switch>
                             {menu}
-                            {localStorage.getItem('role')==1 &&<Route path="/" component={AdminLayout} />}
-                            <Redirect to="/auth/signin" />
+                            {<PrivateRoute><Route path="/" component={AdminLayout} /></PrivateRoute>}
+                           
                         </Switch>
                       
                     </Suspense>

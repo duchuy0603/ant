@@ -71,7 +71,7 @@ const Property = () => {
       />
       }else{
       if(dataIndex==="ecommerce"){
-        return text?.Name
+        return text?.name
       }
       return text
       }
@@ -95,19 +95,19 @@ const Property = () => {
   const columns = [
     {
       title: 'Name',
-      dataIndex: 'Name',
-      key: 'Name',
+      dataIndex: 'name',
+      key: 'name',
       width: '20%',
-      ...getColumnSearchProps('Name'),
+      ...getColumnSearchProps('name'),
     },
 
  
     {
       title: 'Description',
-      dataIndex: 'Description',
-      key: 'Description',
+      dataIndex: 'des',
+      key: 'des',
       width: '20%',
-      ...getColumnSearchProps('Description'),
+      ...getColumnSearchProps('des'),
     },
     {
       title: 'EcommerceId',
@@ -126,8 +126,8 @@ const Property = () => {
           <EditOutlined style={{ color: "blue" }} onClick={() => handleEditForm(record)} />
           <Popconfirm
             placement="bottomRight"
-            title={`Bạn muốn xóa ${record.Name} ?`}
-            onConfirm={() => handleDelete(record.Id)}
+            title={`Bạn muốn xóa ${record.name} ?`}
+            onConfirm={() => handleDelete(record.id)}
             okText="Xóa"
         
             cancelText="Hủy"
@@ -140,14 +140,12 @@ const Property = () => {
     },
   ];
   // actionform
-  const onFinishAdd = (values) => {
-    // const files = new FormData();
-    // files.append("Name", data.name)
-    // files.append("Description", data.description)   
+  const onFinishAdd = (value) => {
+  
     const dataAdd ={
-      Name: values.name,
-      Description: values.description,
-      EcommerceId:values.ecommerceId
+      name: value.name,
+      des: value.des,
+      ecommerce_id:value.ecommerce_id
     }
     dispatch(propertyAdd(dataAdd))
    
@@ -157,10 +155,10 @@ const Property = () => {
 
    const handleEditForm = (record) => {
     const editform = {    
-      id:record.Id,
-       name:record.Name,
-      description:record.Description,
-      ecommerceId:record.EcommerceId
+      id:record.id,
+       name:record.name,
+      des:record.des,
+      ecommerce_id:record.ecommerce.id
       
     }
     
@@ -168,12 +166,12 @@ const Property = () => {
     setIsModalEdit(true)
   }
 
-  const onFinishEdit = (values) => {
+  const onFinishEdit = (value) => {
     const dataEdit ={
-    Id:values.id,
-      Name: values.name,
-      Description: values.description,
-      EcommerceId:values.ecommerceId
+    id:value.id,
+      name: value.name,
+      des: value.des,
+      ecommerce_id:value.ecommerce_id
     }
    
     dispatch(propertyEdit(dataEdit))

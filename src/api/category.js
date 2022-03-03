@@ -9,11 +9,12 @@ const CategoriesAPI={
         return axiosClient.get(url)
     },
     create(data){
+       
         const url=`/categories`;
         return axiosClient.post(url,data)
     },
     Edit(edit){
-        const url=`/categories/${edit.Id}`;
+        const url=`/categories/${edit.id}`;
         return axiosClient.put(url,edit)
     },
      Delete(id){

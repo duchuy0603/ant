@@ -6,20 +6,19 @@ import { useForm } from 'react-hook-form';
 import './ecommerce.scss'
 import { useEffect } from 'react';
 import axios from 'axios';
-import { ecommerceAdd } from '../../../store/Category/ecommerce';
 import { useDispatch } from 'react-redux';
-
+import { useTranslate } from 'react-redux-multilingual';
+import { ecommercegetAll } from '../../../store/Category/ecommerce';
 const EcommerceForm = ({ onFinish, form, idEdit}) => {
-   
-    const dispatch = useDispatch();
- 
+
+   const trans=useTranslate();
+    const dispatch = useDispatch(); 
     const { TextArea } = Input;
     const validateMessages = {
         required: 'Không được để trống !',
         types: {
             string: '${label} không hợp lệ !',
             number: '${label} không hợp lệ !',
-
         },
         string: {
             max: '${label} tối đa 255 ký tự !',
@@ -31,18 +30,17 @@ const EcommerceForm = ({ onFinish, form, idEdit}) => {
             mismatch: '${label} không hợp lệ !',
         },
     };
-
     const [loading, setLoading] = useState(false);
     const [fileList, setFileList] = useState([]);
     const [imageUrl, setImageUrl] = useState('');
-
- 
     useEffect(() => {
         if(idEdit) {
             const imageUrl = form.getFieldValue('image');
             setImageUrl(imageUrl)
             console.log(imageUrl);
         }
+       
+        
     }, [form, idEdit])
 
     const handleChange = info => {
@@ -54,14 +52,15 @@ const EcommerceForm = ({ onFinish, form, idEdit}) => {
     const propsUpload = {
         name: 'file',
         maxCount: 1,
-        action: `${process.env.REACT_APP_API_URL}/ecommerce/create-url`,
-    
-        onSuccess: (result, file) => {
-            console.log('okk', result);
+        action: `${process.env.REACT_APP_API_URL}/upload/upload-single `,
+        onSuccess: (result, file) => {          
             if(result.success) {
                 form.setFieldsValue({
                     image: result.url,
+                 
+                  
                 })
+                console.log('huy',result)
                 setImageUrl(result.url);
                 message.success('Tải ảnh lên thành công !');
             } else {
@@ -99,13 +98,10 @@ const EcommerceForm = ({ onFinish, form, idEdit}) => {
     //  method='POST' encType='multipart/form-data'
     return (
         <div>
-       
-
-             <Form className="ecommerce-form"
-            
-                onFinish={onFinish }
-               
+             <Form className="ecommerce-form"           
+                onFinish={onFinish }             
                 validateMessages={validateMessages}
+                
                 form={form} >
                 {
                     idEdit &&
@@ -129,11 +125,10 @@ const EcommerceForm = ({ onFinish, form, idEdit}) => {
                     style={{ width: '50%' }}>
                     <Input placeholder="Ví dụ: 172A Yên Lãng" />
                 </Form.Item>
-                <Form.Item name="description" label="Description" required rules={[{ required: true }, { type: 'string', max: 255 }]}
+                <Form.Item name="des" label="Description" required rules={[{ required: true }, { type: 'string', max: 255 }]}
                     style={{ width: '50%', paddingRight: "10px" }}>
                     <TextArea></TextArea>
                 </Form.Item>
-
                 <Form.Item name="new_img" label="Ảnh tin tức" valuePropName="file" getValueFromEvent={normFile}
                   style={{ width: '50%'}} >
                         <Upload
@@ -143,20 +138,18 @@ const EcommerceForm = ({ onFinish, form, idEdit}) => {
                             showUploadList={false}
                             onChange={handleChange}
                         >
-                            {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> 
+                            {imageUrl ? <img src={`${process.env.REACT_APP_API_URL}/${imageUrl}` } alt="avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> 
                                     : <div>
                                         {loading ? <LoadingOutlined /> : <PlusOutlined />}
                                         <div style={{ marginTop: 8 }}>Upload</div>
                                     </div>}
                         </Upload>
                     </Form.Item>
-                    <Form.Item  style={{width:'90%'}}>
-                        
+                    <Form.Item  style={{width:'90%'}}>                      
                     </Form.Item>
                     <Form.Item name="image" hidden={true}>
                         <Input />
-                    </Form.Item>
-              
+                    </Form.Item>              
                 <Form.Item className='button'>
                     <Button htmlType="submit"
                         type="primary">Lưu lại</Button>
@@ -165,5 +158,4 @@ const EcommerceForm = ({ onFinish, form, idEdit}) => {
         </div>
     )
 }
-
 export default EcommerceForm

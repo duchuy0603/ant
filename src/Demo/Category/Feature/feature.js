@@ -73,7 +73,7 @@ const Feature = () => {
           />
           }else{
             if(dataIndex==='ecommerce'){
-              return text?.Name
+              return text?.name
             }
             return text;
           }
@@ -96,10 +96,10 @@ const Feature = () => {
   const columns = [
     {
       title: 'Name',
-      dataIndex: 'Name',
-      key: 'Name',
+      dataIndex: 'name',
+      key: 'name',
       width: '20%',
-      ...getColumnSearchProps('Name'),
+      ...getColumnSearchProps('name'),
     },
 
     {
@@ -115,10 +115,10 @@ const Feature = () => {
 
     {
       title: 'Description',
-      dataIndex: 'Description',
-      key: 'Description',
+      dataIndex: 'des',
+      key: 'des',
       width: '20%',
-      ...getColumnSearchProps('Description'),
+      ...getColumnSearchProps('des'),
     },
     {
       key: 'Action',
@@ -130,8 +130,8 @@ const Feature = () => {
           <EditOutlined style={{ color: "blue" }} onClick={() => handleEditForm(record)} />
           <Popconfirm
             placement="bottomRight"
-            title={`Bạn muốn xóa ${record.Name} ?`}
-            onConfirm={() => handleDelete(record.Id)}
+            title={`Bạn muốn xóa ${record.name} ?`}
+            onConfirm={() => handleDelete(record.id)}
             okText="Xóa"
             cancelText="Hủy"
           >
@@ -145,9 +145,9 @@ const Feature = () => {
   // actionform
   const onFinishAdd = (data) => {
 const add={
-  Name:data.name,
-  Description:data.description,
- EcommerceId: data.ecommerceId,
+  name:data.name,
+  des:data.des,
+ ecommerce_id: data.ecommerce_id,
 }
     dispatch(featureAdd(add))
     setIsModalAdd(false)
@@ -157,10 +157,10 @@ const add={
 
   const handleEditForm = useCallback((record) => {
     const editform = {
-      id: record.Id,
-      name: record.Name,
-      ecommerceId: record.EcommerceId,
-      description: record.Description,
+      id: record.id,
+      name: record.name,
+      ecommerce_id: record.ecommerce.id,
+      des: record.des,
     }
     formEdit.setFieldsValue(editform)
     setIsModalEdit(true)
@@ -168,10 +168,10 @@ const add={
   }, [formEdit])
   const onFinishEdit = (data) => {
     const edit={
-      Id:data.id,
-      Name:data.name,
-      Description:data.description,
-      EcommerceId: data.ecommerceId,
+      id:data.id,
+      name:data.name,
+  des:data.des,
+ ecommerce_id: data.ecommerce_id,
     }
     dispatch(featureEdit(edit))
     setIsModalEdit(false)

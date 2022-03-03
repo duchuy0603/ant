@@ -1,6 +1,10 @@
+import { getUserFromLocalStorage } from "./helpers/common";
 
 export default {
+
+  
     items: [
+        
         {
             id: 'navigation',
             title: 'System slile tech',
@@ -68,6 +72,13 @@ export default {
                     type: 'item',
                     icon: 'feather icon-edit',
                     url: '/product'
+                },
+                {
+                    id: 'manage-product',
+                    title: 'Quản Lý Thông Báo',
+                    type: 'item',
+                    icon: 'feather icon-edit',
+                    url: '/notifications'
                 }
             ]
         },
@@ -125,14 +136,14 @@ export default {
                     id: 'ecommerce-Marketing',
                     title: 'Quản Lý Event,Marketing',
                     type: 'item',
-                    url: '',
+                    url: '/event',
                     icon: 'feather icon-users'
                 },
                 {
                     id: 'ecommerce-Voucher',
                     title: 'Quản Lý Voucher',
                     type: 'item',
-                    url: '',
+                    url: '/voucher',
                     icon: 'feather icon-users'
                 },
                 {

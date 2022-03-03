@@ -6,13 +6,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { Button, Form, Modal, Space, Table, Popconfirm, Tag, Input } from 'antd';
 import Highlighter from 'react-highlight-words';
-import { Pagination } from 'antd';
 import { SearchOutlined, SyncOutlined, EditOutlined, DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import './new.scss'
 import NewForm from './newForm';
+import { getUserFromLocalStorage } from '../../../helpers/common';
 
 const Brand = () => {
   const { newlist, loadingnew } = useSelector(state => state.newReducer)
+  const datauser=getUserFromLocalStorage();
   const dispatch = useDispatch();
   
   useEffect(() => {
@@ -70,13 +71,19 @@ const Brand = () => {
           />
           }else{
             if(dataIndex==='ecommerce'){
-              return text?.Name
+              return text?.name
             }
             return text;
           }
         }
   });
-
+const checkImage=(img)=>{
+if(img===null ){
+return
+}else{
+  return process.env.REACT_APP_API_URL + img[0].url
+}
+}
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
 
     confirm();
@@ -92,25 +99,25 @@ const Brand = () => {
   const columns = [
     {
       title: 'Name',
-      dataIndex: 'Name',
-      key: 'Name',
+      dataIndex: 'name',
+      key: 'name',
       width: '20%',
-      ...getColumnSearchProps('Name'),
+      ...getColumnSearchProps('name'),
     },
     {
         title: 'Content',
-        dataIndex: 'Content',
-        key: 'Content',
+        dataIndex: 'content',
+        key: 'content',
         width: '20%',
-        ...getColumnSearchProps('Content'),
+        ...getColumnSearchProps('content'),
       },
     {
       title: 'Image',
       // dataIndex: <img src="ImageUrl" alt=""/>,
-      dataIndex: 'ImageUrl',
-      key: 'ImageUrl',
+      dataIndex: 'image_url',
+      key: 'image_url',
       width:'5%',
-      render: text =>  <img src={`${process.env.REACT_APP_API_URL}/${text}` }  style={{width:"100%",height:"100%"}} alt=""/>
+      render: text =>  <img src={checkImage(text) }  style={{width:"100%",height:"100%"}} alt=""/>
         
     },
 
@@ -118,20 +125,22 @@ const Brand = () => {
 
     {
       title: 'Description',
-      dataIndex: 'Description',
-      key: 'Description',
+      dataIndex: 'des',
+      key: 'des',
       width: '20%',
-      ...getColumnSearchProps('Description'),
+      ...getColumnSearchProps('des'),
     },
-    {
-      title: 'EcommerceId',
-      dataIndex: 'ecommerce',
-      key: 'ecommerce',
-      width: '20%',
-      sorter: (a, b) => a.ecommerce - b.ecommerce,
-        sortDirections: ['descend', 'ascend'],
-      ...getColumnSearchProps('ecommerce'),
-    },
+{
+  
+    title: 'EcommerceId',
+    dataIndex: 'ecommerce',
+    key: 'ecommerce',
+    width: '20%',
+    sorter: (a, b) => a.ecommerce - b.ecommerce,
+      sortDirections: ['descend', 'ascend'],
+    ...getColumnSearchProps('ecommerce'),
+  
+},
     {
       key: 'Action',
       title: <SyncOutlined onClick={() => dispatch(newgetAll())} />,
@@ -142,8 +151,8 @@ const Brand = () => {
           <EditOutlined style={{ color: "blue" }} onClick={() => handleEditForm(record)} />
           <Popconfirm
             placement="bottomRight"
-            title={`Bạn muốn xóa ${record.Name} ?`}
-            onConfirm={() => handleDelete(record.Id)}
+            title={`Bạn muốn xóa ${record.name} ?`}
+            onConfirm={() => handleDelete(record.id)}
             okText="Xóa"
             cancelText="Hủy"
           >
@@ -157,40 +166,41 @@ const Brand = () => {
   // actionform
   const onFinishAdd = (data) => {
 const add={
-  Name:data.name,
-  Content:data.content,
-  Description:data.description,
-  EcommerceId: data.ecommerceId,
-  image:data.image
+  name:data.name,
+content:data.content,
+  des:data.description,
+  ecommerce_id: data.ecommerceId,
+  image_url:data.image
 }
     dispatch(newAdd(add))
     setIsModalAdd(false)
     formAdd.resetFields()
     console.log(add)
+  
    }
 
   const handleEditForm = useCallback((record) => {
     const editform = {
-      id: record.Id,
-      name: record.Name,
-      content:record.Content,
-      description: record.Description,
-      ecommerceId: record.EcommerceId,
-      image:`${process.env.REACT_APP_API_URL}/${record.ImageUrl} `   
+      id: record.id,
+      name: record.name,
+      content:record.content,
+      description: record.des,
+      ecommerceId: record.ecommerce?.id,
+      image:record.image_url
     }
     formEdit.setFieldsValue(editform)
-    setIdEdit(record.Id);
+    setIdEdit(record.id);
     setIsModalEdit(true)
 
   }, [formEdit])
   const onFinishEdit = (data) => {
     const edit={
-      Id:data.id,
-      Name:data.name,
-      Content:data.content,
-  Description:data.description,
-  EcommerceId: data.ecommerceId,
-  image:data.image
+      id:data.id,
+      name:data.name,
+      content:data.content,
+  des:data.description,
+  ecommerce_id: data.ecommerceId,
+  image_url:data.image
     }
     dispatch(newEdit(edit))
     setIsModalEdit(false)

@@ -15,6 +15,7 @@ const StoreForm = ({ onFinish, form, idEdit}) => {
  dispatch(ecommercegetAll())
  }, [])
  const {ecommercelist}=useSelector(state=>state.ecommerceReducer)
+ console.log(ecommercelist)
     const { TextArea } = Input;
     const validateMessages = {
         required: 'Không được để trống !',
@@ -70,7 +71,7 @@ const StoreForm = ({ onFinish, form, idEdit}) => {
                     style={{ width: '50%' }}>
                     <Input placeholder="" />
                 </Form.Item>
-                <Form.Item name="description" label="Description" required rules={[{ required: true }, { type: 'string', max: 255 }]}
+                <Form.Item name="des" label="Description" required rules={[{ required: true }, { type: 'string', max: 255 }]}
                     style={{ width: '50%', paddingRight: "10px" }}>
                     <TextArea></TextArea>
                 </Form.Item>
@@ -90,7 +91,7 @@ const StoreForm = ({ onFinish, form, idEdit}) => {
                     style={{ width: '50%' }}>
                     <Input placeholder="Ví dụ: Nguyễn Đức Huy" />
                 </Form.Item>
-                <Form.Item name="ecommerceId" label="EcommerceId" required rules={[{ required: true }]}
+                <Form.Item name="ecommerce_id" label="EcommerceId" required rules={[{ required: true }]}
                     style={{ width: '50%' }}>
                     <Select
                        
@@ -106,7 +107,7 @@ const StoreForm = ({ onFinish, form, idEdit}) => {
                             optionA.children.toLowerCase().localeCompare(optionB.children.toLowerCase())
                         }>
                         {ecommercelist.map((x,index)=>(
-                                <Option  key={index} value={x.Id}>{x.Name}</Option>
+                                <Option  key={index} value={x.id}>{x.name}</Option>
                                 
                             ))}
                     </Select>

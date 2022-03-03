@@ -63,7 +63,7 @@ const UserForm = ({ onFinish, form, idEdit }) => {
     const propsUpload = {
         name: 'file',
         maxCount: 1,
-        action: `${process.env.REACT_APP_API_URL}/users/create-url`,
+        action: `${process.env.REACT_APP_API_URL}/upload/upload-single`,
     
         onSuccess: (result, file) => {
             console.log('ok', result);
@@ -115,17 +115,17 @@ const UserForm = ({ onFinish, form, idEdit }) => {
                     </Form.Item>
                 }
 
-                <Form.Item name="userName" label="UserName" required rules={[{ required: true, whitespace: true }, { type: 'string', max: 255 }]}
+                <Form.Item name="user_name" label="UserName" required rules={[{ required: true, whitespace: true }, { type: 'string', max: 255 }]}
                     style={{ width: '50%', paddingRight: "10px" }}>
                     <Input placeholder="Ví dụ: Eplaza" />
                 </Form.Item>
-                <Form.Item name="fullName" label="FullName" required rules={[{ required: true, whitespace: true }, { type: 'string', max: 255 }]}
+                <Form.Item name="full_name" label="FullName" required rules={[{ required: true, whitespace: true }, { type: 'string', max: 255 }]}
                     style={{ width: '50%', paddingRight: "10px" }}>
                     <Input placeholder="nguyen duc huy" />
                 </Form.Item>
                 <Form.Item name="password" label="Password" required rules={[{ required: true, whitespace: true }, { type: 'string', max: 255 }]}
                     style={{ width: '50%', paddingRight: "10px" }}>
-                    <Input placeholder="nguyen duc huy" />
+                    <Input.Password placeholder="nguyen duc huy" />
                 </Form.Item>
                 <Form.Item name="email" label="Email" required rules={[{ required: true }, { type: 'email', message: "không phải là Email" , max: 255 }]}
                     style={{ width: '50%', paddingRight: "10px" }}>
@@ -140,7 +140,7 @@ const UserForm = ({ onFinish, form, idEdit }) => {
 
                 
       
-                <Form.Item name="storeId" label="storeId" required rules={[{ required: true }]}
+                <Form.Item name="store_id" label="storeId" required rules={[{ required: true }]}
                     style={{ width: '50%',paddingRight: "10px"  }}>
                     <Select
                         showSearch
@@ -155,7 +155,7 @@ const UserForm = ({ onFinish, form, idEdit }) => {
                             optionA.children.toLowerCase().localeCompare(optionB.children.toLowerCase())
                         }>
                             {storelist.map((x,index)=>(
-                                <Option  key={index} value={x.Id}>{x.Name}</Option>
+                                <Option  key={index} value={x.id}>{x.name}</Option>
                             ))}
                     </Select>
                 </Form.Item>
@@ -178,7 +178,7 @@ const UserForm = ({ onFinish, form, idEdit }) => {
                     </Select>
                 </Form.Item>
       <Form.Item name="new_img" label="Ảnh Đại Diện" valuePropName="file" getValueFromEvent={normFile}
-                    rules={[{ required: true }]} style={{ width: '50%'}} >
+                  style={{ width: '50%'}} >
                         <Upload
                             {...propsUpload}
                             listType="picture-card"
@@ -186,7 +186,7 @@ const UserForm = ({ onFinish, form, idEdit }) => {
                             showUploadList={false}
                             onChange={handleChange}
                         >
-                            {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> 
+                            {imageUrl ? <img src={`${process.env.REACT_APP_API_URL}/${imageUrl}`} alt="avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> 
                                     : <div>
                                         {loading ? <LoadingOutlined /> : <PlusOutlined />}
                                         <div style={{ marginTop: 8 }}>Upload</div>

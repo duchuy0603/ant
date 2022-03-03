@@ -18,6 +18,7 @@ const Store = () => {
   // const { register,reset ,handleSubmit, setValue,formState:{errors}, } = useForm();
   
   const { storelist, loadingstore } = useSelector(state => state.storeReducer)
+ console.log(storelist)
   const dispatch = useDispatch();
   
   useEffect(() => {
@@ -75,7 +76,7 @@ const Store = () => {
       />
       }else{
         if(dataIndex==="ecommerce"){
-          return text?.Name;
+          return text?.name;
         }
         return text;
       }
@@ -101,72 +102,72 @@ const Store = () => {
   const columns = [
     {
       title: 'Name',
-      dataIndex: 'Name',
-      key: 'Name',
+      dataIndex: 'name',
+      key: 'name',
       width: '20%',
-      ...getColumnSearchProps('Name'),
+      ...getColumnSearchProps('name'),
     },
     {
         title: 'Email',
-        dataIndex: 'Email',
-        key: 'Email',
+        dataIndex: 'email',
+        key: 'email',
         width: '20%',
-        ...getColumnSearchProps('Email'),
+        ...getColumnSearchProps('email'),
       },
 
     {
       title: 'Phone',
-      dataIndex: 'Phone',
-      key: 'Phone',
+      dataIndex: 'phone',
+      key: 'phone',
       width: '20%',
-      sorter: (a, b) => a.Phone - b.Phone,
+      sorter: (a, b) => a.phone - b.phone,
       sortDirections: ['descend', 'ascend'],
-      ...getColumnSearchProps('Phone'),
+      ...getColumnSearchProps('phone'),
     },
     {
       title: 'Content',
-      dataIndex: 'Content',
-      key: 'Content',
+      dataIndex: 'content',
+      key: 'content',
       width: '20%',
-      ...getColumnSearchProps('Content'),
+      ...getColumnSearchProps('content'),
     },
     {
       title: 'GMap',
-      dataIndex: 'GMap',
-      key: 'GMap',
-      width:'1%',
-      ...getColumnSearchProps('GMap'),
-      sorter: (a, b) => a.GMap.length - b.GMap.length,
+      dataIndex: 'gmap',
+      key: 'gmap',
+      width:'20%',
+      ...getColumnSearchProps('gmap'),
+      sorter: (a, b) => a.gmap.length - b.gmap.length,
       sortDirections: ['descend', 'ascend'],
     },
     
     {
       title: 'Description',
-      dataIndex: 'Description',
-      key: 'Description',
+      dataIndex: 'des',
+      key: 'des',
       width: '20%',
-      ...getColumnSearchProps('Description'),
+      ...getColumnSearchProps('des'),
     },
     {
     title: 'Facebook',
-    dataIndex: 'Facebook',
-    key: 'Facebook',
+    dataIndex: 'facebook',
+    key: 'facebook',
     width: '20%',
-    ...getColumnSearchProps('Facebook'),
+    ...getColumnSearchProps('facebook'),
   },
   {
     title: 'Shopee',
-    dataIndex: 'Shopee',
-    key: 'Shopee',
+    dataIndex: 'shopee',
+    key: 'shopee',
     width: '20%',
-    ...getColumnSearchProps('Shopee'),
+    ...getColumnSearchProps('shopee'),
   },
   {
     title: 'Youtube',
-    dataIndex: 'Youtube',
-    key: 'Youtube',
+    dataIndex: 'youtube',
+    key: 'youtube',
     width: '20%',
-    ...getColumnSearchProps('Youtube'),
+    ...getColumnSearchProps('youtube'),
   },
   {
     title: 'Ecommerce',
@@ -187,8 +188,8 @@ const Store = () => {
           <EditOutlined style={{ color: "blue" }} onClick={() => handleEditForm(record)} />
           <Popconfirm
             placement="bottomRight"
-            title={`Bạn muốn xóa ${record.Name} ?`}
-            onConfirm={() => handleDelete(record.Id)}
+            title={`Bạn muốn xóa ${record.name} ?`}
+            onConfirm={() => handleDelete(record.id)}
             okText="Xóa"
         
             cancelText="Hủy"
@@ -203,16 +204,16 @@ const Store = () => {
   // actionform
   const onFinishAdd = (data) => {
    const dataNews = {
-    Name: data.name,
-    Email: data.email,
-    Phone: data.phone,
-    Content: data.content,
-    Description: data.description,
-    GMap: data.gmap,
-    EcommerceId:data.ecommerceId,
-    Facebook: data.facebook,
-    Shopee: data.shopee,
-    Youtube: data.youtube,
+    name: data.name,
+    email: data.email,
+    phone: data.phone,
+    content: data.content,
+    des: data.des,
+    gmap: data.gmap,
+    ecommerce_id:data.ecommerce_id,
+    facebook: data.facebook,
+    shopee: data.shopee,
+    youtube: data.youtube,
    }
     dispatch(storeAdd(dataNews))
    
@@ -222,37 +223,37 @@ const Store = () => {
 
    const handleEditForm = (record) => {
     const editform = {    
-      id: record.Id,
-      name: record.Name,
-      email: record.Email,
-      phone: record.Phone,
-      content: record.Content,
-      description: record.Description,
-      gmap: record.GMap,
-      ecommerceId:record.EcommerceId,
-      facebook: record.Facebook,
-      youtube: record.Description,
-      shopee: record.Description,
+      id: record.id,
+      name: record.name,
+      email: record.email,
+      phone: record.phone,
+      content: record.content,
+      des: record.des,
+      gmap: record.gmap,
+      ecommerce_id:record.ecommerce.id,
+      facebook: record.facebook,
+      youtube: record.youtube,
+      shopee: record.shopee,
     }
     console.log(editform)
-    setIdEdit(record.Id);
+    setIdEdit(record.id);
     formEdit.setFieldsValue(editform)
     setIsModalEdit(true)
   }
 
   const onFinishEdit = (data) => {
     const edit = {
-      Id:data.id,
-      Name: data.name,
-      Email: data.email,
-    Phone: data.phone,
-    Content: data.content,
-    Description: data.description,
-    GMap: data.gmap,
-    EcommerceId:data.ecommerceId,
-    Facebook: data.facebook,
-    Shopee: data.shopee,
-    Youtube: data.youtube,
+      id:data.id,
+      name: data.name,
+      email: data.email,
+      phone: data.phone,
+      content: data.content,
+      des: data.des,
+      gmap: data.gmap,
+      ecommerce_id:data.ecommerce_id,
+      facebook: data.facebook,
+      shopee: data.shopee,
+      youtube: data.youtube,
      }
     dispatch(storeEdit(edit))
     setIsModalEdit(false)
@@ -273,13 +274,13 @@ const Store = () => {
         </Button>
       </div>
       <br />
-      <Modal className='modal-add' title="Thêm Sàn" visible={isModalAdd} footer="" centered onCancel={() => setIsModalAdd(false)}>
+      <Modal className='modal-add' title="Thêm Store" visible={isModalAdd} footer="" centered onCancel={() => setIsModalAdd(false)}>
         <StoreForm
           onFinish={onFinishAdd}
           form={formAdd} />
       </Modal>
 
-      <Modal className='modal-edit' title="Sửa Sàn" visible={isModalEdit} onCancel={() => setIsModalEdit(false)} centered footer="">
+      <Modal className='modal-edit' title="Sửa Store" visible={isModalEdit} onCancel={() => setIsModalEdit(false)} centered footer="">
         <StoreForm
           onFinish={onFinishEdit}
           form={formEdit}

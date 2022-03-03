@@ -15,6 +15,7 @@ import UserForm from './userForm';
 
 const User = () => {
   const { userlist, loadinguser } = useSelector(state => state.userReducer)
+  console.log(userlist)
   const token=localStorage.getItem('token')
   const dispatch = useDispatch();
   
@@ -72,11 +73,11 @@ const User = () => {
         textToHighlight={text ? text.toString() : ''}
       />
       }  else{
-        if(dataIndex==="store"){
-          return text?.Name
+        if(dataIndex==="store_id"){
+          return text?.name
         }
      if(dataIndex==="category"){
-          return text?.Name
+          return text?.name
         }
         return text
       }  
@@ -102,32 +103,32 @@ const User = () => {
   const columns = [
     {
       title: 'UserName',
-      dataIndex: 'UserName',
-      key: 'UserName',
+      dataIndex: 'user_name',
+      key: 'user_name',
       width: '20%',
-      ...getColumnSearchProps('UserName'),
+      ...getColumnSearchProps('user_name'),
     },
     {
         title: 'FullName',
-        dataIndex: 'FullName',
-        key: 'FullName',
+        dataIndex: 'full_name',
+        key: 'full_name',
         width: '20%',
-        ...getColumnSearchProps('FullName'),
+        ...getColumnSearchProps('full_name'),
       },
   
     {
       title: 'Avatar',
       // dataIndex: <img src="ImageUrl" alt=""/>,
-      dataIndex: 'Avatar',
-      key: 'Avatar',
+      dataIndex: 'avatar',
+      key: 'avatar',
       width:'20%',
       render: text =>  <img src={`${process.env.REACT_APP_API_URL}/${text}` }  style={{width:"100%",height:"100%"}} alt=""/>
         
     },
     {
         title: 'Phone',
-        dataIndex: 'Phone',
-        key: 'Phone',
+        dataIndex: 'phone',
+        key: 'phone',
         width: '20%',
         sorter: (a, b) => a.Phone - b.Phone,
         sortDirections: ['descend', 'ascend'],
@@ -137,10 +138,10 @@ const User = () => {
  
     {
       title: 'Email',
-      dataIndex: 'Email',
-      key: 'Email',
+      dataIndex: 'email',
+      key: 'email',
       width: '20%',
-      ...getColumnSearchProps('Email'),
+      ...getColumnSearchProps('email'),
     },
 
     {
@@ -148,18 +149,18 @@ const User = () => {
       dataIndex: 'store',
       key: 'store',
       width: '20%',
-      sorter: (a, b) => a.store - b.store,
+      sorter: (a, b) => a.store_id - b.store_id,
       sortDirections: ['descend', 'ascend'],
       ...getColumnSearchProps('store'),
     },
     {
       title: 'Type',
-      dataIndex: 'Type',
-      key: 'Type',
+      dataIndex: 'type',
+      key: 'type',
       width: '20%',
-      sorter: (a, b) => a.Type - b.Type,
+      sorter: (a, b) => a.type - b.type,
       sortDirections: ['descend', 'ascend'],
-      ...getColumnSearchProps('Type'),
+      ...getColumnSearchProps('type'),
     },
     {
       key: 'Action',
@@ -171,8 +172,8 @@ const User = () => {
           <EditOutlined style={{ color: "blue" }} onClick={() => handleEditForm(record)} />
           <Popconfirm
             placement="bottomRight"
-            title={`Bạn muốn xóa ${record.Name} ?`}
-            onConfirm={() => handleDelete(record.Id)}
+            title={`Bạn muốn xóa ${record.userName} ?`}
+            onConfirm={() => handleDelete(record.id)}
             okText="Xóa"
             cancelText="Hủy"
           >
@@ -186,14 +187,14 @@ const User = () => {
   // actionform
   const onFinishAdd = (data) => {
 const add={
-  UserName:data.userName,
-  FullName:data.fullName,
-  Password:data.password,
-  Email:data.email,
-  Phone:data.phone,
-  StoreId:data.storeId,
-  Type:data.type,
-  image:data.image
+  user_name:data.user_name,
+  full_name:data.full_name,
+  password:data.password,
+  email:data.email,
+  phone:data.phone,
+  store_id:data.store_id,
+  type:data.type,
+  // image:data.image
 }
     dispatch(userAdd(add))
     setIsModalAdd(false)
@@ -218,16 +219,16 @@ const add={
 
   const handleEditForm = useCallback((record) => {
     const editform = {
-      id:record.Id,
-      userName:record.UserName,
-      fullName:record.FullName,
-      password:record.Password,
-      email:record.Email,
-      phone:record.Phone,
-      storeId:record.StoreId,
-      type:record.Type,
+      id:record.id,
+      user_name:record.user_name,
+      full_name:record.full_name,
+      password:record.password,
+      email:record.email,
+      phone:record.phone,
+      store_id:record.store_id,
+      type:record.type,
     
-      image:`${process.env.REACT_APP_API_URL}/${record.Avatar} `  
+      image:record.avatar  
       
     
     }
@@ -263,13 +264,13 @@ const add={
         </Button>
       </div>
       <br />
-      <Modal className='modal-add' title="Thêm Brand" visible={isModalAdd} footer="" centered onCancel={() => setIsModalAdd(false)}>
+      <Modal className='modal-add' title="Thêm user" visible={isModalAdd} footer="" centered onCancel={() => setIsModalAdd(false)}>
         <UserForm
           onFinish={onFinishAdd}
           form={formAdd} />
       </Modal>
 
-      <Modal className='modal-edit' title="Sửa Brand" visible={isModalEdit} onCancel={() => setIsModalEdit(false)} centered footer="">
+      <Modal className='modal-edit' title="Sửa user" visible={isModalEdit} onCancel={() => setIsModalEdit(false)} centered footer="">
         <UserForm
           onFinish={onFinishEdit}
           form={formEdit}

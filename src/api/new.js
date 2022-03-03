@@ -14,7 +14,7 @@ const NewAPI={
         return axiosClient.post(url,data)
     },
     Edit(edit){
-        const url=`/news/${edit.Id}`;
+        const url=`/news/${edit.id}`;
         return axiosClient.put(url,edit)
     },
      Delete(id){

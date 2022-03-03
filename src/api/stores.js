@@ -13,7 +13,7 @@ const StoreApi={
         return axiosClient.post(url,data)
     },
     Edit(edit){
-        const url=`/stores/${edit.Id}`;
+        const url=`/stores/${edit.id}`;
         return axiosClient.put(url,edit)
     },
      Delete(id){

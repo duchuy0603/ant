@@ -54,7 +54,7 @@ const TeamForm = ({ onFinish, form, idEdit }) => {
     const propsUpload = {
         name: 'file',
         maxCount: 1,
-        action: `${process.env.REACT_APP_API_URL}/teams/create-url`,
+        action: `${process.env.REACT_APP_API_URL}/upload/upload-single `,
         headers: {
             'Authorization': 'Bearer ',
         },
@@ -150,7 +150,7 @@ const TeamForm = ({ onFinish, form, idEdit }) => {
                     style={{ width: '50%', paddingRight: "10px" }}>
                     <TextArea></TextArea>
                 </Form.Item>
-                <Form.Item name="ecommerceId" label="EcommerceId" required rules={[{ required: true }]}
+                <Form.Item name="ecommerce_id" label="EcommerceId" required rules={[{ required: true }]}
                     style={{ width: '50%', paddingRight: "10px"  }}>
                     <Select
                        
@@ -167,7 +167,7 @@ const TeamForm = ({ onFinish, form, idEdit }) => {
                       
 
                         {ecommercelist.map((x,index)=>(
-                            <Option value={x.Id} >{x.Name}</Option>
+                            <Option value={x.id} >{x.name}</Option>
                         ))}
                         
                        
@@ -182,7 +182,7 @@ const TeamForm = ({ onFinish, form, idEdit }) => {
                         showUploadList={false}
                         onChange={handleChange}
                     >
-                        {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                        {imageUrl ? <img src={`${process.env.REACT_APP_API_URL}/${imageUrl}`} alt="avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                             : <div>
                                 {loading ? <LoadingOutlined /> : <PlusOutlined />}
                                 <div style={{ marginTop: 8 }}>Upload</div>

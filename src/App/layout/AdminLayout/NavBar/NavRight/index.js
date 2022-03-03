@@ -8,18 +8,19 @@ import Avatar2 from '../../../../../assets/images/user/avatar-2.jpg';
 import Avatar3 from '../../../../../assets/images/user/avatar-3.jpg';
 import { useHistory } from 'react-router-dom';
 import { message } from 'antd';
+import { getUserFromLocalStorage } from '../../../../../helpers/common';
+import { saveUser } from '../../../../../helpers/common';
 import { Remove } from '../../../../../helpers/common';
 const NavRight =({rtlLayout})=> {
 
  const [listOpen,setlistOpen]=useState(false)
  const history=useHistory()
- const name=localStorage.getItem('name')
+ const data=getUserFromLocalStorage()
+ const name=data.user_name
  const logout=()=>{
-    localStorage.removeItem('token')
-    localStorage.removeItem('role')
-    localStorage.removeItem('name')
+    localStorage.clear();
+    history.push('/auth/signin')
     message.success("Đăng Xuất Thành Công")
-   history.push('/auth/signin')
     
 }
    

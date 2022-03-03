@@ -11,10 +11,11 @@ import CategoriesForm from './categoriesForm';
 import './categories.scss'
 
 const Categories = () => {
-  // const { register,reset ,handleSubmit, setValue,formState:{errors}, } = useForm();
+
   
   const { categorieslist, loadingcategories } = useSelector(state => state.categoriesReducer)
-  console.log(categorieslist)
+
+
   const dispatch = useDispatch();
   
   useEffect(() => {
@@ -23,7 +24,7 @@ const Categories = () => {
   
   const [searchText, setsearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
-  const [idEdit,setIdEdit]=useState(0)
+  const [idEdit,setIdEdit]=useState(0);
   //modal
   const [isModalAdd, setIsModalAdd] = useState(false);
   const [isModalEdit, setIsModalEdit] = useState(false);
@@ -72,7 +73,7 @@ const Categories = () => {
       />
       }else{
         if(dataIndex==='ecommerce'){
-          return text?.Name
+          return text?.name
         }
         return text;
       }
@@ -96,36 +97,36 @@ const Categories = () => {
   const columns = [
     {
       title: 'Name',
-      dataIndex: 'Name',
-      key: 'Name',
+      dataIndex: 'name',
+      key: 'name',
       width: '20%',
-      ...getColumnSearchProps('Name'),
+      ...getColumnSearchProps('name'),
     },
     {
       title: 'Image',
       
- dataIndex: 'ImageUrl',
+ dataIndex: 'image_url',
       key: 'Image',
       width: '12%',
     
-      render: text => <img src={`${process.env.REACT_APP_API_URL}/${text}` }  style={{width:"100%",height:"40%"}} alt=""/>
+      render: text => <img src={`${process.env.REACT_APP_API_URL}/${text}`}  style={{width:"100%",height:"40%"}} alt=""/>
     },
 
     {
       title: 'Content',
-      dataIndex: 'Content',
-      key: 'Content',
+      dataIndex: 'content',
+      key: 'content',
       width: '20%',
-      sorter: (a, b) => a.Content - b.Content,
+      sorter: (a, b) => a.content - b.content,
       sortDirections: ['descend', 'ascend'],
-      ...getColumnSearchProps('Content'),
+      ...getColumnSearchProps('content'),
     },
     {
       title: 'ParentId',
-      dataIndex: 'ParentId',
-      key: 'ParentId',
+      dataIndex: 'parent_id',
+      key: 'parent_id',
       width: '20%',
-      ...getColumnSearchProps('ParentId'),
+      ...getColumnSearchProps('parent_id'),
     },
     {
       title: 'EcomerceId',
@@ -138,10 +139,10 @@ const Categories = () => {
     },
     {
       title: 'Description',
-      dataIndex: 'Description',
-      key: 'Description',
+      dataIndex: 'des',
+      key: 'des',
       width: '20%',
-      ...getColumnSearchProps('Description'),
+      ...getColumnSearchProps('des'),
     },
     {
       key: 'Action',
@@ -153,8 +154,8 @@ const Categories = () => {
           <EditOutlined style={{ color: "blue" }} onClick={() => handleEditForm(record)} />
           <Popconfirm
             placement="bottomRight"
-            title={`Bạn muốn xóa ${record.Name} ?`}
-            onConfirm={() => handleDelete(record.Id)}
+            title={`Bạn muốn xóa ${record.name} ?`}
+            onConfirm={() => handleDelete(record.id)}
             okText="Xóa"
         
             cancelText="Hủy"
@@ -169,50 +170,50 @@ const Categories = () => {
   // actionform
   const onFinishAdd = (data) => {
    const dataNews = {
-    Name: data.name,
-    Content: data.content,
-    ParentId: data.parentId,
-    EcommerceId: data.ecommerceId,
-    Description: data.description,
-    image: data.image,
+    name: data.name,
+    content: data.content,
+    parent_id: data.parent_id,
+    ecommerce_id: data.ecommerce_id,
+    des: data.des,
+    image_url: data.image,
    }
     dispatch(categoriesAdd(dataNews))
-   
-    setIsModalAdd(false)
     formAdd.resetFields()
+    setIsModalAdd(false)
+
    }
 
    const handleEditForm = (record) => {
     const editform = {    
-      id: record.Id,
-      name: record.Name,
-      content: record.Content,
-      ecommerceId: record.EcommerceId,
-     parentId:record.ParentId,
-      description: record.Description,
-      image:`${process.env.REACT_APP_API_URL}/${record.ImageUrl} `  
+      id: record.id,
+  
+      name: record.name,
+      content: record.content,
+      ecommerce_id: record.ecommerce.id,
+       parent_id:record.parent_id,
+        des: record.des,
+        image:record.image_url 
     }
-    console.log(editform)
-    setIdEdit(record.Id);
+  
+    setIdEdit(record.id);
     formEdit.setFieldsValue(editform)
     setIsModalEdit(true)
   }
 
-  const onFinishEdit = (data) => {
+  const onFinishEdit = (record) => {
     const edit = {
-      Id:data.id,
-      Name: data.name,
-      Content: data.content,
-      ParentId: data.parentId,
-      EcommerceId: data.ecommerceId,
-      Description: data.description,
-      image: data.image,
+      id:record.id,
+      name: record.name,
+      content: record.content,
+      parent_id: record.parent_id,
+      ecommerce_id: record.ecommerce_id,
+      des: record.des,
+      image_url: record.image,
      }
-    dispatch(categoriesEdit(edit))
-    setIsModalEdit(false)
     
-    console.log(edit)
- 
+    dispatch(categoriesEdit(edit))
+    setIsModalEdit(false)   ;
+    console.log(edit);
   }
   const handleDelete = (id) => {
     dispatch(categoriesDelete(id))
@@ -227,25 +228,22 @@ const Categories = () => {
         </Button>
       </div>
       <br />
-      <Modal className='modal-add' title="Thêm Sàn" visible={isModalAdd} footer="" centered onCancel={() => setIsModalAdd(false)}>
+      <Modal className='modal-add' title="Thêm Danh Mục" visible={isModalAdd} footer="" centered onCancel={() => setIsModalAdd(false)}>
         <CategoriesForm
           onFinish={onFinishAdd}
           form={formAdd} />
       </Modal>
 
-      <Modal className='modal-edit' title="Sửa Sàn" visible={isModalEdit} onCancel={() => setIsModalEdit(false)} centered footer="">
+      <Modal className='modal-edit' title="Sửa Danh Mục" visible={isModalEdit} onCancel={() => setIsModalEdit(false)} centered footer="">
         <CategoriesForm
           onFinish={onFinishEdit}
-          form={formEdit}
-        
-          idEdit={idEdit}
-         
-       
+          form={formEdit}      
+          idEdit={idEdit}     
         />
       </Modal>
 
       <Table scroll={{ x: 900 }}
-       pagination= {{defaultCurrent:30,defaultPageSize:10,hideOnSinglePage:true,pageSizeOptions:[10,30,50,100]}}
+       pagination= {{defaultCurrent:1,defaultPageSize:10,hideOnSinglePage:true,pageSizeOptions:[10,30,50,100]}}
       loading={loadingcategories} columns={columns} dataSource={categorieslist} rowKey={record => record.id} bordered />
 
     </div>
