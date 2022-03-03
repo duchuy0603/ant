@@ -175,6 +175,7 @@ content:data.content,
     dispatch(newAdd(add))
     setIsModalAdd(false)
     formAdd.resetFields()
+    console.log(add)
   
    }
 

@@ -150,7 +150,7 @@ const TeamForm = ({ onFinish, form, idEdit }) => {
                     style={{ width: '50%', paddingRight: "10px" }}>
                     <TextArea></TextArea>
                 </Form.Item>
-                <Form.Item name="ecommerceId" label="EcommerceId" required rules={[{ required: true }]}
+                <Form.Item name="ecommerce_id" label="EcommerceId" required rules={[{ required: true }]}
                     style={{ width: '50%', paddingRight: "10px"  }}>
                     <Select
                        
@@ -167,7 +167,7 @@ const TeamForm = ({ onFinish, form, idEdit }) => {
                       
 
                         {ecommercelist.map((x,index)=>(
-                            <Option value={x.Id} >{x.Name}</Option>
+                            <Option value={x.id} >{x.name}</Option>
                         ))}
                         
                        

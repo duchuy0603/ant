@@ -62,6 +62,13 @@ export default {
                     type: 'item',
                     icon: 'feather icon-edit',
                     url: '/product'
+                },
+                {
+                    id: 'manage-product',
+                    title: 'Quản Lý Thông Báo',
+                    type: 'item',
+                    icon: 'feather icon-edit',
+                    url: '/notifications'
                 }
             ]
         },
@@ -126,7 +133,7 @@ export default {
                     id: 'ecommerce-Voucher',
                     title: 'Quản Lý Voucher',
                     type: 'item',
-                    url: '',
+                    url: '/voucher',
                     icon: 'feather icon-users'
                 },
                 {

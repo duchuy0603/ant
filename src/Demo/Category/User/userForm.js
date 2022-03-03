@@ -125,7 +125,7 @@ const UserForm = ({ onFinish, form, idEdit }) => {
                 </Form.Item>
                 <Form.Item name="password" label="Password" required rules={[{ required: true, whitespace: true }, { type: 'string', max: 255 }]}
                     style={{ width: '50%', paddingRight: "10px" }}>
-                    <Input placeholder="nguyen duc huy" />
+                    <Input.Password placeholder="nguyen duc huy" />
                 </Form.Item>
                 <Form.Item name="email" label="Email" required rules={[{ required: true }, { type: 'email', message: "không phải là Email" , max: 255 }]}
                     style={{ width: '50%', paddingRight: "10px" }}>
@@ -186,7 +186,7 @@ const UserForm = ({ onFinish, form, idEdit }) => {
                             showUploadList={false}
                             onChange={handleChange}
                         >
-                            {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> 
+                            {imageUrl ? <img src={`${process.env.REACT_APP_API_URL}/${imageUrl}`} alt="avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> 
                                     : <div>
                                         {loading ? <LoadingOutlined /> : <PlusOutlined />}
                                         <div style={{ marginTop: 8 }}>Upload</div>

@@ -19,9 +19,6 @@ const axiosClient = axios.create({
 
 axiosClient.interceptors.request.use(async (config) => {  
     const data=getUserFromLocalStorage();
-  
-    // const token=data.access_token;
-   
  
 const token=getTokenFromLocalStorage();
     

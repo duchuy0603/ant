@@ -1,41 +1,35 @@
 import React, { useCallback } from 'react'
-import { brandAdd, brandgetAll, brandEdit, brandDelete } from '../../../store/Category/brand';
-
+import { notificationsAdd, notificationsEdit, notificationsDelete, notificationsgetAll } from '../../../store/Category/notifications';
 import { useEffect } from 'react'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, Form, Modal, Space, Table, Popconfirm, Tag, Input } from 'antd';
 import Highlighter from 'react-highlight-words';
+import { Pagination } from 'antd';
+import { SearchOutlined, SyncOutlined, EditOutlined, DeleteOutlined, PlusOutlined,LoadingOutlined } from '@ant-design/icons';
+import NotificationsForm from './notificationsForm';
+import './notifications.scss'
 
-import { SearchOutlined, SyncOutlined, EditOutlined, DeleteOutlined, PlusOutlined } from '@ant-design/icons';
-import './brand.scss'
-import BrandForm from './brandForm';
+const Notifications = () => {
 
-const Brand = () => {
-  const { brandlist, loadingbrand } = useSelector(state => state.brandReducer)
-console.log(brandlist)
+  
+  const { notificationslist, loadingnotifications } = useSelector(state => state.notificationsReducer)
+
 
   const dispatch = useDispatch();
   
   useEffect(() => {
-    dispatch(brandgetAll())
+    dispatch(notificationsgetAll())
   }, [dispatch])
   
   const [searchText, setsearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
+  const [idEdit,setIdEdit]=useState(0);
   //modal
   const [isModalAdd, setIsModalAdd] = useState(false);
   const [isModalEdit, setIsModalEdit] = useState(false);
-  const [idEdit,setIdEdit]=useState(0)
-  const [formAdd] = Form.useForm();    //form
+  const [formAdd] = Form.useForm();    
   const [formEdit] = Form.useForm();
-  const checkImage=(img)=>{
-    if(img===null){
-      return
-    }else{
-      return process.env.REACT_APP_API_URL + img[0].url
-    }
-  }
   const getColumnSearchProps = dataIndex => ({
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
       <div style={{ padding: 12 }}>
@@ -69,24 +63,25 @@ console.log(brandlist)
         : '',
 
 
-        render: text =>{
-          if( searchedColumn === dataIndex ){
-            return     <Highlighter
-            highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
-            searchWords={[searchText]}
-            autoEscape
-            textToHighlight={text ? text.toString() : ''}
-          />
-          }else{
-            if(dataIndex==='ecommerce'){
-              return text?.name
-            }
-         
-         
-            return text;
-          }
+    render: text =>{
+      if( searchedColumn === dataIndex ){
+        return     <Highlighter
+        highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
+        searchWords={[searchText]}
+        autoEscape
+        textToHighlight={text ? text.toString() : ''}
+      />
+      }else{
+        if(dataIndex==='ecommerce'){
+          return text?.name
         }
+        return text;
+      }
+    }
+
+     
   });
+
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
 
     confirm();
@@ -98,42 +93,40 @@ console.log(brandlist)
     clearFilters();
     setsearchText('')
   };
+
   const columns = [
     {
       title: 'Name',
       dataIndex: 'name',
-      key: 'Name',
+      key: 'name',
       width: '20%',
       ...getColumnSearchProps('name'),
     },
-    {
-      title: 'Image',
   
-      dataIndex: 'image_url',
-      key: 'image_url',
-      width:'5%',
-      render: text =>  <img src={checkImage(text) }  style={{width:"100%",height:"100%"}} alt=""/>
-        
-    },
+
     {
-      title: 'Description',
-      dataIndex: 'des',
-      key: 'des',
+      title: 'Content',
+      dataIndex: 'content',
+      key: 'content',
       width: '20%',
-      ...getColumnSearchProps('des'),
+      sorter: (a, b) => a.content - b.content,
+      sortDirections: ['descend', 'ascend'],
+      ...getColumnSearchProps('content'),
     },
+   
     {
-      title: 'EcommerceId',
+      title: 'EcomerceId',
       dataIndex: 'ecommerce',
       key: 'ecommerce',
       width: '20%',
-      sorter: (a, b) => a.ecommerce - b.ecommerce,
-        sortDirections: ['descend', 'ascend'],
       ...getColumnSearchProps('ecommerce'),
+      sorter: (a, b) => a.ecommerce.length - b.ecommerce.length,
+      sortDirections: ['descend', 'ascend'],
     },
+
     {
       key: 'Action',
-      title: <SyncOutlined onClick={() => dispatch(brandgetAll())} />,
+      title: <SyncOutlined onClick={() => dispatch(notificationsgetAll())} />,
       align: 'center',
       width: '10%',
       render: (text, record, index) => (
@@ -144,6 +137,7 @@ console.log(brandlist)
             title={`Bạn muốn xóa ${record.name} ?`}
             onConfirm={() => handleDelete(record.id)}
             okText="Xóa"
+        
             cancelText="Hủy"
           >
             <DeleteOutlined style={{ color: "red" }} />
@@ -155,91 +149,80 @@ console.log(brandlist)
   ];
   // actionform
   const onFinishAdd = (data) => {
-const add={
-  name:data.name,
-  des:data.des,
-  ecommerce_id: data.ecommerce_id,
-  image_url:data.image
-}
-    dispatch(brandAdd(add))
+   const dataNews = {
+    name: data.name,
+    content: data.content,
     
-    setIsModalAdd(false)
+    ecommerce_id: data.ecommerce_id,
+
+   }
+    dispatch(notificationsAdd(dataNews))
     formAdd.resetFields()
-    console.log(add)
+    setIsModalAdd(false)
 
-  //   const newdata = {
-  //     Name: data.name,
-  //     Email: data.email,
-  //     Phone: data.phone,
-  //     Address: data.address,
-  //     Description: data.description,
-  //     // ImageUrl:data.files[0]
-
-  //   }
-  //   console.log(data)
-  //   dispatch(ecommerceAdd(newdata))
-   
-  //   setIsModalAdd(false)
-  //   formAdd.resetFields()
    }
 
-  const handleEditForm = useCallback((record) => {
-    const editform = {
+   const handleEditForm = (record) => {
+    const editform = {    
       id: record.id,
+  
       name: record.name,
-      des: record.des,
+      content: record.content,
       ecommerce_id: record.ecommerce.id,
-      image:record.image_url   
+     
     }
-    formEdit.setFieldsValue(editform)
+  
     setIdEdit(record.id);
+    formEdit.setFieldsValue(editform)
     setIsModalEdit(true)
+  }
 
-  }, [formEdit])
-  const onFinishEdit = (data) => {
-    const edit={
-      id:data.id,
-      name:data.name,
-      description:data.des,
-      ecommerce_id: data.ecommerce_id,
-      image_url:data.image
-    }
-    dispatch(brandEdit(edit))
-    setIsModalEdit(false)
-    formAdd.resetFields()
-    console.log(edit)
+  const onFinishEdit = (record) => {
+    const edit = {
+      id:record.id,
+      name: record.name,
+      content: record.content,  
+      ecommerce_id: record.ecommerce_id,
+ 
+     }
+    
+    dispatch(notificationsEdit(edit))
+    setIsModalEdit(false)   ;
+    console.log(edit);
   }
   const handleDelete = (id) => {
-    dispatch(brandDelete(id))
+    dispatch(notificationsDelete(id))
   }
   return (
     <div>
       <div className='addecommerce' >
-        <Button type="primary" onClick={() => setIsModalAdd(true)}>
-          Thêm Brand
+        <Button type="primary" onClick={() => 
+         
+          setIsModalAdd(true)}>
+          Thêm notifications
         </Button>
       </div>
       <br />
-      <Modal className='modal-add' title="Thêm Brand" visible={isModalAdd} footer="" centered onCancel={() => setIsModalAdd(false)}>
-        <BrandForm
+      <Modal className='modal-add' title="Thêm notifications" visible={isModalAdd} footer="" centered onCancel={() => setIsModalAdd(false)}>
+        <NotificationsForm
           onFinish={onFinishAdd}
           form={formAdd} />
       </Modal>
 
-      <Modal className='modal-edit' title="Sửa Brand" visible={isModalEdit} onCancel={() => setIsModalEdit(false)} centered footer="">
-        <BrandForm
+      <Modal className='modal-edit' title="Sửa notifications" visible={isModalEdit} onCancel={() => setIsModalEdit(false)} centered footer="">
+        <NotificationsForm
           onFinish={onFinishEdit}
-          form={formEdit}
-          idEdit={idEdit}
+          form={formEdit}      
+          idEdit={idEdit}     
         />
       </Modal>
 
-      <Table scroll={{ x: 900 }} 
-       pagination= {{defaultCurrent:30,defaultPageSize:10,hideOnSinglePage:true,pageSizeOptions:[10,30,50,100]}}
-      loading={loadingbrand} columns={columns} dataSource={brandlist} rowKey={record => record.id} bordered />
+      <Table scroll={{ x: 900 }}
+       pagination= {{defaultCurrent:1,defaultPageSize:10,hideOnSinglePage:true,pageSizeOptions:[10,30,50,100]}}
+      loading={loadingnotifications} columns={columns} dataSource={notificationslist} rowKey={record => record.id} bordered />
 
     </div>
   )
 }
 
-export default Brand;
+export default Notifications;

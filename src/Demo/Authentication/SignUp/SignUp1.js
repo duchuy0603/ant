@@ -52,18 +52,18 @@ const SignUp1 = () => {
     const [imageUrl, setImageUrl] = useState('');
     const [ecommerce, setecommerce] = useState([]);
 
-
+console.log(ecommerce);
     useEffect(() => {
 
         const imageUrl = form.getFieldValue('image');
         setImageUrl(imageUrl)
         console.log(imageUrl);
         dispatch(ecommercegetAll())
-        const ecommerceLogin= async()=>{
-const data=await ecommerceApi.getEcommerceLogin();
-setecommerce(data)
-        }
-        ecommerceLogin();
+//         const ecommerceLogin= async()=>{
+// const data=await ecommerceApi.getEcommerceLogin();
+// setecommerce(data)
+//         }
+//         ecommerceLogin();
     }, [])
 
     const handleChange = info => {
@@ -189,8 +189,8 @@ setecommerce(data)
                                         filterSort={(optionA, optionB) =>
                                             optionA.children.toLowerCase().localeCompare(optionB.children.toLowerCase())
                                         }>
-                                        {ecommerce.map((x, index) => (
-                                            <Option key={index} value={x.Id}>{x.Name}</Option>
+                                        {ecommercelist.map((x, index) => (
+                                            <Option key={index} value={x.id}>{x.name}</Option>
                                         ))}
                                     </Select>
                                 </Form.Item>

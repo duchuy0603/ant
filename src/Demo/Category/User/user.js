@@ -228,7 +228,7 @@ const add={
       store_id:record.store_id,
       type:record.type,
     
-      image:`${process.env.REACT_APP_API_URL}/${record.avatar} `  
+      image:record.avatar  
       
     
     }

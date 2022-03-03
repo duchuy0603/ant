@@ -1,24 +1,26 @@
 import React from 'react'
-import { Input, Button, Form, InputNumber, Switch, Upload, message } from 'antd';
+import { Input, Button, Form, InputNumber, Switch, Upload, message ,Select} from 'antd';
 import { UploadOutlined, InboxOutlined ,LoadingOutlined,PlusOutlined} from '@ant-design/icons';
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import './ecommerce.scss'
-import { useEffect } from 'react';
-import axios from 'axios';
-import { useDispatch } from 'react-redux';
-import { useTranslate } from 'react-redux-multilingual';
 import { ecommercegetAll } from '../../../store/Category/ecommerce';
-const EcommerceForm = ({ onFinish, form, idEdit}) => {
+import { useSelector } from 'react-redux';
+import { useState } from 'react';
+import './notifications.scss'
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { min } from 'moment';
 
-   const trans=useTranslate();
-    const dispatch = useDispatch(); 
+const NotificationsForm = ({ onFinish, form, idEdit}) => {
+    const { Option } = Select;
+    const dispatch = useDispatch();
+ const {ecommercelist}=useSelector(state=>state.ecommerceReducer)
+ 
     const { TextArea } = Input;
     const validateMessages = {
         required: 'Không được để trống !',
         types: {
             string: '${label} không hợp lệ !',
             number: '${label} không hợp lệ !',
+
         },
         string: {
             max: '${label} tối đa 255 ký tự !',
@@ -30,18 +32,20 @@ const EcommerceForm = ({ onFinish, form, idEdit}) => {
             mismatch: '${label} không hợp lệ !',
         },
     };
+
     const [loading, setLoading] = useState(false);
     const [fileList, setFileList] = useState([]);
     const [imageUrl, setImageUrl] = useState('');
+
+ 
     useEffect(() => {
         if(idEdit) {
             const imageUrl = form.getFieldValue('image');
             setImageUrl(imageUrl)
             console.log(imageUrl);
         }
-       
-        
-    }, [form, idEdit])
+        dispatch(ecommercegetAll())
+    }, [form,idEdit])
 
     const handleChange = info => {
         console.log(info.file);
@@ -52,15 +56,14 @@ const EcommerceForm = ({ onFinish, form, idEdit}) => {
     const propsUpload = {
         name: 'file',
         maxCount: 1,
-        action: `${process.env.REACT_APP_API_URL}/upload/upload-single `,
-        onSuccess: (result, file) => {          
+        action: `${process.env.REACT_APP_API_URL}/upload/upload-single`,
+    
+        onSuccess: (result, file) => {
+            console.log('okk', result);
             if(result.success) {
                 form.setFieldsValue({
                     image: result.url,
-                 
-                  
                 })
-                console.log('huy',result)
                 setImageUrl(result.url);
                 message.success('Tải ảnh lên thành công !');
             } else {
@@ -98,10 +101,13 @@ const EcommerceForm = ({ onFinish, form, idEdit}) => {
     //  method='POST' encType='multipart/form-data'
     return (
         <div>
-             <Form className="ecommerce-form"           
-                onFinish={onFinish }             
+       
+
+             <Form className="ecommerce-form"
+            
+                onFinish={onFinish }
+               
                 validateMessages={validateMessages}
-                
                 form={form} >
                 {
                     idEdit &&
@@ -113,21 +119,36 @@ const EcommerceForm = ({ onFinish, form, idEdit}) => {
                     style={{ width: '50%', paddingRight: "10px" }}>
                     <Input placeholder="Ví dụ: Eplaza" />
                 </Form.Item>
-                <Form.Item name="email" label="Email" required rules={[{ required: true }, { type: 'email', message: "không phải là Email" }, { max: 255 }]}
-                    style={{ width: '50%' }}>
-                    <Input placeholder="Ví dụ: Eplaza@gmail.com" />
-                </Form.Item>
-                <Form.Item name="phone" label="Phone" required rules={[{ required: true }, { pattern: /((09|03|07|08|05)+([0-9]{8})\b)/g }]}
+               
+                <Form.Item name="content" label="Content" required rules={[{ required: true }]}
                     style={{ width: '50%', paddingRight: "10px" }}>
                     <Input style={{ width: '100%' }} placeholder="Ví dụ: 0902174492" />
                 </Form.Item>
-                <Form.Item name="address" label="Address" required rules={[{ required: true }, { type: 'string', min: 0, max: 255 }]}
-                    style={{ width: '50%' }}>
-                    <Input placeholder="Ví dụ: 172A Yên Lãng" />
-                </Form.Item>
-                <Form.Item name="des" label="Description" required rules={[{ required: true }, { type: 'string', max: 255 }]}
-                    style={{ width: '50%', paddingRight: "10px" }}>
-                    <TextArea></TextArea>
+              
+             
+
+                <Form.Item name="ecommerce_id" label="EcommerceId" required rules={[{ required: true }]}
+                    style={{ width: '50%', paddingRight: "10px"  }}>
+                    <Select
+                       
+                        showSearch
+                        style={{ width: "100%" }}
+                        placeholder="EcommerceId"
+                        optionFilterProp="children"
+                        filterOption={(input, option) =>
+                            option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                        }
+                        filterSort={(optionA, optionB) =>
+                            optionA.children.toLowerCase().localeCompare(optionB.children.toLowerCase())
+                        }>
+                      
+
+                        {ecommercelist.map((x)=>(
+                            <Option key={x} value={x.id} >{x.name}</Option>
+                        ))}
+                        
+                       
+                    </Select>
                 </Form.Item>
                 <Form.Item name="new_img" label="Ảnh tin tức" valuePropName="file" getValueFromEvent={normFile}
                   style={{ width: '50%'}} >
@@ -138,18 +159,20 @@ const EcommerceForm = ({ onFinish, form, idEdit}) => {
                             showUploadList={false}
                             onChange={handleChange}
                         >
-                            {imageUrl ? <img src={`${process.env.REACT_APP_API_URL}/${imageUrl}` } alt="avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> 
+                            {imageUrl ? <img src={`${process.env.REACT_APP_API_URL}/${imageUrl}`} alt="avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> 
                                     : <div>
                                         {loading ? <LoadingOutlined /> : <PlusOutlined />}
                                         <div style={{ marginTop: 8 }}>Upload</div>
                                     </div>}
                         </Upload>
                     </Form.Item>
-                    <Form.Item  style={{width:'90%'}}>                      
+                    <Form.Item  style={{width:'90%'}}>
+                        
                     </Form.Item>
                     <Form.Item name="image" hidden={true}>
                         <Input />
-                    </Form.Item>              
+                    </Form.Item>
+              
                 <Form.Item className='button'>
                     <Button htmlType="submit"
                         type="primary">Lưu lại</Button>
@@ -158,4 +181,5 @@ const EcommerceForm = ({ onFinish, form, idEdit}) => {
         </div>
     )
 }
-export default EcommerceForm
+
+export default NotificationsForm;

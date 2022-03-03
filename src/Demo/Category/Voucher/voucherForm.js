@@ -4,7 +4,7 @@ import { UploadOutlined, InboxOutlined, PlusOutlined, LoadingOutlined } from '@a
 import { ecommercegetAll } from '../../../store/Category/ecommerce';
 import { useEffect } from 'react';
 import { useState } from 'react';
-import './events.scss'
+import './voucher.scss'
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserFromLocalStorage } from '../../../helpers/common';
 import { DatePicker, Space } from 'antd';
@@ -13,7 +13,7 @@ import axios from 'axios';
 import locale_vi from 'antd/es/date-picker/locale/vi_VN';
 const { RangePicker } = DatePicker;
 
-const EventsForm = ({ onFinish, form, idEdit }) => {
+const VoucherForm = ({ onFinish, form, idEdit }) => {
     const datauser=getUserFromLocalStorage();
     const { TextArea } = Input;
     const { Dragger } = Upload;
@@ -57,74 +57,8 @@ const EventsForm = ({ onFinish, form, idEdit }) => {
 
 
  
-    useEffect(() => {
-        if(idEdit) {
-            const imageUrl = form.getFieldValue('image');
-            setImageUrl(imageUrl)
-            console.log(imageUrl);
-        }
-    }, [form, idEdit])
-
-    const handleChangeFiles = ({ fileList, file }) => {
-        // console.log('ON_CHANGE_FILES:', fileList)
-        console.log("ON_CHANGE_FILES:", file);
-        setFileList([...fileList]);
-      };
-    const handleBeforeUpload=(file)=>{
-        setFileList([...fileList,file])
-        return false
-    }
-    const handleadd = ()=>{
-       
-        var formData = new FormData();
-
    
-    fileList.forEach(file => {
-    
-      formData.append("files", new Blob([file]) , file.name);
-    });
 
-    axios
-      .post(`${process.env.REACT_APP_API_URL}/upload/upload-array`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data"
-        }
-      })
-      .then((response) => {
-       
-      if(  response.data.message=="UPLOAD_SUCCESS"){
-        form.setFieldsValue({
-            image: response.data.url,
-            
-        })
-       
-        message.success("upload thành công")
-     }
-         
-      }
-      )
-      .catch((error) => {
-        form.setFieldsValue({
-            image: " ",
-        })
-        message.error("upload thất bại",error)
-      });
-  };
-      
-  const onPreview = async file => {
-    let src = file.url;
-    if (!src) {
-      src = await new Promise(resolve => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file.originFileObj);
-        reader.onload = () => resolve(reader.result);
-      });
-    }
-    const image = new Image();
-    image.src = src;
-    const imgWindow = window.open(src);
-    imgWindow.document.write(image.outerHTML);
-  };
     const normContent = (value) => {
         return value.text;
     };
@@ -145,28 +79,47 @@ const EventsForm = ({ onFinish, form, idEdit }) => {
                     style={{ width: '50%', paddingRight: "10px" }}>
                     <Input placeholder="Ví dụ: Eplaza" />
                 </Form.Item>
-                <Form.Item name="cost" label="Giá" required rules={[{ required: true}]}
+                <Form.Item name="decrease_percent" label="decrease_percent" required rules={[{ required: true}]}
                     style={{ width: '50%', paddingRight: "10px" }}>
                     <Input placeholder="Ví dụ:10.000$" />
                 </Form.Item>
-                <Form.Item name="address" label="Address" required rules={[{ required: true, whitespace: true }, { type: 'string', max: 255 }]}
+                <Form.Item name="decrease_price" label="decrease_price" required rules={[{ required: true }]}
                     style={{ width: '50%', paddingRight: "10px" }}>
-                    <Input placeholder="Ví dụ: 172a  yen lang" />
+                    <Input placeholder="Ví dụ: 20" />
+                </Form.Item>
+                {/* <Form.Item name="total_available" label="total_available" required rules={[{ required: true, whitespace: true }, { type: 'string', max: 255 }]}
+                    style={{ width: '50%', paddingRight: "10px" }}>
+                    <Input placeholder="Ví dụ: 20" />
+                </Form.Item> */}
+                <Form.Item name="max_decrease_price" label="max_decrease_price" required rules={[{ required: true }]}
+                    style={{ width: '50%', paddingRight: "10px" }}>
+                    <Input placeholder="Ví dụ: 20" />
+                </Form.Item>
+                <Form.Item name="voucher_type" label="Type" required rules={[{ required: true }]}
+                    style={{ width: '50%',paddingRight: "10px"  }}>
+                    <Select
+                       
+                        showSearch
+                        style={{ width: "100%" }}
+                        placeholder="type"
+                        optionFilterProp="children"
+                        filterOption={(input, option) =>
+                            option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                        }
+                        filterSort={(optionA, optionB) =>
+                            optionA.children.toLowerCase().localeCompare(optionB.children.toLowerCase())
+                        }>
+                        <Option value={1}>Hoạt Động</Option>
+                        <Option value={0}>Tạm Dừng</Option>
+                    </Select>
                 </Form.Item>
                 <Form.Item name="date" label="Date" 
                     style={{ width: '50%', paddingRight: "10px" }}>
                    
                    
-                    <RangePicker
-                    locale={locale_vi}
-                    disabledDate={(currentdate)=>{
-                    return currentdate&&currentdate < moment().startOf('day')
-                        }}
-                        showTime={{ format: 'HH:mm' }}
-                        format="HH:mm DD/MM/YYYY "
-                        onChange={onChange}
-                        onOk={onOk}
-                    />
+                   <DatePicker renderExtraFooter={() => ''}
+                   format="HH:mm:ss DD-MM-YYYY"
+                   showTime />
                    
                 </Form.Item>
 
@@ -198,26 +151,7 @@ const EventsForm = ({ onFinish, form, idEdit }) => {
                     </Select>
                 </Form.Item>
            
-      <Form.Item name="new_img" label="Ảnh tin tức" valuePropName="file" getValueFromEvent={normFile}
-                     style={{ width: '50%'}} >
-                    
-         <Upload
-       
-        listType="picture-card"
-        name='files'
-        beforeUpload={handleBeforeUpload}
-        fileList={fileList}
-        onChange={onChange}
-        onPreview={onPreview}
-        
-      >
-          + Upload
-      </Upload>
-  
-  <br/>
-  <Button icon={<UploadOutlined />} disabled={fileList==0} onClick={handleadd}>Upload</Button>
-                    </Form.Item>
-                 
+   
                 <Form.Item name="image" hidden={true}>
                     <Input />
                 </Form.Item>
@@ -227,11 +161,11 @@ const EventsForm = ({ onFinish, form, idEdit }) => {
 
                 </Form.Item>
                 <Form.Item className='button'>
-                    <Button htmlType="submit" type="primary " onClick={handleadd}>Lưu lại</Button>
+                    <Button htmlType="submit" type="primary " >Lưu lại</Button>
                 </Form.Item>
             </Form>
         </div>
     )
 }
 
-export default EventsForm;
+export default VoucherForm;

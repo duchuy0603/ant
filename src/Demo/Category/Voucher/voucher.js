@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { eventsAdd, eventsEdit, eventsDelete, eventsgetAll } from '../../../store/Category/event';
+import { voucherAdd, voucherEdit, voucherDelete, vouchergetAll } from '../../../store/Category/vouchers';
 import { useEffect } from 'react'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,21 +7,21 @@ import { Button, Form, Modal, Space, Table, Popconfirm, Tag, Input } from 'antd'
 import Highlighter from 'react-highlight-words';
 import { Pagination } from 'antd';
 import { SearchOutlined, SyncOutlined, EditOutlined, DeleteOutlined, PlusOutlined,LoadingOutlined } from '@ant-design/icons';
-import EventsForm from './eventForm';
+import VoucherForm from './voucherForm';
 import moment from 'moment';
-import './events.scss'
+import './voucher.scss'
 
-const Events = () => {
+const Voucher = () => {
 
   
-  const { eventslist, loadingevents } = useSelector(state => state.eventsReducer)
+  const { voucherlist, loadingvoucher } = useSelector(state => state.voucherReducer)
  
 
 
   const dispatch = useDispatch();
   
   useEffect(() => {
-    dispatch(eventsgetAll())
+    dispatch(vouchergetAll())
   }, [dispatch])
   const checkstart=(data)=>{
 if(data==null){
@@ -119,52 +119,46 @@ if(img==null){
       width: '20%',
       ...getColumnSearchProps('name'),
     },
-    {
-      title: 'Image',
-      
- dataIndex: 'image_url',
-      key: 'Image',
-      width: '12%',
-    
-      render: text => <img src={checkimage(text)}  style={{width:"100%",height:"40%"}} alt=""/>
-    },
+
 
     {
-      title: 'Cost',
-      dataIndex: 'cost',
-      key: 'cost',
+      title: 'decrease_price',
+      dataIndex: 'decrease_price',
+      key: 'decrease_price',
       width: '20%',
-      sorter: (a, b) => a.cost - b.cost,
+      sorter: (a, b) => a.decrease_price - b.decrease_price,
       sortDirections: ['descend', 'ascend'],
-      ...getColumnSearchProps('cost'),
+      ...getColumnSearchProps('decrease_price'),
     },
     {
-      title: 'Address',
-      dataIndex: 'address',
-      key: 'address',
-      width: '20%',
-      sorter: (a, b) => a.address - b.address,
-      sortDirections: ['descend', 'ascend'],
-      ...getColumnSearchProps('address'),
-    },
+        title: 'decrease_percent',
+        dataIndex: 'decrease_percent',
+        key: 'decrease_percent',
+        width: '20%',
+        sorter: (a, b) => a.decrease_percent - b.decrease_percent,
+        sortDirections: ['descend', 'ascend'],
+        ...getColumnSearchProps('decrease_percent'),
+      },
+      {
+        title: 'max_decrease_price',
+        dataIndex: 'max_decrease_price',
+        key: 'max_decrease_price',
+        width: '20%',
+        sorter: (a, b) => a.max_decrease_price - b.max_decrease_price,
+        sortDirections: ['descend', 'ascend'],
+        ...getColumnSearchProps('max_decrease_price'),
+      },
     {
-      title: 'start_time',
-      dataIndex: 'start_time',
-      key: 'start_time',
+      title: 'created_date',
+      dataIndex: 'created_date',
+      key: 'created_date',
       width: '20%',
-      sorter: (a, b) => a.start_time - b.start_time,
+      sorter: (a, b) => a.created_date - b.created_date,
       sortDirections: ['descend', 'ascend'],
-      ...getColumnSearchProps('start_time'),
+      ...getColumnSearchProps('created_date'),
     },
-    {
-      title: 'end_time',
-      dataIndex: 'end_time',
-      key: 'end_time',
-      width: '20%',
-      sorter: (a, b) => a.end_time - b.end_time,
-      sortDirections: ['descend', 'ascend'],
-      ...getColumnSearchProps('end_time'),
-    },
+  
+
     {
       title: 'EcomerceId',
       dataIndex: 'ecommerce',
@@ -183,7 +177,7 @@ if(img==null){
     },
     {
       key: 'Action',
-      title: <SyncOutlined onClick={() => dispatch(eventsgetAll())} />,
+      title: <SyncOutlined onClick={() => dispatch(vouchergetAll())} />,
       align: 'center',
       width: '10%',
       render: (text, record, index) => (
@@ -209,16 +203,16 @@ if(img==null){
    
    const dataNews = {
     name: values.name,
-    cost: values.cost,
-    address:values.address,
-    start_time: values.date[0].format("HH:mm DD-MM-YYYY"),
-    end_time: values.date[1].format("HH:mm DD-MM-YYYY"), 
-    ecommerce_id: values.ecommerce_id,
-    des: values.des,
-    image_url: values.image,
+   decrease_percent: values.decrease_percent,
+   decrease_price:values.decrease_price,
+   ecommerce_id: values.ecommerce_id,
+   des: values.des,
+   max_decrease_price: values.max_decrease_price,
+   created_date: values.date,
+  
    }
   
-    dispatch(eventsAdd(dataNews))
+    dispatch(voucherAdd(dataNews))
     formAdd.resetFields()
     setIsModalAdd(false)
     console.log("date555",values.date)
@@ -229,12 +223,12 @@ console.log(values)
     const editform = {    
       id: record.id,
       name:record.name,
-      date: [moment(record.start_time,'HH-mm DD-MM-YYYY'),moment(record.end_time,'HH-mm DD-MM-YYYY')],
-      address:record.address,
+      date: [moment(record.created_date,'HH-mm DD-MM-YYYY'),moment(record.updated_date,'HH-mm DD-MM-YYYY')],
+      decrease_price:record.decrease_price,
       ecommerce_id: record.ecommerce.id,
-       cost:record.cost,
+       max_decrease_price:record.max_decrease_price,
         des: record.des,
-        image:record.image_url 
+        decrease_percent:record.decrease_percent
     }
   
     setIdEdit(record.id);
@@ -246,21 +240,21 @@ console.log(values)
     const edit = {
     id:values.id,
     name: values.name,
-    cost: values.cost,
-    address:values.address,
-    start_time: values.date[0].format("HH:mm YYYY-MM-DD"),
-    end_time: values.date[1].format("HH:mm YYYY-MM-DD"),  
+    decrease_percent: values.decrease_percent,
+    decrease_price:values.decrease_price,
     ecommerce_id: values.ecommerce_id,
     des: values.des,
-    image_url: values.image,
+    max_decrease_price: values.max_decrease_price,
+    created_date: values.date[0].format("HH:mm DD-MM-YYYY"),
+    
      }
     
-    dispatch(eventsEdit(edit))
+    dispatch(voucherEdit(edit))
     setIsModalEdit(false)   ;
     console.log(edit);
   }
   const handleDelete = (id) => {
-    dispatch(eventsDelete(id))
+    dispatch(voucherDelete(id))
   }
   return (
     <div>
@@ -268,18 +262,18 @@ console.log(values)
         <Button type="primary" onClick={() => 
          
           setIsModalAdd(true)}>
-          Thêm Event
+          Thêm Voucher
         </Button>
       </div>
       <br />
-      <Modal className='modal-add' title="Thêm Event" visible={isModalAdd} footer="" centered onCancel={() => setIsModalAdd(false)}>
-        <EventsForm
+      <Modal className='modal-add' title="Thêm Voucher" visible={isModalAdd} footer="" centered onCancel={() => setIsModalAdd(false)}>
+        <VoucherForm
           onFinish={onFinishAdd}
           form={formAdd} />
       </Modal>
 
-      <Modal className='modal-edit' title="Sửa Event" visible={isModalEdit} onCancel={() => setIsModalEdit(false)} centered footer="">
-        <EventsForm
+      <Modal className='modal-edit' title="Sửa Voucher" visible={isModalEdit} onCancel={() => setIsModalEdit(false)} centered footer="">
+        <VoucherForm
           onFinish={onFinishEdit}
           form={formEdit}      
           idEdit={idEdit}     
@@ -288,10 +282,10 @@ console.log(values)
 
       <Table scroll={{ x: 900 }}
        pagination= {{defaultCurrent:1,defaultPageSize:10,hideOnSinglePage:true,pageSizeOptions:[10,30,50,100]}}
-      loading={loadingevents} columns={columns} dataSource={eventslist} rowKey={record => record.id} bordered />
+      loading={loadingvoucher} columns={columns} dataSource={voucherlist} rowKey={record => record.id} bordered />
 
     </div>
   )
 }
 
-export default Events;
+export default Voucher;
