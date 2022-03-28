@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import EventApi from "../../api/event";
 export const eventsgetAll=createAsyncThunk('events/eventsgerAll',async()=>{
     const listevent=await EventApi.getAll();
-    console.log('huyhhahah', listevent)
+  
     return listevent;
 })
 export const eventsAdd=createAsyncThunk('events/eventsAdd',async(data,thunkApi)=>{

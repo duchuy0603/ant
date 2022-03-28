@@ -8,7 +8,7 @@ import './new.scss'
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserFromLocalStorage } from '../../../helpers/common';
-import { RMIUploader } from "react-multiple-image-uploader";
+
 const NewForm = ({ onFinish, form, idEdit }) => {
     const datauser=getUserFromLocalStorage();
     const { TextArea } = Input;
@@ -157,7 +157,7 @@ const NewForm = ({ onFinish, form, idEdit }) => {
                     style={{ width: '50%', paddingRight: "10px" }}>
                     <TextArea></TextArea>
                 </Form.Item>
-                {datauser.ecommerce_id==2?null:     <Form.Item name="ecommerceId" label="EcommerceId" required rules={[{ required: true }]}
+                {datauser.ecommerce_id==2?null:     <Form.Item name="ecommerceId" label="Sàn" required rules={[{ required: true }]}
                     style={{ width: '50%', paddingRight: "10px"  }}>
                     <Select
                        

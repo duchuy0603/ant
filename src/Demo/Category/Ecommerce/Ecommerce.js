@@ -19,6 +19,7 @@ const Ecommerce = () => {
   const [searchedColumn, setSearchedColumn] = useState('');
   const [idEdit, setIdEdit] = useState(0)
   const [idProduct, setidProduct] = useState([]);
+  const [idAddProduct, setidAddProduct] = useState([]);
   
  
   const token = localStorage.getItem('token')
@@ -173,9 +174,12 @@ const Ecommerce = () => {
     }
     
     formAdd.resetFields();
+    
     dispatch(ecommerceAdd(dataNews, token))
     
     setIsModalAdd(false)
+   
+    
     
   }
   const handleEditForm = (record) => {

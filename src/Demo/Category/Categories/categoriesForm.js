@@ -7,7 +7,7 @@ import { useState } from 'react';
 import './categories.scss'
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { min } from 'moment';
+
 
 const CategoriesForm = ({ onFinish, form, idEdit}) => {
     const { Option } = Select;
@@ -60,7 +60,7 @@ const CategoriesForm = ({ onFinish, form, idEdit}) => {
     
         onSuccess: (result, file) => {
             console.log('okk', result);
-            if(result.success) {
+            if(result.message=='UPLOAD_SUCCESS'){
                 form.setFieldsValue({
                     image: result.url,
                 })
@@ -90,8 +90,6 @@ const CategoriesForm = ({ onFinish, form, idEdit}) => {
             setLoading(false);
         }
     };
-
-
     const normContent = (value) => {
         return value.text;
     };
@@ -134,7 +132,7 @@ const CategoriesForm = ({ onFinish, form, idEdit}) => {
                     <TextArea></TextArea>
                 </Form.Item>
 
-                <Form.Item name="ecommerce_id" label="EcommerceId" required rules={[{ required: true }]}
+                <Form.Item name="ecommerce_id" label="Sàn" required rules={[{ required: true }]}
                     style={{ width: '50%', paddingRight: "10px"  }}>
                     <Select
                        
@@ -153,8 +151,6 @@ const CategoriesForm = ({ onFinish, form, idEdit}) => {
                         {ecommercelist.map((x)=>(
                             <Option key={x} value={x.id} >{x.name}</Option>
                         ))}
-                        
-                       
                     </Select>
                 </Form.Item>
                 <Form.Item name="new_img" label="Ảnh tin tức" valuePropName="file" getValueFromEvent={normFile}

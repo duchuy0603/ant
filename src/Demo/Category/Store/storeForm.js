@@ -60,7 +60,7 @@ const StoreForm = ({ onFinish, form, idEdit}) => {
                     <Input placeholder="Ví dụ: Eplaza" />
                 </Form.Item>
                 <Form.Item name="email" label="Email" required rules={[{ required: true }, { type: 'email', message: "không phải là Email" }, { max: 255 }]}
-                    style={{ width: '50%' }}>
+                 style={{ width: '50%', paddingRight: "10px" }}>
                     <Input placeholder="Ví dụ: Eplaza@gmail.com" />
                 </Form.Item>
                 <Form.Item name="phone" label="Phone" required rules={[{ required: true }, { pattern: /((09|03|07|08|05)+([0-9]{8})\b)/g }]}
@@ -68,7 +68,7 @@ const StoreForm = ({ onFinish, form, idEdit}) => {
                     <Input style={{ width: '100%' }} placeholder="Ví dụ: 0902174492" />
                 </Form.Item>
                 <Form.Item name="content" label="Content" required rules={[{ required: true }, { type: 'string', min: 0, max: 255 }]}
-                    style={{ width: '50%' }}>
+                 style={{ width: '50%', paddingRight: "10px" }}>
                     <Input placeholder="" />
                 </Form.Item>
                 <Form.Item name="des" label="Description" required rules={[{ required: true }, { type: 'string', max: 255 }]}
@@ -76,23 +76,23 @@ const StoreForm = ({ onFinish, form, idEdit}) => {
                     <TextArea></TextArea>
                 </Form.Item>
                 <Form.Item name="gmap" label="GMap" required rules={[{ required: true }, { type: 'string', min: 0, max: 255 }]}
-                    style={{ width: '50%' }}>
+                 style={{ width: '50%', paddingRight: "10px" }}>
                     <Input placeholder="Ví dụ: 172A Yên Lãng" />
                 </Form.Item>
                 <Form.Item name="facebook" label="Facebook" required rules={[{ required: true }, { type: 'string', min: 0, max: 255 }]}
-                    style={{ width: '50%' }}>
+                 style={{ width: '50%', paddingRight: "10px" }}>
                     <Input placeholder="Ví dụ: Facebook" />
                 </Form.Item>
                 <Form.Item name="shopee" label="Shopee" required rules={[{ required: true }, { type: 'string', min: 0, max: 255 }]}
-                    style={{ width: '50%' }}>
+                 style={{ width: '50%', paddingRight: "10px" }}>
                     <Input placeholder="Ví dụ: Nguyễn Đức Huy" />
                 </Form.Item>
                 <Form.Item name="youtube" label="Youtube" required rules={[{ required: true }, { type: 'string', min: 0, max: 255 }]}
-                    style={{ width: '50%' }}>
+                 style={{ width: '50%', paddingRight: "10px" }}>
                     <Input placeholder="Ví dụ: Nguyễn Đức Huy" />
                 </Form.Item>
                 <Form.Item name="ecommerce_id" label="EcommerceId" required rules={[{ required: true }]}
-                    style={{ width: '50%' }}>
+                 style={{ width: '50%', paddingRight: "10px" }}>
                     <Select
                        
                         showSearch

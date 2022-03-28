@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import "./product"
 import axios from 'axios';
+
 import { storegetAll } from './../../../store/Category/stores';
 import { categoriesgetAll } from './../../../store/Category/categories';
 
@@ -59,8 +60,9 @@ const ProductForm = ({ onFinish, form, idEdit }) => {
             setLoading(true);
           }
     };
-    
-
+    const onChange = ({ fileList: newFileList }) => {
+        setFileList(newFileList);
+      };
     // const propsUpload = {
     //     name: 'files',
     //     maxCount: 1,
@@ -98,36 +100,53 @@ const ProductForm = ({ onFinish, form, idEdit }) => {
     //         setLoading(false);
     //     }
     // };
-
-    const props = {
-        name: 'files',
-        multiple: true,
-        action: `${process.env.REACT_APP_API_URL}/upload/upload-array`,
-        onChange(info) {
-          const { status } = info.file;
-          if (status !== 'uploading') {
-            console.log(info.file, info.fileList);
-          }
-          if (status === 'done') {
-            const list=info.fileList.map(item=>{return encodeURI(item.name)});
-            console.log(list)
+    const handleBeforeUpload = (file) => {
+        setFileList([...fileList, file]);
+        return false;
+      };
+      const handleadd = () => {
+        var formData = new FormData();
+    
+        fileList.forEach((file) => {
+          formData.append("files", new Blob([file]), file.name);
+        });
+    
+        axios
+          .post(`${process.env.REACT_APP_API_URL}/upload/upload-array`, formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          })
+          .then((response) => {
+            if (response.data.message == "UPLOAD_SUCCESS") {
+              form.setFieldsValue({
+                image: response.data.url,
+              });
+    
+              message.success("upload thành công");
+            }
+          })
+          .catch((error) => {
             form.setFieldsValue({
-                                 image: list,
-                      });
-                  
-                      setImageUrl(info.list);
-            message.success(`${info.file.name} file uploaded successfully.`);
-          } else if (status === 'error') {
-            form.setFieldsValue({
-                            image: '',
-                        })
-                        setImageUrl('')
-            message.error(`${info.file.name} file upload failed.`);
-          }
-        },
-        onDrop(e) {
-          console.log('Dropped files', e.dataTransfer.files);
-        },
+              image: " ",
+            });
+            message.error("upload thất bại", error);
+          });
+      };
+    
+      const onPreview = async (file) => {
+        let src = file.url;
+        if (!src) {
+          src = await new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file.originFileObj);
+            reader.onload = () => resolve(reader.result);
+          });
+        }
+        const image = new Image();
+        image.src = src;
+        const imgWindow = window.open(src);
+        imgWindow.document.write(image.outerHTML);
       };
     const normContent = (value) => {
         return value.text;
@@ -137,7 +156,7 @@ const ProductForm = ({ onFinish, form, idEdit }) => {
     };
     return (
         <div>
-            <Form className="ecommerce-form" validateMessages={validateMessages} onFinish={onFinish} form={form} method='POST' encType='multipart/form-data' >
+            <Form className="ecommerce-form" validateMessages={validateMessages} onFinish={onFinish} form={form}  >
                 {
                     idEdit &&
                     <Form.Item name="id" hidden={true}>
@@ -163,12 +182,12 @@ const ProductForm = ({ onFinish, form, idEdit }) => {
                     style={{ width: '50%', paddingRight: "10px" }}>
                     <TextArea></TextArea>
                 </Form.Item>
-                <Form.Item name="category_id" label="categoryId" required rules={[{ required: true }]}
-                    style={{ width: '50%' }}>
+                <Form.Item name="category_id" label="Danh Mục" required rules={[{ required: true }]}
+                               style={{ width: '50%', paddingRight: "10px"  }}>
                     <Select
                        
                         showSearch
-                        style={{ width: 200 }}
+                        style={{ width: "100%" }}
                         placeholder="categoryId"
                         optionFilterProp="children"
                        
@@ -184,11 +203,11 @@ const ProductForm = ({ onFinish, form, idEdit }) => {
                             ))}
                     </Select>
                 </Form.Item>
-                <Form.Item name="store_id" label="storeId" required rules={[{ required: true }]}
-                    style={{ width: '50%' }}>
+                <Form.Item name="store_id" label="Store" required rules={[{ required: true }]}
+                                style={{ width: '50%', paddingRight: "10px"  }}>
                     <Select
                         showSearch
-                        style={{ width: 200 }}
+                          style={{ width: "100%" }}
                         placeholder="storeId"
                         optionFilterProp="children"
                         
@@ -204,11 +223,11 @@ const ProductForm = ({ onFinish, form, idEdit }) => {
                     </Select>
                 </Form.Item>
                 <Form.Item name="parent_id" label="parentId" required rules={[{ required: true }]}
-                    style={{ width: '50%' }}>
+                              style={{ width: '50%', paddingRight: "10px"  }}>
                     <Select
                        
                         showSearch
-                        style={{ width: 200 }}
+                          style={{ width: "100%" }}
                         placeholder="parentId"
                         optionFilterProp="children"
                         filterOption={(input, option) =>
@@ -221,32 +240,33 @@ const ProductForm = ({ onFinish, form, idEdit }) => {
                         <Option value={0}>Tạm Dừng</Option>
                     </Select>
                 </Form.Item>
-      <Form.Item name="new_img" label="Ảnh tin tức" valuePropName="file" getValueFromEvent={normFile}
-                     style={{ width: '50%'}} >
-                        {/* <Upload
-                            {...propsUpload}
-                            listType="picture-card"
-                            className="avatar-uploader"
-                            showUploadList={false}
-                            onChange={handleChange}
-                        >
-                            {imageUrl ? <img src={`${process.env.REACT_APP_API_URL}/${imageUrl}`} alt="avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> 
-                                    : <div>
-                                        {loading ? <LoadingOutlined /> : <PlusOutlined />}
-                                        <div style={{ marginTop: 8 }}>Upload</div>
-                                    </div>}
-                        </Upload> */}
-                                                  <Dragger {...props}>
-    <p className="ant-upload-drag-icon">
-      <InboxOutlined />
-    </p>
-    <p className="ant-upload-text">Click or drag file to this area to upload</p>
-    <p className="ant-upload-hint">
-      Support for a single or bulk upload. Strictly prohibit from uploading company data or other
-      band files
-    </p>
-  </Dragger>,
-                    </Form.Item>
+                <Form.Item
+          name="new_img"
+          label="Ảnh tin tức"
+          valuePropName="file"
+          getValueFromEvent={normFile}
+          style={{ width: "50%" }}
+        >
+          <Upload
+            listType="picture-card"
+            name="files"
+            beforeUpload={handleBeforeUpload}
+            fileList={fileList}
+            onChange={onChange}
+            onPreview={onPreview}
+          >
+            + Upload
+          </Upload>
+
+          <br />
+          <Button
+            icon={<UploadOutlined />}
+            disabled={fileList == 0}
+            onClick={handleadd}
+          >
+            Upload
+          </Button>
+        </Form.Item>
                 
                 <Form.Item name="image" hidden={true}>
                     <Input />

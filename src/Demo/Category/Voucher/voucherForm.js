@@ -95,7 +95,7 @@ const VoucherForm = ({ onFinish, form, idEdit }) => {
                     style={{ width: '50%', paddingRight: "10px" }}>
                     <Input placeholder="Ví dụ: 20" />
                 </Form.Item>
-                <Form.Item name="voucher_type" label="Type" required rules={[{ required: true }]}
+                <Form.Item name="voucher_type" label="Mã giảm giá" required rules={[{ required: true }]}
                     style={{ width: '50%',paddingRight: "10px"  }}>
                     <Select
                        
@@ -127,7 +127,7 @@ const VoucherForm = ({ onFinish, form, idEdit }) => {
                     style={{ width: '50%', paddingRight: "10px" }}>
                     <TextArea></TextArea>
                 </Form.Item>
-             <Form.Item name="ecommerce_id" label="EcommerceId" required rules={[{ required: true }]}
+             <Form.Item name="ecommerce_id" label="sàn" required rules={[{ required: true }]}
                     style={{ width: '50%', paddingRight: "10px"  }}>
                     <Select
                        

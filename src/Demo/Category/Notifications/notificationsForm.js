@@ -7,12 +7,14 @@ import { useState } from 'react';
 import './notifications.scss'
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { min } from 'moment';
-
+import { storegetAll } from './../../../store/Category/stores';
+import { productgetAll } from './../../../store/Category/product';
 const NotificationsForm = ({ onFinish, form, idEdit}) => {
     const { Option } = Select;
     const dispatch = useDispatch();
  const {ecommercelist}=useSelector(state=>state.ecommerceReducer)
+ const {storelist}=useSelector(state=>state.storeReducer)
+ const {productlist}=useSelector(state=>state.productReducer)
  
     const { TextArea } = Input;
     const validateMessages = {
@@ -45,6 +47,8 @@ const NotificationsForm = ({ onFinish, form, idEdit}) => {
             console.log(imageUrl);
         }
         dispatch(ecommercegetAll())
+        dispatch(productgetAll())
+        dispatch(storegetAll())
     }, [form,idEdit])
 
     const handleChange = info => {
@@ -127,7 +131,7 @@ const NotificationsForm = ({ onFinish, form, idEdit}) => {
               
              
 
-                <Form.Item name="ecommerce_id" label="EcommerceId" required rules={[{ required: true }]}
+                <Form.Item name="ecommerce_id" label="Sàn" required rules={[{ required: true }]}
                     style={{ width: '50%', paddingRight: "10px"  }}>
                     <Select
                        
@@ -150,22 +154,53 @@ const NotificationsForm = ({ onFinish, form, idEdit}) => {
                        
                     </Select>
                 </Form.Item>
-                <Form.Item name="new_img" label="Ảnh tin tức" valuePropName="file" getValueFromEvent={normFile}
-                  style={{ width: '50%'}} >
-                        <Upload
-                            {...propsUpload}
-                            listType="picture-card"
-                            className="avatar-uploader"
-                            showUploadList={false}
-                            onChange={handleChange}
-                        >
-                            {imageUrl ? <img src={`${process.env.REACT_APP_API_URL}/${imageUrl}`} alt="avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> 
-                                    : <div>
-                                        {loading ? <LoadingOutlined /> : <PlusOutlined />}
-                                        <div style={{ marginTop: 8 }}>Upload</div>
-                                    </div>}
-                        </Upload>
-                    </Form.Item>
+                <Form.Item name="store" label="store" required rules={[{ required: true }]}
+                    style={{ width: '50%', paddingRight: "10px"  }}>
+                    <Select
+                       
+                        showSearch
+                        style={{ width: "100%" }}
+                        placeholder="store"
+                        optionFilterProp="children"
+                        filterOption={(input, option) =>
+                            option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                        }
+                        filterSort={(optionA, optionB) =>
+                            optionA.children.toLowerCase().localeCompare(optionB.children.toLowerCase())
+                        }>
+                      
+
+                        {storelist.map((x)=>(
+                            <Option key={x} value={x.id} >{x.name}</Option>
+                        ))}
+                        
+                       
+                    </Select>
+                </Form.Item>
+                <Form.Item name="product" label="product" required rules={[{ required: true }]}
+                    style={{ width: '50%', paddingRight: "10px"  }}>
+                    <Select
+                       
+                        showSearch
+                        style={{ width: "100%" }}
+                        placeholder="product"
+                        optionFilterProp="children"
+                        filterOption={(input, option) =>
+                            option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                        }
+                        filterSort={(optionA, optionB) =>
+                            optionA.children.toLowerCase().localeCompare(optionB.children.toLowerCase())
+                        }>
+                      
+
+                        {productlist.map((x)=>(
+                            <Option key={x} value={x.id} >{x.name}</Option>
+                        ))}
+                        
+                       
+                    </Select>
+                </Form.Item>
+             
                     <Form.Item  style={{width:'90%'}}>
                         
                     </Form.Item>

@@ -23,11 +23,16 @@ export  const categoriesDelete=createAsyncThunk('categories/categoriesDelete',as
 const categoriesslide = createSlice({
     name: "categoriesSlide",
     initialState: {
+        filter:null,
         categorieslist: [],
         loadingcategories: false,
         error: ''
     },
-    reducers: {},
+    reducers: {
+        saveFilter:(state,action)=>{
+            state.filter=action.payload
+            }
+    },
     extraReducers: {
         [categoriesgetAll.pending]: (state, action) => {
             state.loadingcategories = true;
@@ -41,5 +46,7 @@ const categoriesslide = createSlice({
          },
     }
 })
+
 const {reducer:categoriesReducer}=categoriesslide;
+export const {saveFilter}=categoriesslide.actions;
 export default categoriesReducer;

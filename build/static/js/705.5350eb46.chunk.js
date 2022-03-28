@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkecommerce=self.webpackChunkecommerce||[]).push([[705],{7705:function(e,n,c){c(7757);var t=c(2791);t.createContext(null);"undefined"!==typeof window&&window.HTMLElement}}]);
+//# sourceMappingURL=705.5350eb46.chunk.js.map

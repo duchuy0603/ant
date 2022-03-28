@@ -29,8 +29,17 @@
 // }
 .addecommerce button {
   height: 40px;
-  
 
+
+
+}
+.addecommerce{
+    display: flex;
+    justify-content: space-between;
+    .fillter button{
+      height: 33px;
+ 
+    }
 }
 .upload{
     display: flex;

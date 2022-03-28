@@ -140,7 +140,7 @@ const UserForm = ({ onFinish, form, idEdit }) => {
 
                 
       
-                <Form.Item name="store_id" label="storeId" required rules={[{ required: true }]}
+                <Form.Item name="store_id" label="store" required rules={[{ required: true }]}
                     style={{ width: '50%',paddingRight: "10px"  }}>
                     <Select
                         showSearch

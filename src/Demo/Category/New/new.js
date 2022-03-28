@@ -81,7 +81,7 @@ const checkImage=(img)=>{
 if(img===null ){
 return
 }else{
-  return process.env.REACT_APP_API_URL + img[0].url
+  return process.env.REACT_APP_API_URL + img[0]?.url
 }
 }
   const handleSearch = (selectedKeys, confirm, dataIndex) => {

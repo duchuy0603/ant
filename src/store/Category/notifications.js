@@ -15,8 +15,8 @@ export  const notificationsEdit=createAsyncThunk('notifications/notificationsEdi
     await notificationsAPI.Edit(dataEdit);
     thunkAPI.dispatch(notificationsgetAll())
 })
-export  const notificationsDelete=createAsyncThunk('notifications/notificationsDelete',async(Id,thunkAPI)=>{
-    await notificationsAPI.Delete(Id);
+export  const notificationsDelete=createAsyncThunk('notifications/notificationsDelete',async(id,thunkAPI)=>{
+    await notificationsAPI.Delete(id);
     thunkAPI.dispatch(notificationsgetAll())
 })
 const notificationsslide = createSlice({

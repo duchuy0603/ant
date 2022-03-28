@@ -1,44 +1,93 @@
-import React, { useCallback } from 'react'
-import { categoriesAdd, categoriesEdit, categoriesDelete, categoriesgetAll } from '../../../store/Category/categories';
-import { useEffect } from 'react'
-import { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import { Button, Form, Modal, Space, Table, Popconfirm, Tag, Input } from 'antd';
-import Highlighter from 'react-highlight-words';
-import { Pagination } from 'antd';
-import { SearchOutlined, SyncOutlined, EditOutlined, DeleteOutlined, PlusOutlined,LoadingOutlined } from '@ant-design/icons';
-import CategoriesForm from './categoriesForm';
-import './categories.scss'
+import React, { useCallback } from "react";
+import {
+  categoriesAdd,
+  categoriesEdit,
+  categoriesDelete,
+  categoriesgetAll,
+} from "../../../store/Category/categories";
+import { useEffect } from "react";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  Button,
+  Form,
+  Modal,
+  Space,
+  Table,
+  Popconfirm,
+  Tag,
+  Input,
+  Select,
+} from "antd";
+import Highlighter from "react-highlight-words";
+import {
+  SearchOutlined,
+  SyncOutlined,
+  EditOutlined,
+  DeleteOutlined,
+  PlusOutlined,
+  LoadingOutlined,
+} from "@ant-design/icons";
+import CategoriesForm from "./categoriesForm";
+import { ecommercegetAll } from "../../../store/Category/ecommerce";
+import { saveFilter } from "../../../store/Category/categories";
+import "./categories.scss";
 
 const Categories = () => {
+  const [ecommerce, setecommerce] = useState([]);
+  const { Option } = Select;
+  const { loadingcategories } = useSelector((state) => state.categoriesReducer);
+  const { ecommercelist } = useSelector((state) => state.ecommerceReducer);
 
-  
-  const { categorieslist, loadingcategories } = useSelector(state => state.categoriesReducer)
+  const categorieslist = useSelector((state) => {
+    const filter = state.categoriesReducer.filter;
 
+    const all = state.categoriesReducer.categorieslist;
+
+    if (
+      filter == null ||
+      filter == 0 ||
+      filter == undefined ||
+      ecommerce == undefined
+    ) {
+      return all;
+    } else if (filter) {
+      return all.filter((data) => data.ecommerce?.id == filter.ecommerce);
+    }
+  });
 
   const dispatch = useDispatch();
-  
+
   useEffect(() => {
-    dispatch(categoriesgetAll())
-  }, [dispatch])
-  
-  const [searchText, setsearchText] = useState('');
-  const [searchedColumn, setSearchedColumn] = useState('');
-  const [idEdit,setIdEdit]=useState(0);
+    dispatch(categoriesgetAll());
+    dispatch(ecommercegetAll());
+  }, [dispatch]);
+
+  const [searchText, setsearchText] = useState("");
+  const [searchedColumn, setSearchedColumn] = useState("");
+  const [idEdit, setIdEdit] = useState(0);
+
   //modal
   const [isModalAdd, setIsModalAdd] = useState(false);
   const [isModalEdit, setIsModalEdit] = useState(false);
-  const [formAdd] = Form.useForm();    
+  const [formAdd] = Form.useForm();
   const [formEdit] = Form.useForm();
-  const getColumnSearchProps = dataIndex => ({
-    filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
+  const getColumnSearchProps = (dataIndex) => ({
+    filterDropdown: ({
+      setSelectedKeys,
+      selectedKeys,
+      confirm,
+      clearFilters,
+    }) => (
       <div style={{ padding: 12 }}>
         <Input
           placeholder={`Search ${dataIndex}`}
           value={selectedKeys[0]}
-          onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+          onChange={(e) =>
+            setSelectedKeys(e.target.value ? [e.target.value] : [])
+          }
           onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
-          style={{ marginBottom: 8, display: 'block' }}
+          style={{ marginBottom: 8, display: "block" }}
         />
         <Space>
           <Button
@@ -50,204 +99,279 @@ const Categories = () => {
           >
             Search
           </Button>
-          <Button onClick={() => handleReset(clearFilters)} size="small" style={{ width: 90 }}>
+          <Button
+            onClick={() => handleReset(clearFilters)}
+            size="small"
+            style={{ width: 90 }}
+          >
             Reset
           </Button>
         </Space>
       </div>
     ),
-    filterIcon: filtered => <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />,
+    filterIcon: (filtered) => (
+      <SearchOutlined style={{ color: filtered ? "#1890ff" : undefined }} />
+    ),
     onFilter: (value, record) =>
       record[dataIndex]
-        ? record[dataIndex].toString().toLowerCase().includes(value.toLowerCase())
-        : '',
+        ? record[dataIndex]
+            .toString()
+            .toLowerCase()
+            .includes(value.toLowerCase())
+        : "",
 
-
-    render: text =>{
-      if( searchedColumn === dataIndex ){
-        return     <Highlighter
-        highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
-        searchWords={[searchText]}
-        autoEscape
-        textToHighlight={text ? text.toString() : ''}
-      />
-      }else{
-        if(dataIndex==='ecommerce'){
-          return text?.name
+    render: (text) => {
+      if (searchedColumn === dataIndex) {
+        return (
+          <Highlighter
+            highlightStyle={{ backgroundColor: "#ffc069", padding: 0 }}
+            searchWords={[searchText]}
+            autoEscape
+            textToHighlight={text ? text.toString() : ""}
+          />
+        );
+      } else {
+        if (dataIndex === "ecommerce") {
+          return text?.name;
         }
         return text;
       }
-    }
-
-     
+    },
   });
-
+  const onchangeeommerce = (data) => {
+    setecommerce(data);
+  };
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
-
     confirm();
     setsearchText(selectedKeys[0]);
     setSearchedColumn(dataIndex);
-
   };
-  const handleReset = clearFilters => {
+  const handleReset = (clearFilters) => {
     clearFilters();
-    setsearchText('')
   };
 
   const columns = [
     {
-      title: 'Name',
-      dataIndex: 'name',
-      key: 'name',
-      width: '20%',
-      ...getColumnSearchProps('name'),
+      title: "Name",
+      dataIndex: "name",
+      key: "name",
+      width: "20%",
+      ...getColumnSearchProps("name"),
     },
     {
-      title: 'Image',
-      
- dataIndex: 'image_url',
-      key: 'Image',
-      width: '12%',
-    
-      render: text => <img src={`${process.env.REACT_APP_API_URL}/${text}`}  style={{width:"100%",height:"40%"}} alt=""/>
+      title: "Image",
+      dataIndex: "image_url",
+      key: "Image",
+      width: "12%",
+
+      render: (text) => (
+        <img
+          src={`${process.env.REACT_APP_API_URL}/${text}`}
+          style={{ width: "100%", height: "40%" }}
+          alt=""
+        />
+      ),
     },
 
     {
-      title: 'Content',
-      dataIndex: 'content',
-      key: 'content',
-      width: '20%',
+      title: "Content",
+      dataIndex: "content",
+      key: "content",
+      width: "20%",
+
       sorter: (a, b) => a.content - b.content,
-      sortDirections: ['descend', 'ascend'],
-      ...getColumnSearchProps('content'),
+      sortDirections: ["descend", "ascend"],
+      ...getColumnSearchProps("content"),
     },
     {
-      title: 'ParentId',
-      dataIndex: 'parent_id',
-      key: 'parent_id',
-      width: '20%',
-      ...getColumnSearchProps('parent_id'),
+      title: "ParentId",
+      dataIndex: "parent_id",
+      key: "parent_id",
+      width: "20%",
+      ...getColumnSearchProps("parent_id"),
     },
     {
-      title: 'EcomerceId',
-      dataIndex: 'ecommerce',
-      key: 'ecommerce',
-      width: '20%',
-      ...getColumnSearchProps('ecommerce'),
+      title: "EcomerceId",
+      dataIndex: "ecommerce",
+      key: "ecommerce",
+      width: "20%",
+      ...getColumnSearchProps("ecommerce"),
       sorter: (a, b) => a.ecommerce.length - b.ecommerce.length,
-      sortDirections: ['descend', 'ascend'],
+      sortDirections: ["descend", "ascend"],
     },
     {
-      title: 'Description',
-      dataIndex: 'des',
-      key: 'des',
-      width: '20%',
-      ...getColumnSearchProps('des'),
+      title: "Description",
+      dataIndex: "des",
+      key: "des",
+      width: "20%",
+      ...getColumnSearchProps("des"),
     },
     {
-      key: 'Action',
+      key: "Action",
       title: <SyncOutlined onClick={() => dispatch(categoriesgetAll())} />,
-      align: 'center',
-      width: '10%',
+      align: "center",
+      width: "10%",
       render: (text, record, index) => (
         <Space size="middle">
-          <EditOutlined style={{ color: "blue" }} onClick={() => handleEditForm(record)} />
+          <EditOutlined
+            style={{ color: "blue" }}
+            onClick={() => handleEditForm(record)}
+          />
           <Popconfirm
             placement="bottomRight"
             title={`Bạn muốn xóa ${record.name} ?`}
             onConfirm={() => handleDelete(record.id)}
             okText="Xóa"
-        
             cancelText="Hủy"
           >
             <DeleteOutlined style={{ color: "red" }} />
           </Popconfirm>
         </Space>
       ),
-
     },
   ];
   // actionform
   const onFinishAdd = (data) => {
-   const dataNews = {
-    name: data.name,
-    content: data.content,
-    parent_id: data.parent_id,
-    ecommerce_id: data.ecommerce_id,
-    des: data.des,
-    image_url: data.image,
-   }
-    dispatch(categoriesAdd(dataNews))
-    formAdd.resetFields()
-    setIsModalAdd(false)
+    const dataNews = {
+      name: data.name,
+      content: data.content,
+      parent_id: data.parent_id,
+      ecommerce_id: data.ecommerce_id,
+      des: data.des,
+      image_url: data.image,
+    };
+    dispatch(categoriesAdd(dataNews));
+    console.log(data);
+    formAdd.resetFields();
+    setIsModalAdd(false);
+  };
 
-   }
-
-   const handleEditForm = (record) => {
-    const editform = {    
+  const handleEditForm = (record) => {
+    const editform = {
       id: record.id,
-  
+
       name: record.name,
       content: record.content,
       ecommerce_id: record.ecommerce.id,
-       parent_id:record.parent_id,
-        des: record.des,
-        image:record.image_url 
-    }
-  
+      parent_id: record.parent_id,
+      des: record.des,
+      image: record.image_url,
+    };
+
     setIdEdit(record.id);
-    formEdit.setFieldsValue(editform)
-    setIsModalEdit(true)
-  }
+    formEdit.setFieldsValue(editform);
+    setIsModalEdit(true);
+  };
 
   const onFinishEdit = (record) => {
     const edit = {
-      id:record.id,
+      id: record.id,
       name: record.name,
       content: record.content,
       parent_id: record.parent_id,
       ecommerce_id: record.ecommerce_id,
       des: record.des,
       image_url: record.image,
-     }
-    
-    dispatch(categoriesEdit(edit))
-    setIsModalEdit(false)   ;
+    };
+
+    dispatch(categoriesEdit(edit));
+    setIsModalEdit(false);
     console.log(edit);
-  }
+  };
   const handleDelete = (id) => {
-    dispatch(categoriesDelete(id))
-  }
+    dispatch(categoriesDelete(id));
+  };
+  const addfillter = () => {
+    let param = {
+      ecommerce: ecommerce,
+    };
+    dispatch(saveFilter(param));
+  };
   return (
     <div>
-      <div className='addecommerce' >
-        <Button type="primary" onClick={() => 
-         
-          setIsModalAdd(true)}>
-          Thêm Category
-        </Button>
+      <div className="addecommerce">
+        <div className="btn-add">
+          <Button type="primary" onClick={() => setIsModalAdd(true)}>
+            Thêm Category
+          </Button>
+        </div>
+        <div className="fillter">
+          <Form className="ecommerce-form" onFinish={addfillter}>
+            <Form.Item name="ecommerce" style={{ width: "50%" }}>
+              <Select
+                showSearch
+                style={{ width: 200 }}
+                placeholder="ecommerceId"
+                optionFilterProp="children"
+                onChange={onchangeeommerce}
+                allowClear
+                filterOption={(input, option) =>
+                  option.children.toLowerCase().indexOf(input.toLowerCase()) >=
+                  0
+                }
+                filterSort={(optionA, optionB) =>
+                  optionA.children
+                    .toLowerCase()
+                    .localeCompare(optionB.children.toLowerCase())
+                }
+              >
+                {ecommercelist.map((x, index) => (
+                  <Option key={index} value={x.id}>
+                    {x.name}
+                  </Option>
+                ))}
+              </Select>
+            </Form.Item>
+          </Form>
+
+          <button className="btn btn-success btn-sm" onClick={addfillter}>
+            Fillter
+          </button>
+        </div>
       </div>
       <br />
-      <Modal className='modal-add' title="Thêm Danh Mục" visible={isModalAdd} footer="" centered onCancel={() => setIsModalAdd(false)}>
-        <CategoriesForm
-          onFinish={onFinishAdd}
-          form={formAdd} />
+      <Modal
+        className="modal-add"
+        title="Thêm Danh Mục"
+        visible={isModalAdd}
+        footer=""
+        centered
+        onCancel={() => setIsModalAdd(false)}
+      >
+        <CategoriesForm onFinish={onFinishAdd} form={formAdd} />
       </Modal>
 
-      <Modal className='modal-edit' title="Sửa Danh Mục" visible={isModalEdit} onCancel={() => setIsModalEdit(false)} centered footer="">
+      <Modal
+        className="modal-edit"
+        title="Sửa Danh Mục"
+        visible={isModalEdit}
+        onCancel={() => setIsModalEdit(false)}
+        centered
+        footer=""
+      >
         <CategoriesForm
           onFinish={onFinishEdit}
-          form={formEdit}      
-          idEdit={idEdit}     
+          form={formEdit}
+          idEdit={idEdit}
         />
       </Modal>
 
-      <Table scroll={{ x: 900 }}
-       pagination= {{defaultCurrent:1,defaultPageSize:10,hideOnSinglePage:true,pageSizeOptions:[10,30,50,100]}}
-      loading={loadingcategories} columns={columns} dataSource={categorieslist} rowKey={record => record.id} bordered />
-
+      <Table
+        scroll={{ x: 900 }}
+        pagination={{
+          defaultCurrent: 1,
+          defaultPageSize: 10,
+          hideOnSinglePage: true,
+          pageSizeOptions: [10, 30, 50, 100],
+        }}
+        loading={loadingcategories}
+        columns={columns}
+        dataSource={categorieslist}
+        rowKey={(record) => record.id}
+        bordered
+      />
     </div>
-  )
-}
+  );
+};
 
 export default Categories;

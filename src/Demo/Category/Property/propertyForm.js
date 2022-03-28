@@ -60,12 +60,12 @@ const PropertyForm = ({ onFinish, form, idEdit}) => {
                 </Form.Item>
                
                  
-                 <Form.Item name="ecommerce_id" label="EcommerceId" required rules={[{ required: true }]}
+                 <Form.Item name="ecommerce_id" label="Sàn" required rules={[{ required: true }]}
                  style={{ width: '50%' }}>
                  <Select
                     
                      showSearch
-                     style={{ width: 200 }}
+                     style={{ width: "100%" }}
                      placeholder="ecommerceId"
                      optionFilterProp="children"
                     

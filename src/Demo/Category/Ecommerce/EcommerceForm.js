@@ -7,11 +7,11 @@ import './ecommerce.scss'
 import { useEffect } from 'react';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
-import { useTranslate } from 'react-redux-multilingual';
+// import { useTranslate } from 'react-redux-multilingual';
 import { ecommercegetAll } from '../../../store/Category/ecommerce';
 const EcommerceForm = ({ onFinish, form, idEdit}) => {
 
-   const trans=useTranslate();
+//    const trans=useTranslate();
     const dispatch = useDispatch(); 
     const { TextArea } = Input;
     const validateMessages = {
@@ -53,8 +53,9 @@ const EcommerceForm = ({ onFinish, form, idEdit}) => {
         name: 'file',
         maxCount: 1,
         action: `${process.env.REACT_APP_API_URL}/upload/upload-single `,
-        onSuccess: (result, file) => {          
-            if(result.success) {
+        onSuccess: (result, file) => {      
+            console.log("hahah",result);    
+            if(result.message=='UPLOAD_SUCCESS') {
                 form.setFieldsValue({
                     image: result.url,
                  

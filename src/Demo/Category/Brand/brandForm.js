@@ -184,12 +184,12 @@ const BrandForm = ({ onFinish, form, idEdit }) => {
                     style={{ width: '50%', paddingRight: "10px" }}>
                     <TextArea></TextArea>
                 </Form.Item>
-                <Form.Item name="ecommerce_id" label="EcommerceId" required rules={[{ required: true }]}
+                <Form.Item name="ecommerce_id" label="Sàn" required rules={[{ required: true }]}
                     style={{ width: '50%', paddingRight: "10px"  }}>
                     <Select
                        
                         showSearch
-                        style={{ width: 200 }}
+                        style={{ width: "100%" }}
                         placeholder="EcommerceId"
                         optionFilterProp="children"
                         filterOption={(input, option) =>

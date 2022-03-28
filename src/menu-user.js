@@ -64,7 +64,7 @@ export default {
                     url: '/product'
                 },
                 {
-                    id: 'manage-product',
+                    id: 'manage-products2',
                     title: 'Quản Lý Thông Báo',
                     type: 'item',
                     icon: 'feather icon-edit',
@@ -81,10 +81,10 @@ export default {
                
                 {
                     id: 'athletes-event',
-                    title: 'Quản Lý Đơn Hàng',
+                    title: 'Quản Lý Booking',
                     type: 'item',
                     icon: 'feather icon-user-check',
-                    url: ''
+                    url: '/bookings'
                 },
                 {
                     id: 'competition-program',
@@ -112,14 +112,14 @@ export default {
                     id: 'ecommerce-client',
                     title: 'Quản Lý Khách Hàng',
                     type: 'item',
-                    url: '',
+                    url: '/customers',
                     icon: 'feather icon-users'
                 },
                 {
                     id: 'ecommerce-evaluate',
                     title: 'Quản Lý Đánh Giá',
                     type: 'item',
-                    url: '',
+                    url: '/asssess',
                     icon: 'feather icon-users'
                 },
                 {
@@ -140,7 +140,7 @@ export default {
                     id: 'ecommerce-Banner',
                     title: 'Quản Lý Banner',
                     type: 'item',
-                    url: '',
+                    url: '/banner',
                     icon: 'feather icon-users'
                 },
 

@@ -1,4 +1,6 @@
-const isEmptyObject = (obj) => {
+import axios from "axios";
+ 
+ const isEmptyObject = (obj) => {
   for(let prop in obj) {
     if(obj.hasOwnProperty(prop)) {
       return false;
@@ -62,4 +64,9 @@ export const getUserFromLocalStorage  = () => {
   }
   return data;
 }
+export const sortProduct = params => {
+  const url = '/products';
+  const query = new URLSearchParams(params).toString();
+  return axios.get(`${url}?${query}`);
+};
 export const API=process.env.REACT_APP_API_URL

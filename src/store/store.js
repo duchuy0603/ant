@@ -14,6 +14,11 @@ import authReducer from './Category/auth';
 import eventsReducer from './Category/event';
 import voucherReducer from './Category/vouchers';
 import notificationsReducer from './Category/notifications';
+import bookingReducer from './Category/booking';
+import customerReducer from './Category/customers';
+import assessReducer from './Category/assess';
+import bannerReducer from './Category/banners';
+import roleReducer from './Category/roles';
 import { IntlReducer as Intl } from 'react-redux-multilingual';
 
 const store = configureStore({
@@ -32,7 +37,12 @@ const store = configureStore({
         authReducer:authReducer,
         eventsReducer:eventsReducer,
         voucherReducer:voucherReducer,
+        bookingReducer:bookingReducer,
         notificationsReducer:notificationsReducer,
+        customerReducer:customerReducer,
+        assessReducer:assessReducer,
+        bannerReducer:bannerReducer,
+        roleReducer:roleReducer,
         Intl
     },
     preloadedState: { Intl: { locale: 'vi'}}

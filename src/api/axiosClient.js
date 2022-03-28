@@ -1,6 +1,5 @@
 // api/axiosClient.js 
 import axios from 'axios'; 
-import queryString from 'query-string'; 
 import { getUserFromLocalStorage } from '../helpers/common';
 import { getRefreshTokenFromLocalStorage } from '../helpers/common';
 import { getTokenFromLocalStorage } from '../helpers/common';
@@ -63,7 +62,6 @@ axiosClient.interceptors.response.use((response) => {
     console.log('api error', error);
     return Promise.reject(error)
 }
-
 ); 
 
 // axios.interceptors.request.use(function (config) {

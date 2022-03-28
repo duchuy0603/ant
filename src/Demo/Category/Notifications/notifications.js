@@ -75,6 +75,12 @@ const Notifications = () => {
         if(dataIndex==='ecommerce'){
           return text?.name
         }
+        if(dataIndex==='store'){
+          return text?.name
+        }
+        if(dataIndex==='product'){
+          return text?.name
+        }
         return text;
       }
     }
@@ -123,6 +129,24 @@ const Notifications = () => {
       sorter: (a, b) => a.ecommerce.length - b.ecommerce.length,
       sortDirections: ['descend', 'ascend'],
     },
+    {
+      title: 'StoreId',
+      dataIndex: 'store',
+      key: 'store',
+      width: '20%',
+      ...getColumnSearchProps('store'),
+      sorter: (a, b) => a.store.length - b.store.length,
+      sortDirections: ['descend', 'ascend'],
+    },
+    {
+      title: 'ProductId',
+      dataIndex: 'product',
+      key: 'product',
+      width: '20%',
+      ...getColumnSearchProps('product'),
+      sorter: (a, b) => a.product.length - b.product.length,
+      sortDirections: ['descend', 'ascend'],
+    },
 
     {
       key: 'Action',
@@ -153,6 +177,8 @@ const Notifications = () => {
     name: data.name,
     content: data.content,
     
+    product_id: data.product,
+    store_id: data.store,
     ecommerce_id: data.ecommerce_id,
 
    }
@@ -169,6 +195,8 @@ const Notifications = () => {
       name: record.name,
       content: record.content,
       ecommerce_id: record.ecommerce.id,
+      store: record.store.id,
+      product: record.product.id,
      
     }
   
@@ -182,8 +210,9 @@ const Notifications = () => {
       id:record.id,
       name: record.name,
       content: record.content,  
-      ecommerce_id: record.ecommerce_id,
- 
+      ecommerce_id: record.ecommerce_id,   
+      product_id: record.product,
+      store_id: record.store,
      }
     
     dispatch(notificationsEdit(edit))

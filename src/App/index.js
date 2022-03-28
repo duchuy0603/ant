@@ -2,13 +2,13 @@ import React, { Component, Suspense } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import Loadable from 'react-loadable';
 import '../assets/scss/style.scss'
-import { dataUser } from '../helpers/common';
-import '../../node_modules/font-awesome/scss/font-awesome.scss';
+
+
 import Loader from './layout/Loader'
 import Aux from "../hoc/_Aux";
 import ScrollToTop from './layout/ScrollToTop';
 import routes from "../route";
-import { useSelector } from 'react-redux';
+
 import { getUserFromLocalStorage } from '../helpers/common';
 const AdminLayout = Loadable({
     loader: () => import('./layout/AdminLayout'),
